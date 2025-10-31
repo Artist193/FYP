@@ -1,0 +1,2052 @@
+{
+  "5E:5F:67:11:1D:09": {
+    "id": "5E:5F:67:11:1D:09",
+    "name": "Device-192.168.137.1",
+    "ip": "192.168.137.1",
+    "mac": "5E:5F:67:11:1D:09",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:09.423433",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:27.518937"
+  },
+  "192.168.137.38-29a50b7b-ad0f-4513-adab-947df31a7bd8": {
+    "id": "192.168.137.38-29a50b7b-ad0f-4513-adab-947df31a7bd8",
+    "name": "Device-192.168.137.38",
+    "ip": "192.168.137.38",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:01:07.647922",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:29.236561"
+  },
+  "80:B6:55:34:29:D9": {
+    "id": "80:B6:55:34:29:D9",
+    "name": "Device-192.168.137.58",
+    "ip": "192.168.137.58",
+    "mac": "80:B6:55:34:29:D9",
+    "type": "unknown",
+    "vendor": "Intel Corporate",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:06.705801",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:29.401009"
+  },
+  "192.168.137.38-80d8f3a7-1a35-4e45-9d07-9b5582645bd8": {
+    "id": "192.168.137.38-80d8f3a7-1a35-4e45-9d07-9b5582645bd8",
+    "name": "Device-192.168.137.38",
+    "ip": "192.168.137.38",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:01:28.693330",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:30.382518"
+  },
+  "EA:2F:A9:B7:F6:E0": {
+    "id": "EA:2F:A9:B7:F6:E0",
+    "name": "Device-192.168.137.108",
+    "ip": "192.168.137.108",
+    "mac": "EA:2F:A9:B7:F6:E0",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:06.705723",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:30.548452"
+  },
+  "46:C9:0D:AB:6A:C6": {
+    "id": "46:C9:0D:AB:6A:C6",
+    "name": "Device-192.168.137.204",
+    "ip": "192.168.137.204",
+    "mac": "46:C9:0D:AB:6A:C6",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:06.705737",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:30.710308"
+  },
+  "192.168.137.38-546fd926-8379-4ac9-b2e4-3d38ab31c42c": {
+    "id": "192.168.137.38-546fd926-8379-4ac9-b2e4-3d38ab31c42c",
+    "name": "Device-192.168.137.38",
+    "ip": "192.168.137.38",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:06.705787",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:31.477176"
+  },
+  "192.168.137.38-777c83d3-2884-415b-942b-8853cabce1b7": {
+    "id": "192.168.137.38-777c83d3-2884-415b-942b-8853cabce1b7",
+    "name": "Device-192.168.137.38",
+    "ip": "192.168.137.38",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-15T10:03:09.423502",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:32.638214"
+  },
+  "192.168.1.143": {
+    "id": "192.168.1.143",
+    "name": "Device-192.168.1.143",
+    "ip": "192.168.1.143",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-23T07:47:02.496219",
+    "vulnerabilities": [],
+    "riskLevel": "low",
+    "comprehensive_vulnerabilities": [],
+    "last_scanned": "2025-10-23T08:29:34.318156"
+  },
+  "192.168.1.2": {
+    "id": "192.168.1.2",
+    "name": "Device-192.168.1.2",
+    "ip": "192.168.1.2",
+    "mac": "Unknown",
+    "type": "router",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-23T07:47:29.700464",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-4-192.168.1.2",
+        "vulnerability_number": 4,
+        "name": "HTTP Without HTTPS",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "HTTP Without HTTPS detected on port 80",
+        "fix_method": "Secure HTTP service",
+        "fix_commands": [
+          "echo 'Securing HTTP Without HTTPS on 192.168.1.2:80'"
+        ],
+        "manual_steps": [
+          "Check HTTP service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.533949",
+        "port": 80,
+        "service": "http"
+      },
+      {
+        "id": "vuln-5-192.168.1.2",
+        "vulnerability_number": 5,
+        "name": "SMB Shares Accessible",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "SMB Shares Accessible detected on port 445",
+        "fix_method": "Secure SMB service",
+        "fix_commands": [
+          "echo 'Securing SMB Shares Accessible on 192.168.1.2:445'"
+        ],
+        "manual_steps": [
+          "Check SMB service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534092",
+        "port": 445,
+        "service": "microsoft-ds"
+      },
+      {
+        "id": "vuln-9-192.168.1.2",
+        "vulnerability_number": 9,
+        "name": "MySQL Weak Auth",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "MySQL Weak Auth detected on port 3306",
+        "fix_method": "Secure MySQL service",
+        "fix_commands": [
+          "echo 'Securing MySQL Weak Auth on 192.168.1.2:3306'"
+        ],
+        "manual_steps": [
+          "Check MySQL service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534140",
+        "port": 3306,
+        "service": "mysql"
+      },
+      {
+        "id": "vuln-11-192.168.1.2",
+        "vulnerability_number": 11,
+        "name": "RDP Without NLA",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "RDP Without NLA detected on port 3389",
+        "fix_method": "Secure RDP service",
+        "fix_commands": [
+          "echo 'Securing RDP Without NLA on 192.168.1.2:3389'"
+        ],
+        "manual_steps": [
+          "Check RDP service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534168",
+        "port": 3389,
+        "service": "ms-wbt-server"
+      },
+      {
+        "id": "vuln-12-192.168.1.2",
+        "vulnerability_number": 12,
+        "name": "DNS Open Resolver",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "DNS Open Resolver detected on port 53",
+        "fix_method": "Secure DNS service",
+        "fix_commands": [
+          "echo 'Securing DNS Open Resolver on 192.168.1.2:53'"
+        ],
+        "manual_steps": [
+          "Check DNS service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534192",
+        "port": 53,
+        "service": "domain"
+      },
+      {
+        "id": "vuln-15-192.168.1.2",
+        "vulnerability_number": 15,
+        "name": "HTTP TRACE Enabled",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "HTTP TRACE Enabled detected on port 80",
+        "fix_method": "Secure HTTP service",
+        "fix_commands": [
+          "echo 'Securing HTTP TRACE Enabled on 192.168.1.2:80'"
+        ],
+        "manual_steps": [
+          "Check HTTP service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534217",
+        "port": 80,
+        "service": "http"
+      },
+      {
+        "id": "vuln-16-192.168.1.2",
+        "vulnerability_number": 16,
+        "name": "HTTP Options Enabled",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "HTTP Options Enabled detected on port 80",
+        "fix_method": "Secure HTTP service",
+        "fix_commands": [
+          "echo 'Securing HTTP Options Enabled on 192.168.1.2:80'"
+        ],
+        "manual_steps": [
+          "Check HTTP service configuration",
+          "Implement security best practices",
+          "Test the service after changes"
+        ],
+        "potential_harm": "Unauthorized access and data exposure",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534239",
+        "port": 80,
+        "service": "http"
+      },
+      {
+        "id": "vuln-26-192.168.1.2",
+        "vulnerability_number": 26,
+        "name": "ONVIF Service Exposed",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "IoT vulnerability: ONVIF Service Exposed",
+        "fix_method": "Secure IoT ONVIF service",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534337",
+        "port": 80
+      },
+      {
+        "id": "vuln-28-192.168.1.2",
+        "vulnerability_number": 28,
+        "name": "Webcam HTTP Interface",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "IoT vulnerability: Webcam HTTP Interface",
+        "fix_method": "Secure IoT Webcam service",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534380",
+        "port": 80
+      },
+      {
+        "id": "vuln-30-192.168.1.2",
+        "vulnerability_number": 30,
+        "name": "Zigbee Unsecured",
+        "category": "manual",
+        "severity": "medium",
+        "description": "Potential IoT security issue: Zigbee Unsecured",
+        "fix_method": "Address Zigbee Unsecured",
+        "manual_steps": [
+          "Investigate device configuration",
+          "Check manufacturer guidelines"
+        ],
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534515"
+      },
+      {
+        "id": "vuln-32-192.168.1.2",
+        "vulnerability_number": 32,
+        "name": "Bluetooth LE Spoofing",
+        "category": "manual",
+        "severity": "medium",
+        "description": "Potential IoT security issue: Bluetooth LE Spoofing",
+        "fix_method": "Address Bluetooth LE Spoofing",
+        "manual_steps": [
+          "Investigate device configuration",
+          "Check manufacturer guidelines"
+        ],
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534557"
+      },
+      {
+        "id": "vuln-34-192.168.1.2",
+        "vulnerability_number": 34,
+        "name": "Firmware Update HTTP",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "IoT vulnerability: Firmware Update HTTP",
+        "fix_method": "Secure IoT Firmware service",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534593",
+        "port": 80
+      },
+      {
+        "id": "vuln-36-192.168.1.2",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "Security issue detected: Weak Password Policy",
+        "fix_method": "Implement security controls for Weak Password Policy",
+        "fix_commands": [
+          "echo 'Addressing Weak Password Policy on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534632"
+      },
+      {
+        "id": "vuln-37-192.168.1.2",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Security issue detected: Default Credentials",
+        "fix_method": "Implement security controls for Default Credentials",
+        "fix_commands": [
+          "echo 'Addressing Default Credentials on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534655"
+      },
+      {
+        "id": "vuln-39-192.168.1.2",
+        "vulnerability_number": 39,
+        "name": "Outdated Software",
+        "category": "manual",
+        "severity": "high",
+        "description": "Security issue detected: Outdated Software",
+        "fix_method": "Implement security controls for Outdated Software",
+        "fix_commands": [
+          "echo 'Addressing Outdated Software on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534672"
+      },
+      {
+        "id": "vuln-40-192.168.1.2",
+        "vulnerability_number": 40,
+        "name": "Missing Security Patches",
+        "category": "manual",
+        "severity": "high",
+        "description": "Security issue detected: Missing Security Patches",
+        "fix_method": "Implement security controls for Missing Security Patches",
+        "fix_commands": [
+          "echo 'Addressing Missing Security Patches on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534685"
+      },
+      {
+        "id": "vuln-43-192.168.1.2",
+        "vulnerability_number": 43,
+        "name": "Information Disclosure",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "Security issue detected: Information Disclosure",
+        "fix_method": "Implement security controls for Information Disclosure",
+        "fix_commands": [
+          "echo 'Addressing Information Disclosure on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534704"
+      },
+      {
+        "id": "vuln-45-192.168.1.2",
+        "vulnerability_number": 45,
+        "name": "Cross-Site Scripting",
+        "category": "manual",
+        "severity": "medium",
+        "description": "Security issue detected: Cross-Site Scripting",
+        "fix_method": "Implement security controls for Cross-Site Scripting",
+        "fix_commands": [
+          "echo 'Addressing Cross-Site Scripting on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534743",
+        "port": 80
+      },
+      {
+        "id": "vuln-46-192.168.1.2",
+        "vulnerability_number": 46,
+        "name": "SQL Injection Risk",
+        "category": "manual",
+        "severity": "high",
+        "description": "Security issue detected: SQL Injection Risk",
+        "fix_method": "Implement security controls for SQL Injection Risk",
+        "fix_commands": [
+          "echo 'Addressing SQL Injection Risk on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534763",
+        "port": 80
+      },
+      {
+        "id": "vuln-48-192.168.1.2",
+        "vulnerability_number": 48,
+        "name": "Clickjacking Risk",
+        "category": "manual",
+        "severity": "low",
+        "description": "Security issue detected: Clickjacking Risk",
+        "fix_method": "Implement security controls for Clickjacking Risk",
+        "fix_commands": [
+          "echo 'Addressing Clickjacking Risk on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534784",
+        "port": 80
+      },
+      {
+        "id": "vuln-49-192.168.1.2",
+        "vulnerability_number": 49,
+        "name": "Security Headers Missing",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "Security issue detected: Security Headers Missing",
+        "fix_method": "Implement security controls for Security Headers Missing",
+        "fix_commands": [
+          "echo 'Addressing Security Headers Missing on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534813",
+        "port": 80
+      },
+      {
+        "id": "vuln-50-192.168.1.2",
+        "vulnerability_number": 50,
+        "name": "TLS Misconfiguration",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Security issue detected: TLS Misconfiguration",
+        "fix_method": "Implement security controls for TLS Misconfiguration",
+        "fix_commands": [
+          "echo 'Addressing TLS Misconfiguration on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534828",
+        "port": 443
+      },
+      {
+        "id": "vuln-52-192.168.1.2",
+        "vulnerability_number": 52,
+        "name": "CORS Misconfiguration",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "Security issue detected: CORS Misconfiguration",
+        "fix_method": "Implement security controls for CORS Misconfiguration",
+        "fix_commands": [
+          "echo 'Addressing CORS Misconfiguration on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534853",
+        "port": 80
+      },
+      {
+        "id": "vuln-55-192.168.1.2",
+        "vulnerability_number": 55,
+        "name": "Error Information Exposure",
+        "category": "auto-fixable",
+        "severity": "low",
+        "description": "Security issue detected: Error Information Exposure",
+        "fix_method": "Implement security controls for Error Information Exposure",
+        "fix_commands": [
+          "echo 'Addressing Error Information Exposure on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534865"
+      },
+      {
+        "id": "vuln-56-192.168.1.2",
+        "vulnerability_number": 56,
+        "name": "Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Security issue detected: Backdoor Access",
+        "fix_method": "Implement security controls for Backdoor Access",
+        "fix_commands": [
+          "echo 'Addressing Backdoor Access on 192.168.1.2'"
+        ],
+        "manual_steps": [
+          "Review security configuration",
+          "Implement recommended controls",
+          "Verify changes are effective"
+        ],
+        "potential_harm": "Security compromise and unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T08:30:29.534874"
+      }
+    ],
+    "last_scanned": "2025-10-23T08:30:29.534890"
+  },
+  "192.168.1.1": {
+    "id": "192.168.1.1",
+    "name": "Device-192.168.1.1",
+    "ip": "192.168.1.1",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-23T08:34:01.683164",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-1-192.168.1.1",
+        "vulnerability_number": 1,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using default admin/password credentials",
+        "fix_method": "Change default credentials to strong passwords",
+        "fix_commands": [
+          "echo 'Changing default credentials on {ip}'",
+          "ssh admin@{ip} 'passwd'"
+        ],
+        "manual_steps": [
+          "Login to device admin panel",
+          "Navigate to user management",
+          "Change default passwords"
+        ],
+        "potential_harm": "Full device compromise",
+        "status": "found",
+        "detected_at": "2025-10-23T08:34:01.683244"
+      },
+      {
+        "id": "vuln-2-192.168.1.1",
+        "vulnerability_number": 2,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No password complexity requirements enabled",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'Enabling password policy on {ip}'"
+        ],
+        "manual_steps": [
+          "Access security settings",
+          "Enable password complexity",
+          "Set minimum length to 12 characters"
+        ],
+        "potential_harm": "Brute force attacks",
+        "status": "found",
+        "detected_at": "2025-10-23T08:34:01.683266"
+      },
+      {
+        "id": "vuln-8-192.168.1.1",
+        "vulnerability_number": 8,
+        "name": "Unencrypted HTTP",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Web interface using HTTP without encryption",
+        "fix_method": "Enable HTTPS with valid certificate",
+        "fix_commands": [
+          "echo 'Enabling HTTPS on {ip}'"
+        ],
+        "manual_steps": [
+          "Install SSL certificate",
+          "Redirect HTTP to HTTPS",
+          "Enable HSTS"
+        ],
+        "potential_harm": "Session hijacking",
+        "status": "found",
+        "detected_at": "2025-10-23T08:34:01.683280"
+      }
+    ],
+    "last_scanned": "2025-10-23T08:34:01.683288"
+  },
+  "192.168.1.127": {
+    "id": "192.168.1.127",
+    "name": "Device-192.168.1.127",
+    "ip": "192.168.1.127",
+    "mac": "Unknown",
+    "type": "other",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-23T09:04:38.212772",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [],
+    "services": [],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-36-192.168.1.127-7b0e3288",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-23T09:05:22.248288",
+        "device_ip": "192.168.1.127"
+      },
+      {
+        "id": "vuln-37-192.168.1.127-a186e640",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T09:05:22.248372",
+        "device_ip": "192.168.1.127"
+      },
+      {
+        "id": "vuln-36-192.168.1.127-9624f869",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-23T09:05:22.248407",
+        "device_ip": "192.168.1.127"
+      },
+      {
+        "id": "vuln-37-192.168.1.127-8cdaa0c3",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T09:05:22.248425",
+        "device_ip": "192.168.1.127"
+      },
+      {
+        "id": "vuln-38-192.168.1.127-a0844978",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-23T09:05:22.248442",
+        "device_ip": "192.168.1.127"
+      }
+    ],
+    "last_scanned": "2025-10-23T09:05:22.248451"
+  },
+  "192.168.18.2": {
+    "id": "192.168.18.2",
+    "name": "Device-192.168.18.2",
+    "ip": "192.168.18.2",
+    "mac": "Unknown",
+    "type": "other",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-23T13:17:21.884008",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [
+      13,
+      79,
+      88,
+      389,
+      427,
+      544,
+      548,
+      1029,
+      1110,
+      6000
+    ],
+    "services": [
+      {
+        "port": 13,
+        "protocol": "tcp",
+        "name": "daytime",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 79,
+        "protocol": "tcp",
+        "name": "finger",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 88,
+        "protocol": "tcp",
+        "name": "kerberos-sec",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 389,
+        "protocol": "tcp",
+        "name": "ldap",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 427,
+        "protocol": "tcp",
+        "name": "svrloc",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 544,
+        "protocol": "tcp",
+        "name": "kshell",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 548,
+        "protocol": "tcp",
+        "name": "afp",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 1029,
+        "protocol": "tcp",
+        "name": "ms-lsa",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 1110,
+        "protocol": "tcp",
+        "name": "nfsd-status",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 6000,
+        "protocol": "tcp",
+        "name": "X11",
+        "product": "",
+        "version": ""
+      }
+    ],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-37-192.168.18.2-39e9b792",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T13:18:32.265361",
+        "device_ip": "192.168.18.2"
+      },
+      {
+        "id": "vuln-56-192.168.18.2-98c3e85c",
+        "vulnerability_number": 56,
+        "name": "Hardware Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Potential hardware-level backdoor or undocumented access",
+        "fix_method": "Monitor and consider hardware replacement",
+        "fix_commands": [
+          "echo 'Hardware-level issues may require device replacement'"
+        ],
+        "manual_steps": [
+          "Monitor for suspicious activity",
+          "Implement network segmentation",
+          "Consider hardware from different vendors",
+          "Maintain incident response plan"
+        ],
+        "potential_harm": "Persistent unauthorized access, complete compromise",
+        "status": "found",
+        "detected_at": "2025-10-23T13:18:32.265455",
+        "device_ip": "192.168.18.2"
+      },
+      {
+        "id": "vuln-37-192.168.18.2-acccea36",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-23T13:18:32.265509",
+        "device_ip": "192.168.18.2"
+      },
+      {
+        "id": "vuln-38-192.168.18.2-ab3fb6d8",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-23T13:18:32.265542",
+        "device_ip": "192.168.18.2"
+      }
+    ],
+    "last_scanned": "2025-10-23T13:18:32.265556"
+  },
+  "192.168.18.3": {
+    "id": "192.168.18.3",
+    "name": "Device-192.168.18.3",
+    "ip": "192.168.18.3",
+    "mac": "Unknown",
+    "type": "other",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-26T10:15:07.769345",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [],
+    "services": [],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-36-192.168.18.3-a30d63db",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-26T10:37:12.812644",
+        "device_ip": "192.168.18.3"
+      },
+      {
+        "id": "vuln-37-192.168.18.3-eb715c84",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-26T10:37:12.812685",
+        "device_ip": "192.168.18.3"
+      },
+      {
+        "id": "vuln-38-192.168.18.3-feff8b0d",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-26T10:37:12.812703",
+        "device_ip": "192.168.18.3"
+      }
+    ],
+    "last_scanned": "2025-10-26T10:37:12.812714"
+  },
+  "192.168.18.1": {
+    "id": "192.168.18.1",
+    "name": "Device-192.168.18.1",
+    "ip": "192.168.18.1",
+    "mac": "Unknown",
+    "type": "router",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-26T10:37:29.984896",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [
+      21,
+      22,
+      23,
+      53,
+      80
+    ],
+    "services": [
+      {
+        "port": 21,
+        "protocol": "tcp",
+        "name": "ftp",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 22,
+        "protocol": "tcp",
+        "name": "ssh",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 23,
+        "protocol": "tcp",
+        "name": "telnet",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 53,
+        "protocol": "tcp",
+        "name": "domain",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 80,
+        "protocol": "tcp",
+        "name": "http",
+        "product": "",
+        "version": ""
+      }
+    ],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-2-192.168.18.1-8d34c1b9",
+        "vulnerability_number": 2,
+        "name": "FTP Without Encryption",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "FTP service transmitting data without encryption",
+        "fix_method": "Disable FTP or enable FTPS/SFTP",
+        "fix_commands": [
+          "systemctl stop vsftpd",
+          "systemctl disable vsftpd",
+          "iptables -A INPUT -p tcp --dport 21 -j DROP"
+        ],
+        "manual_steps": [
+          "Disable FTP service",
+          "Configure SFTP over SSH",
+          "Use FTPS with TLS encryption"
+        ],
+        "potential_harm": "Data interception, credential theft",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.785926",
+        "device_ip": "192.168.18.1",
+        "port": 21,
+        "service": "ftp"
+      },
+      {
+        "id": "vuln-3-192.168.18.1-4be70836",
+        "vulnerability_number": 3,
+        "name": "SSH Weak Configurations",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "SSH service allowing weak encryption algorithms or authentication methods",
+        "fix_method": "Harden SSH configuration",
+        "fix_commands": [
+          "echo 'Protocol 2' >> /etc/ssh/sshd_config",
+          "echo 'PermitRootLogin no' >> /etc/ssh/sshd_config",
+          "echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config",
+          "systemctl restart sshd"
+        ],
+        "manual_steps": [
+          "Update SSH configuration",
+          "Disable root login",
+          "Enable key-based authentication",
+          "Disable weak ciphers"
+        ],
+        "potential_harm": "SSH brute force attacks, cryptographic weaknesses",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.785961",
+        "device_ip": "192.168.18.1",
+        "port": 22,
+        "service": "ssh"
+      },
+      {
+        "id": "vuln-1-192.168.18.1-83c0d82d",
+        "vulnerability_number": 1,
+        "name": "Telnet Service Exposed",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Telnet service running without encryption, exposing credentials",
+        "fix_method": "Disable Telnet and enable SSH",
+        "fix_commands": [
+          "systemctl stop telnet.socket",
+          "systemctl disable telnet.socket",
+          "iptables -A INPUT -p tcp --dport 23 -j DROP"
+        ],
+        "manual_steps": [
+          "Access device administration",
+          "Disable Telnet service",
+          "Enable SSH with key authentication"
+        ],
+        "potential_harm": "Credential interception, man-in-the-middle attacks",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.785977",
+        "device_ip": "192.168.18.1",
+        "port": 23,
+        "service": "telnet"
+      },
+      {
+        "id": "vuln-4-192.168.18.1-ba62629a",
+        "vulnerability_number": 4,
+        "name": "HTTP Without HTTPS Redirect",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Web service running on HTTP without HTTPS enforcement",
+        "fix_method": "Enable HTTPS and redirect HTTP to HTTPS",
+        "fix_commands": [
+          "a2enmod ssl",
+          "a2enmod rewrite",
+          "systemctl restart apache2"
+        ],
+        "manual_steps": [
+          "Install SSL certificate",
+          "Configure HTTP to HTTPS redirect",
+          "Enable HSTS headers"
+        ],
+        "potential_harm": "Data interception, session hijacking",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.785993",
+        "device_ip": "192.168.18.1",
+        "port": 80,
+        "service": "http"
+      },
+      {
+        "id": "vuln-1-192.168.18.1-4d95cde3",
+        "vulnerability_number": 1,
+        "name": "Telnet Service Exposed",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Telnet service running without encryption, exposing credentials",
+        "fix_method": "Disable Telnet and enable SSH",
+        "fix_commands": [
+          "systemctl stop telnet.socket",
+          "systemctl disable telnet.socket",
+          "iptables -A INPUT -p tcp --dport 23 -j DROP"
+        ],
+        "manual_steps": [
+          "Access device administration",
+          "Disable Telnet service",
+          "Enable SSH with key authentication"
+        ],
+        "potential_harm": "Credential interception, man-in-the-middle attacks",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786016",
+        "device_ip": "192.168.18.1",
+        "port": 23
+      },
+      {
+        "id": "vuln-2-192.168.18.1-9f61c0d6",
+        "vulnerability_number": 2,
+        "name": "FTP Without Encryption",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "FTP service transmitting data without encryption",
+        "fix_method": "Disable FTP or enable FTPS/SFTP",
+        "fix_commands": [
+          "systemctl stop vsftpd",
+          "systemctl disable vsftpd",
+          "iptables -A INPUT -p tcp --dport 21 -j DROP"
+        ],
+        "manual_steps": [
+          "Disable FTP service",
+          "Configure SFTP over SSH",
+          "Use FTPS with TLS encryption"
+        ],
+        "potential_harm": "Data interception, credential theft",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786028",
+        "device_ip": "192.168.18.1",
+        "port": 21
+      },
+      {
+        "id": "vuln-3-192.168.18.1-97ad08a9",
+        "vulnerability_number": 3,
+        "name": "SSH Weak Configurations",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "SSH service allowing weak encryption algorithms or authentication methods",
+        "fix_method": "Harden SSH configuration",
+        "fix_commands": [
+          "echo 'Protocol 2' >> /etc/ssh/sshd_config",
+          "echo 'PermitRootLogin no' >> /etc/ssh/sshd_config",
+          "echo 'PasswordAuthentication no' >> /etc/ssh/sshd_config",
+          "systemctl restart sshd"
+        ],
+        "manual_steps": [
+          "Update SSH configuration",
+          "Disable root login",
+          "Enable key-based authentication",
+          "Disable weak ciphers"
+        ],
+        "potential_harm": "SSH brute force attacks, cryptographic weaknesses",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786039",
+        "device_ip": "192.168.18.1",
+        "port": 22
+      },
+      {
+        "id": "vuln-4-192.168.18.1-6301b9bb",
+        "vulnerability_number": 4,
+        "name": "HTTP Without HTTPS Redirect",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Web service running on HTTP without HTTPS enforcement",
+        "fix_method": "Enable HTTPS and redirect HTTP to HTTPS",
+        "fix_commands": [
+          "a2enmod ssl",
+          "a2enmod rewrite",
+          "systemctl restart apache2"
+        ],
+        "manual_steps": [
+          "Install SSL certificate",
+          "Configure HTTP to HTTPS redirect",
+          "Enable HSTS headers"
+        ],
+        "potential_harm": "Data interception, session hijacking",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786047",
+        "device_ip": "192.168.18.1",
+        "port": 80
+      },
+      {
+        "id": "vuln-37-192.168.18.1-8d4d8a18",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786064",
+        "device_ip": "192.168.18.1"
+      },
+      {
+        "id": "vuln-38-192.168.18.1-2b80c17b",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786074",
+        "device_ip": "192.168.18.1"
+      },
+      {
+        "id": "vuln-40-192.168.18.1-1a7f22ae",
+        "vulnerability_number": 40,
+        "name": "Missing Security Patches",
+        "category": "manual",
+        "severity": "high",
+        "description": "Critical security patches not applied",
+        "fix_method": "Apply all security patches",
+        "fix_commands": [
+          "echo 'Apply security updates: apt update && apt upgrade --security'"
+        ],
+        "manual_steps": [
+          "Subscribe to security advisories",
+          "Establish patch management process",
+          "Test patches before deployment",
+          "Maintain patch documentation"
+        ],
+        "potential_harm": "Exploitation of unpatched vulnerabilities",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786084",
+        "device_ip": "192.168.18.1"
+      },
+      {
+        "id": "vuln-56-192.168.18.1-5f1fc8d9",
+        "vulnerability_number": 56,
+        "name": "Hardware Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Potential hardware-level backdoor or undocumented access",
+        "fix_method": "Monitor and consider hardware replacement",
+        "fix_commands": [
+          "echo 'Hardware-level issues may require device replacement'"
+        ],
+        "manual_steps": [
+          "Monitor for suspicious activity",
+          "Implement network segmentation",
+          "Consider hardware from different vendors",
+          "Maintain incident response plan"
+        ],
+        "potential_harm": "Persistent unauthorized access, complete compromise",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786093",
+        "device_ip": "192.168.18.1"
+      },
+      {
+        "id": "vuln-36-192.168.18.1-f5eec032",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786107",
+        "device_ip": "192.168.18.1"
+      },
+      {
+        "id": "vuln-37-192.168.18.1-09fe5376",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-26T10:41:07.786118",
+        "device_ip": "192.168.18.1"
+      }
+    ],
+    "last_scanned": "2025-10-26T10:41:07.786124"
+  },
+  "192.168.18.37": {
+    "id": "192.168.18.37",
+    "name": "Device-192.168.18.37",
+    "ip": "192.168.18.37",
+    "mac": "Unknown",
+    "type": "iot",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-26T11:49:07.007455",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [
+      5000,
+      8080
+    ],
+    "services": [
+      {
+        "port": 5000,
+        "protocol": "tcp",
+        "name": "upnp",
+        "product": "",
+        "version": ""
+      },
+      {
+        "port": 8080,
+        "protocol": "tcp",
+        "name": "http-proxy",
+        "product": "",
+        "version": ""
+      }
+    ],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-37-192.168.18.37-0ef76c83",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569436",
+        "device_ip": "192.168.18.37"
+      },
+      {
+        "id": "vuln-38-192.168.18.37-5fb5cdea",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569468",
+        "device_ip": "192.168.18.37"
+      },
+      {
+        "id": "vuln-39-192.168.18.37-e1bc7dda",
+        "vulnerability_number": 39,
+        "name": "Outdated Software Versions",
+        "category": "manual",
+        "severity": "high",
+        "description": "Devices running outdated software with known vulnerabilities",
+        "fix_method": "Update to latest software versions",
+        "fix_commands": [
+          "echo 'Check for updates: apt update && apt list --upgradable'"
+        ],
+        "manual_steps": [
+          "Check for available updates",
+          "Review changelogs for breaking changes",
+          "Test updates in non-production",
+          "Apply security patches promptly"
+        ],
+        "potential_harm": "Exploitation of known vulnerabilities",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569481",
+        "device_ip": "192.168.18.37"
+      },
+      {
+        "id": "vuln-56-192.168.18.37-1cd75721",
+        "vulnerability_number": 56,
+        "name": "Hardware Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Potential hardware-level backdoor or undocumented access",
+        "fix_method": "Monitor and consider hardware replacement",
+        "fix_commands": [
+          "echo 'Hardware-level issues may require device replacement'"
+        ],
+        "manual_steps": [
+          "Monitor for suspicious activity",
+          "Implement network segmentation",
+          "Consider hardware from different vendors",
+          "Maintain incident response plan"
+        ],
+        "potential_harm": "Persistent unauthorized access, complete compromise",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569492",
+        "device_ip": "192.168.18.37"
+      },
+      {
+        "id": "vuln-37-192.168.18.37-838c5fba",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569507",
+        "device_ip": "192.168.18.37"
+      },
+      {
+        "id": "vuln-38-192.168.18.37-be9cc6ed",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-26T11:52:06.569517",
+        "device_ip": "192.168.18.37"
+      }
+    ],
+    "last_scanned": "2025-10-26T11:52:06.569521"
+  },
+  "192.168.1.126": {
+    "id": "192.168.1.126",
+    "name": "Device-192.168.1.126",
+    "ip": "192.168.1.126",
+    "mac": "Unknown",
+    "type": "unknown",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-27T08:02:20.587214",
+    "vulnerabilities": [],
+    "riskLevel": "high",
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-36-192.168.1.126-95d1939d",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-27T08:03:03.704790",
+        "device_ip": "192.168.1.126"
+      },
+      {
+        "id": "vuln-38-192.168.1.126-432bc75f",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-27T08:03:03.704878",
+        "device_ip": "192.168.1.126"
+      }
+    ],
+    "last_scanned": "2025-10-27T08:03:03.704898"
+  },
+  "192.168.1.103": {
+    "id": "192.168.1.103",
+    "name": "Device-192.168.1.103",
+    "ip": "192.168.1.103",
+    "mac": "Unknown",
+    "type": "other",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-28T05:17:16.309643",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [],
+    "services": [],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-38-192.168.1.103-7abf8179",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-28T05:18:01.391744",
+        "device_ip": "192.168.1.103"
+      },
+      {
+        "id": "vuln-56-192.168.1.103-0ee45783",
+        "vulnerability_number": 56,
+        "name": "Hardware Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Potential hardware-level backdoor or undocumented access",
+        "fix_method": "Monitor and consider hardware replacement",
+        "fix_commands": [
+          "echo 'Hardware-level issues may require device replacement'"
+        ],
+        "manual_steps": [
+          "Monitor for suspicious activity",
+          "Implement network segmentation",
+          "Consider hardware from different vendors",
+          "Maintain incident response plan"
+        ],
+        "potential_harm": "Persistent unauthorized access, complete compromise",
+        "status": "found",
+        "detected_at": "2025-10-28T05:18:01.391874",
+        "device_ip": "192.168.1.103"
+      },
+      {
+        "id": "vuln-36-192.168.1.103-3b81b1b1",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-28T05:18:01.391987",
+        "device_ip": "192.168.1.103"
+      },
+      {
+        "id": "vuln-37-192.168.1.103-6bbdb3d0",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-28T05:18:01.392088",
+        "device_ip": "192.168.1.103"
+      },
+      {
+        "id": "vuln-38-192.168.1.103-093f160b",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-28T05:18:01.392155",
+        "device_ip": "192.168.1.103"
+      }
+    ],
+    "last_scanned": "2025-10-28T05:18:01.392192"
+  },
+  "192.168.1.117": {
+    "id": "192.168.1.117",
+    "name": "Device-192.168.1.117",
+    "ip": "192.168.1.117",
+    "mac": "Unknown",
+    "type": "other",
+    "vendor": "Unknown",
+    "status": "online",
+    "authorized": true,
+    "lastSeen": "2025-10-28T07:57:36.053368",
+    "vulnerabilities": [],
+    "riskLevel": "critical",
+    "open_ports": [],
+    "services": [],
+    "comprehensive_vulnerabilities": [
+      {
+        "id": "vuln-36-192.168.1.117-c680757a",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659345",
+        "device_ip": "192.168.1.117"
+      },
+      {
+        "id": "vuln-38-192.168.1.117-8b8fba1d",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659456",
+        "device_ip": "192.168.1.117"
+      },
+      {
+        "id": "vuln-56-192.168.1.117-9239d71d",
+        "vulnerability_number": 56,
+        "name": "Hardware Backdoor Access",
+        "category": "non-fixable",
+        "severity": "critical",
+        "description": "Potential hardware-level backdoor or undocumented access",
+        "fix_method": "Monitor and consider hardware replacement",
+        "fix_commands": [
+          "echo 'Hardware-level issues may require device replacement'"
+        ],
+        "manual_steps": [
+          "Monitor for suspicious activity",
+          "Implement network segmentation",
+          "Consider hardware from different vendors",
+          "Maintain incident response plan"
+        ],
+        "potential_harm": "Persistent unauthorized access, complete compromise",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659518",
+        "device_ip": "192.168.1.117"
+      },
+      {
+        "id": "vuln-36-192.168.1.117-79b97802",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659577",
+        "device_ip": "192.168.1.117"
+      },
+      {
+        "id": "vuln-37-192.168.1.117-515be97e",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659622",
+        "device_ip": "192.168.1.117"
+      },
+      {
+        "id": "vuln-38-192.168.1.117-2305a623",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-10-28T07:58:30.659656",
+        "device_ip": "192.168.1.117"
+      }
+    ],
+    "last_scanned": "2025-10-28T07:58:30.659675"
+  }
+}
