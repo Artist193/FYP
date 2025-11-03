@@ -1118,6 +1118,11 @@
 
 
 
+# ****************************
+# ****************************
+# working one 
+
+
 
 
 
@@ -1158,9 +1163,9 @@ from router.fixer import VulnerabilityFixer
 from models import db, SecurityAlert
 
 # Real-time IDS Modules
-from ids.packet_sniffer import RealTimePacketSniffer
-from ids.attack_detector import RealTimeAttackDetector
-from ids.traffic_analyzer import TrafficAnalyzer
+# from ids.packet_sniffer import RealTimePacketSniffer
+# from ids.attack_detector import RealTimeAttackDetector
+# from ids.traffic_analyzer import TrafficAnalyzer
 
 # -------------------- App Setup --------------------
 app = Flask(__name__)
@@ -1192,17 +1197,17 @@ router_scanner = RouterScanner()
 vulnerability_fixer = VulnerabilityFixer()
 
 # Initialize Real-time IDS Components
-packet_sniffer = RealTimePacketSniffer()
-attack_detector = RealTimeAttackDetector()
-traffic_analyzer = TrafficAnalyzer()
+# packet_sniffer = RealTimePacketSniffer()
+# attack_detector = RealTimeAttackDetector()
+# traffic_analyzer = TrafficAnalyzer()
 
 # IDS Status
-ids_status = {
-    'is_running': False,
-    'started_at': None,
-    'packets_analyzed': 0,
-    'alerts_generated': 0
-}
+# ids_status = {
+#     'is_running': False,
+#     'started_at': None,
+#     'packets_analyzed': 0,
+#     'alerts_generated': 0
+# }
 
 # Register blueprints
 app.register_blueprint(create_devices_blueprint("devices_bp"), url_prefix="/api/devices")
@@ -1376,65 +1381,6 @@ def index():
 # -------------------- Real-time IDS Routes --------------------
 
 
-@app.route('/api/ids/debug', methods=['GET'])
-def debug_ids():
-    """Debug endpoint to check IDS internal state"""
-    try:
-        # Get sniffer status
-        sniffer_status = {
-            "is_sniffing": packet_sniffer.is_sniffing,
-            "callbacks_count": len(packet_sniffer.callbacks),
-            "recent_packets": len(packet_sniffer.get_recent_packets(10)),
-            "total_packets": packet_sniffer.stats['total_packets'],
-            "interface": packet_sniffer.interface
-        }
-        
-        # Get detector status
-        detector_status = {
-            "callbacks_count": len(attack_detector.callbacks),
-            "recent_alerts": len(attack_detector.get_recent_alerts(10)),
-            "total_alerts": len(attack_detector.alerts)
-        }
-        
-        return jsonify({
-            "status": "success",
-            "ids_running": ids_status['is_running'],
-            "sniffer": sniffer_status,
-            "detector": detector_status,
-            "traffic_stats": traffic_analyzer.get_traffic_stats(),
-            "packets_analyzed": ids_status['packets_analyzed'],
-            "alerts_generated": ids_status['alerts_generated']
-        })
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-
-
-@app.route('/api/ids/test-sniffer', methods=['GET'])
-def test_sniffer():
-    """Test if packet sniffer is working"""
-    try:
-        # Test if sniffer can be started
-        packet_sniffer.start_sniffing()
-        time.sleep(3)  # Let it run for 3 seconds
-        
-        recent_packets = packet_sniffer.get_recent_packets(10)
-        stats = packet_sniffer.get_statistics()
-        
-        # Stop sniffer
-        packet_sniffer.stop_sniffing()
-        
-        return jsonify({
-            "status": "success",
-            "sniffer_active": packet_sniffer.is_sniffing,
-            "packets_captured": len(recent_packets),
-            "total_packets": stats['total_packets'],
-            "sample_packets": recent_packets[:3] if recent_packets else [],
-            "interface": packet_sniffer.interface
-        })
-        
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 
@@ -1442,334 +1388,407 @@ def test_sniffer():
 
 
 
-@app.route('/api/ids/test-start', methods=['POST'])
-def test_start_ids():
-    """Test endpoint to start IDS without authentication"""
-    try:
-        if ids_status['is_running']:
-            return jsonify({
-                "status": "success",
-                "message": "IDS is already running", 
-                "already_running": True
-            })
-        
-        # Register callbacks
-        packet_sniffer.register_callback(handle_packet_callback)
-        attack_detector.register_callback(handle_ids_alert)
-        
-        # Start packet sniffing
-        packet_sniffer.start_sniffing()
-        ids_status['is_running'] = True
-        ids_status['started_at'] = datetime.datetime.now().isoformat()
-        
-        return jsonify({
-            "status": "success",
-            "message": "IDS started successfully",
-            "interface": packet_sniffer.interface,
-            "started_at": ids_status['started_at']
-        })
-        
-    except Exception as e:
-        print(f"[ERROR] Test IDS start failed: {e}")
-        return jsonify({
-            "status": "error", 
-            "message": str(e)
-        }), 500
 
-@app.route('/api/ids/start', methods=['POST'])
-def start_ids():
-    """Start the real-time Intrusion Detection System (No auth required)"""
-    try:
-        if ids_status['is_running']:
-            return jsonify({
-                "status": "success",
-                "message": "IDS is already running",
-                "already_running": True
-            })
-        
-        print(f"[IDS START] Step 1: Registering callbacks...")
-        
-        # Register callbacks FIRST
-        packet_sniffer.register_callback(handle_packet_callback)
-        attack_detector.register_callback(handle_ids_alert)
-        
-        print(f"[IDS START] Step 2: Starting packet sniffer...")
-        
-        # Start packet sniffing
-        packet_sniffer.start_sniffing()
-        
-        # Wait a moment to ensure sniffer starts
-        time.sleep(2)
-        
-        # Update status
-        ids_status['is_running'] = True
-        ids_status['started_at'] = datetime.datetime.now().isoformat()
-        ids_status['packets_analyzed'] = 0
-        ids_status['alerts_generated'] = 0
-        
-        print(f"[IDS START] Step 3: IDS started successfully")
-        print(f"[IDS START] - Sniffer active: {packet_sniffer.is_sniffing}")
-        print(f"[IDS START] - Callbacks: {len(packet_sniffer.callbacks)} packet, {len(attack_detector.callbacks)} alert")
-        
-        emit_event("ids_started", {
-            "message": "Real-time IDS started",
-            "interface": packet_sniffer.interface
-        })
-        
-        return jsonify({
-            "status": "success",
-            "message": "Real-time IDS started successfully",
-            "interface": packet_sniffer.interface,
-            "started_at": ids_status['started_at'],
-            "sniffer_active": packet_sniffer.is_sniffing
-        })
-        
-    except Exception as e:
-        print(f"[ERROR] IDS start failed: {e}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/stop', methods=['POST'])
-def stop_ids():
-    """Stop the real-time Intrusion Detection System (No auth required)"""
-    try:
-        if not ids_status['is_running']:
-            return jsonify({
-                "status": "success",
-                "message": "IDS is not running",
-                "already_stopped": True
-            })
-        
-        # Stop packet sniffing
-        packet_sniffer.stop_sniffing()
-        
-        # Update status
-        ids_status['is_running'] = False
-        
-        emit_event("ids_stopped", {
-            "message": "Real-time IDS stopped",
-            "stats": {
-                "packets_analyzed": ids_status['packets_analyzed'],
-                "alerts_generated": ids_status['alerts_generated']
-            }
-        })
-        
-        return jsonify({
-            "status": "success",
-            "message": "Real-time IDS stopped successfully",
-            "stats": {
-                "packets_analyzed": ids_status['packets_analyzed'],
-                "alerts_generated": ids_status['alerts_generated']
-            }
-        })
-        
-    except Exception as e:
-        print(f"[ERROR] IDS stop failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/status', methods=['GET'])
-def get_ids_status():
-    """Get current IDS status and statistics (No auth required)"""
-    try:
-        stats = traffic_analyzer.get_traffic_stats()
-        alert_stats = attack_detector.get_alert_statistics()
-        network_health = traffic_analyzer.get_network_health()
-        recent_alerts = attack_detector.get_recent_alerts(20)
-        recent_packets = packet_sniffer.get_recent_packets(50)
-        
-        return jsonify({
-            "status": "success",
-            "ids_status": ids_status,
-            "traffic_stats": stats,
-            "alert_stats": alert_stats,
-            "network_health": network_health,
-            "recent_alerts": recent_alerts,
-            "recent_packets": recent_packets
-        })
-        
-    except Exception as e:
-        print(f"[ERROR] IDS status check failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/alerts', methods=['GET'])
-def get_ids_alerts():
-    """Get all IDS alerts with filtering options (No auth required)"""
-    try:
-        # Get query parameters for filtering
-        severity_filter = request.args.get('severity', 'all')
-        type_filter = request.args.get('type', 'all')
-        limit = int(request.args.get('limit', 100))
-        
-        all_alerts = attack_detector.get_recent_alerts(limit)
-        
-        # Apply filters
-        filtered_alerts = []
-        for alert in all_alerts:
-            if severity_filter != 'all' and alert['severity'] != severity_filter:
-                continue
-            if type_filter != 'all' and alert['attackType'] != type_filter:
-                continue
-            filtered_alerts.append(alert)
-        
-        return jsonify({
-            "status": "success",
-            "alerts": filtered_alerts,
-            "total_count": len(filtered_alerts),
-            "filters": {
-                "severity": severity_filter,
-                "type": type_filter
-            }
-        })
-        
-    except Exception as e:
-        print(f"[ERROR] Get IDS alerts failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/block-attacker', methods=['POST'])
-def block_attacker():
-    """Block an attacker identified by IDS (No auth required)"""
-    try:
-        data = request.get_json()
-        attacker_ip = data.get('attacker_ip')
-        alert_id = data.get('alert_id')
+
+
+# @app.route('/api/ids/debug', methods=['GET'])
+# def debug_ids():
+#     """Debug endpoint to check IDS internal state"""
+#     try:
+#         # Get sniffer status
+#         sniffer_status = {
+#             "is_sniffing": packet_sniffer.is_sniffing,
+#             "callbacks_count": len(packet_sniffer.callbacks),
+#             "recent_packets": len(packet_sniffer.get_recent_packets(10)),
+#             "total_packets": packet_sniffer.stats['total_packets'],
+#             "interface": packet_sniffer.interface
+#         }
         
-        if not attacker_ip:
-            return jsonify({
-                "status": "error",
-                "message": "Attacker IP is required"
-            }), 400
+#         # Get detector status
+#         detector_status = {
+#             "callbacks_count": len(attack_detector.callbacks),
+#             "recent_alerts": len(attack_detector.get_recent_alerts(10)),
+#             "total_alerts": len(attack_detector.alerts)
+#         }
         
-        # Block the IP using existing sniffer functionality
-        success, message = block_ip(attacker_ip)
+#         return jsonify({
+#             "status": "success",
+#             "ids_running": ids_status['is_running'],
+#             "sniffer": sniffer_status,
+#             "detector": detector_status,
+#             "traffic_stats": traffic_analyzer.get_traffic_stats(),
+#             "packets_analyzed": ids_status['packets_analyzed'],
+#             "alerts_generated": ids_status['alerts_generated']
+#         })
+#     except Exception as e:
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+
+# @app.route('/api/ids/test-sniffer', methods=['GET'])
+# def test_sniffer():
+#     """Test if packet sniffer is working"""
+#     try:
+#         # Test if sniffer can be started
+#         packet_sniffer.start_sniffing()
+#         time.sleep(3)  # Let it run for 3 seconds
         
-        if success:
-            # Update alert status if alert_id provided
-            if alert_id:
-                for alert in attack_detector.alerts:
-                    if alert.id == alert_id:
-                        alert.status = "blocked"
-                        break
+#         recent_packets = packet_sniffer.get_recent_packets(10)
+#         stats = packet_sniffer.get_statistics()
+        
+#         # Stop sniffer
+#         packet_sniffer.stop_sniffing()
+        
+#         return jsonify({
+#             "status": "success",
+#             "sniffer_active": packet_sniffer.is_sniffing,
+#             "packets_captured": len(recent_packets),
+#             "total_packets": stats['total_packets'],
+#             "sample_packets": recent_packets[:3] if recent_packets else [],
+#             "interface": packet_sniffer.interface
+#         })
+        
+#     except Exception as e:
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+
+
+
+
+
+# @app.route('/api/ids/test-start', methods=['POST'])
+# def test_start_ids():
+#     """Test endpoint to start IDS without authentication"""
+#     try:
+#         if ids_status['is_running']:
+#             return jsonify({
+#                 "status": "success",
+#                 "message": "IDS is already running", 
+#                 "already_running": True
+#             })
+        
+#         # Register callbacks
+#         packet_sniffer.register_callback(handle_packet_callback)
+#         attack_detector.register_callback(handle_ids_alert)
+        
+#         # Start packet sniffing
+#         packet_sniffer.start_sniffing()
+#         ids_status['is_running'] = True
+#         ids_status['started_at'] = datetime.datetime.now().isoformat()
+        
+#         return jsonify({
+#             "status": "success",
+#             "message": "IDS started successfully",
+#             "interface": packet_sniffer.interface,
+#             "started_at": ids_status['started_at']
+#         })
+        
+#     except Exception as e:
+#         print(f"[ERROR] Test IDS start failed: {e}")
+#         return jsonify({
+#             "status": "error", 
+#             "message": str(e)
+#         }), 500
+
+# @app.route('/api/ids/start', methods=['POST'])
+# def start_ids():
+#     """Start the real-time Intrusion Detection System (No auth required)"""
+#     try:
+#         if ids_status['is_running']:
+#             return jsonify({
+#                 "status": "success",
+#                 "message": "IDS is already running",
+#                 "already_running": True
+#             })
+        
+#         print(f"[IDS START] Step 1: Registering callbacks...")
+        
+#         # Register callbacks FIRST
+#         packet_sniffer.register_callback(handle_packet_callback)
+#         attack_detector.register_callback(handle_ids_alert)
+        
+#         print(f"[IDS START] Step 2: Starting packet sniffer...")
+        
+#         # Start packet sniffing
+#         packet_sniffer.start_sniffing()
+        
+#         # Wait a moment to ensure sniffer starts
+#         time.sleep(2)
+        
+#         # Update status
+#         ids_status['is_running'] = True
+#         ids_status['started_at'] = datetime.datetime.now().isoformat()
+#         ids_status['packets_analyzed'] = 0
+#         ids_status['alerts_generated'] = 0
+        
+#         print(f"[IDS START] Step 3: IDS started successfully")
+#         print(f"[IDS START] - Sniffer active: {packet_sniffer.is_sniffing}")
+#         print(f"[IDS START] - Callbacks: {len(packet_sniffer.callbacks)} packet, {len(attack_detector.callbacks)} alert")
+        
+#         emit_event("ids_started", {
+#             "message": "Real-time IDS started",
+#             "interface": packet_sniffer.interface
+#         })
+        
+#         return jsonify({
+#             "status": "success",
+#             "message": "Real-time IDS started successfully",
+#             "interface": packet_sniffer.interface,
+#             "started_at": ids_status['started_at'],
+#             "sniffer_active": packet_sniffer.is_sniffing
+#         })
+        
+#     except Exception as e:
+#         print(f"[ERROR] IDS start failed: {e}")
+#         import traceback
+#         traceback.print_exc()
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+# @app.route('/api/ids/stop', methods=['POST'])
+# def stop_ids():
+#     """Stop the real-time Intrusion Detection System (No auth required)"""
+#     try:
+#         if not ids_status['is_running']:
+#             return jsonify({
+#                 "status": "success",
+#                 "message": "IDS is not running",
+#                 "already_stopped": True
+#             })
+        
+#         # Stop packet sniffing
+#         packet_sniffer.stop_sniffing()
+        
+#         # Update status
+#         ids_status['is_running'] = False
+        
+#         emit_event("ids_stopped", {
+#             "message": "Real-time IDS stopped",
+#             "stats": {
+#                 "packets_analyzed": ids_status['packets_analyzed'],
+#                 "alerts_generated": ids_status['alerts_generated']
+#             }
+#         })
+        
+#         return jsonify({
+#             "status": "success",
+#             "message": "Real-time IDS stopped successfully",
+#             "stats": {
+#                 "packets_analyzed": ids_status['packets_analyzed'],
+#                 "alerts_generated": ids_status['alerts_generated']
+#             }
+#         })
+        
+#     except Exception as e:
+#         print(f"[ERROR] IDS stop failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+# @app.route('/api/ids/status', methods=['GET'])
+# def get_ids_status():
+#     """Get current IDS status and statistics (No auth required)"""
+#     try:
+#         stats = traffic_analyzer.get_traffic_stats()
+#         alert_stats = attack_detector.get_alert_statistics()
+#         network_health = traffic_analyzer.get_network_health()
+#         recent_alerts = attack_detector.get_recent_alerts(20)
+#         recent_packets = packet_sniffer.get_recent_packets(50)
+        
+#         return jsonify({
+#             "status": "success",
+#             "ids_status": ids_status,
+#             "traffic_stats": stats,
+#             "alert_stats": alert_stats,
+#             "network_health": network_health,
+#             "recent_alerts": recent_alerts,
+#             "recent_packets": recent_packets
+#         })
+        
+#     except Exception as e:
+#         print(f"[ERROR] IDS status check failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+# @app.route('/api/ids/alerts', methods=['GET'])
+# def get_ids_alerts():
+#     """Get all IDS alerts with filtering options (No auth required)"""
+#     try:
+#         # Get query parameters for filtering
+#         severity_filter = request.args.get('severity', 'all')
+#         type_filter = request.args.get('type', 'all')
+#         limit = int(request.args.get('limit', 100))
+        
+#         all_alerts = attack_detector.get_recent_alerts(limit)
+        
+#         # Apply filters
+#         filtered_alerts = []
+#         for alert in all_alerts:
+#             if severity_filter != 'all' and alert['severity'] != severity_filter:
+#                 continue
+#             if type_filter != 'all' and alert['attackType'] != type_filter:
+#                 continue
+#             filtered_alerts.append(alert)
+        
+#         return jsonify({
+#             "status": "success",
+#             "alerts": filtered_alerts,
+#             "total_count": len(filtered_alerts),
+#             "filters": {
+#                 "severity": severity_filter,
+#                 "type": type_filter
+#             }
+#         })
+        
+#     except Exception as e:
+#         print(f"[ERROR] Get IDS alerts failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
+
+# @app.route('/api/ids/block-attacker', methods=['POST'])
+# def block_attacker():
+#     """Block an attacker identified by IDS (No auth required)"""
+#     try:
+#         data = request.get_json()
+#         attacker_ip = data.get('attacker_ip')
+#         alert_id = data.get('alert_id')
+        
+#         if not attacker_ip:
+#             return jsonify({
+#                 "status": "error",
+#                 "message": "Attacker IP is required"
+#             }), 400
+        
+#         # Block the IP using existing sniffer functionality
+#         success, message = block_ip(attacker_ip)
+        
+#         if success:
+#             # Update alert status if alert_id provided
+#             if alert_id:
+#                 for alert in attack_detector.alerts:
+#                     if alert.id == alert_id:
+#                         alert.status = "blocked"
+#                         break
             
-            emit_event("attacker_blocked", {
-                "attacker_ip": attacker_ip,
-                "alert_id": alert_id,
-                "message": message
-            })
+#             emit_event("attacker_blocked", {
+#                 "attacker_ip": attacker_ip,
+#                 "alert_id": alert_id,
+#                 "message": message
+#             })
             
-            return jsonify({
-                "status": "success",
-                "message": f"Successfully blocked attacker {attacker_ip}",
-                "blocked_ip": attacker_ip
-            })
-        else:
-            return jsonify({
-                "status": "error",
-                "message": message
-            }), 400
+#             return jsonify({
+#                 "status": "success",
+#                 "message": f"Successfully blocked attacker {attacker_ip}",
+#                 "blocked_ip": attacker_ip
+#             })
+#         else:
+#             return jsonify({
+#                 "status": "error",
+#                 "message": message
+#             }), 400
             
-    except Exception as e:
-        print(f"[ERROR] Block attacker failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+#     except Exception as e:
+#         print(f"[ERROR] Block attacker failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/resolve-alert', methods=['POST'])
-def resolve_alert():
-    """Mark an IDS alert as resolved (No auth required)"""
-    try:
-        data = request.get_json()
-        alert_id = data.get('alert_id')
+# @app.route('/api/ids/resolve-alert', methods=['POST'])
+# def resolve_alert():
+#     """Mark an IDS alert as resolved (No auth required)"""
+#     try:
+#         data = request.get_json()
+#         alert_id = data.get('alert_id')
         
-        if not alert_id:
-            return jsonify({
-                "status": "error",
-                "message": "Alert ID is required"
-            }), 400
+#         if not alert_id:
+#             return jsonify({
+#                 "status": "error",
+#                 "message": "Alert ID is required"
+#             }), 400
         
-        # Find and resolve the alert
-        for alert in attack_detector.alerts:
-            if alert.id == alert_id:
-                alert.status = "resolved"
+#         # Find and resolve the alert
+#         for alert in attack_detector.alerts:
+#             if alert.id == alert_id:
+#                 alert.status = "resolved"
                 
-                emit_event("alert_resolved", {
-                    "alert_id": alert_id,
-                    "message": "Alert marked as resolved"
-                })
+#                 emit_event("alert_resolved", {
+#                     "alert_id": alert_id,
+#                     "message": "Alert marked as resolved"
+#                 })
                 
-                return jsonify({
-                    "status": "success",
-                    "message": f"Alert {alert_id} marked as resolved",
-                    "alert_id": alert_id
-                })
+#                 return jsonify({
+#                     "status": "success",
+#                     "message": f"Alert {alert_id} marked as resolved",
+#                     "alert_id": alert_id
+#                 })
         
-        return jsonify({
-            "status": "error",
-            "message": "Alert not found"
-        }), 404
+#         return jsonify({
+#             "status": "error",
+#             "message": "Alert not found"
+#         }), 404
         
-    except Exception as e:
-        print(f"[ERROR] Resolve alert failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+#     except Exception as e:
+#         print(f"[ERROR] Resolve alert failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/live-traffic', methods=['GET'])
-def get_live_traffic():
-    """Get real-time traffic data for dashboard (No auth required)"""
-    try:
-        recent_packets = packet_sniffer.get_recent_packets(50)
-        traffic_stats = traffic_analyzer.get_traffic_stats()
-        network_health = traffic_analyzer.get_network_health()
+# @app.route('/api/ids/live-traffic', methods=['GET'])
+# def get_live_traffic():
+#     """Get real-time traffic data for dashboard (No auth required)"""
+#     try:
+#         recent_packets = packet_sniffer.get_recent_packets(50)
+#         traffic_stats = traffic_analyzer.get_traffic_stats()
+#         network_health = traffic_analyzer.get_network_health()
         
-        return jsonify({
-            "status": "success",
-            "recent_packets": recent_packets,
-            "traffic_stats": traffic_stats,
-            "network_health": network_health,
-            "ids_status": ids_status
-        })
+#         return jsonify({
+#             "status": "success",
+#             "recent_packets": recent_packets,
+#             "traffic_stats": traffic_stats,
+#             "network_health": network_health,
+#             "ids_status": ids_status
+#         })
         
-    except Exception as e:
-        print(f"[ERROR] Get live traffic failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+#     except Exception as e:
+#         print(f"[ERROR] Get live traffic failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/ids/generate-report', methods=['POST'])
-def generate_ids_report():
-    """Generate comprehensive report for IDS (No auth required)"""
-    try:
-        # Get all alerts and traffic data
-        all_alerts = attack_detector.get_recent_alerts(1000)
-        recent_packets = packet_sniffer.get_recent_packets(500)
-        traffic_stats = traffic_analyzer.get_traffic_stats()
+# @app.route('/api/ids/generate-report', methods=['POST'])
+# def generate_ids_report():
+#     """Generate comprehensive report for IDS (No auth required)"""
+#     try:
+#         # Get all alerts and traffic data
+#         all_alerts = attack_detector.get_recent_alerts(1000)
+#         recent_packets = packet_sniffer.get_recent_packets(500)
+#         traffic_stats = traffic_analyzer.get_traffic_stats()
         
-        # Create comprehensive report
-        report_data = {
-            'report_id': f"CYBERX-IDS-{int(time.time())}",
-            'generated_at': datetime.datetime.now().isoformat(),
-            'summary': {
-                'total_alerts': len(all_alerts),
-                'active_alerts': len([a for a in all_alerts if a.get('status') == 'active']),
-                'blocked_attacks': len([a for a in all_alerts if a.get('status') == 'blocked']),
-                'total_packets': traffic_stats.get('total_packets', 0),
-                'monitoring_duration': 'Real-time'
-            },
-            'network_status': {
-                'is_monitoring': ids_status['is_running'],
-                'packets_per_second': traffic_stats.get('packets_per_second', 0),
-                'bandwidth_usage': traffic_stats.get('bandwidth_usage', '0 Mbps'),
-                'interface': packet_sniffer.interface
-            },
-            'security_alerts': all_alerts,
-            'recent_traffic': recent_packets,
-            'traffic_statistics': traffic_stats
-        }
+#         # Create comprehensive report
+#         report_data = {
+#             'report_id': f"CYBERX-IDS-{int(time.time())}",
+#             'generated_at': datetime.datetime.now().isoformat(),
+#             'summary': {
+#                 'total_alerts': len(all_alerts),
+#                 'active_alerts': len([a for a in all_alerts if a.get('status') == 'active']),
+#                 'blocked_attacks': len([a for a in all_alerts if a.get('status') == 'blocked']),
+#                 'total_packets': traffic_stats.get('total_packets', 0),
+#                 'monitoring_duration': 'Real-time'
+#             },
+#             'network_status': {
+#                 'is_monitoring': ids_status['is_running'],
+#                 'packets_per_second': traffic_stats.get('packets_per_second', 0),
+#                 'bandwidth_usage': traffic_stats.get('bandwidth_usage', '0 Mbps'),
+#                 'interface': packet_sniffer.interface
+#             },
+#             'security_alerts': all_alerts,
+#             'recent_traffic': recent_packets,
+#             'traffic_statistics': traffic_stats
+#         }
         
-        return jsonify({
-            "status": "success",
-            "message": "Report generated successfully",
-            "report": report_data
-        })
+#         return jsonify({
+#             "status": "success",
+#             "message": "Report generated successfully",
+#             "report": report_data
+#         })
         
-    except Exception as e:
-        print(f"[ERROR] Report generation failed: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+#     except Exception as e:
+#         print(f"[ERROR] Report generation failed: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
 
 # -------------------- Router Security Routes --------------------
 @app.route('/api/scan-router', methods=['POST'])
@@ -2287,6 +2306,8 @@ if __name__ == '__main__':
     print("="*60)
     
     socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+
+
 
 
 
