@@ -641,7 +641,7 @@
     "name": "Device-192.168.1.1",
     "ip": "192.168.1.1",
     "mac": "Unknown",
-    "type": "unknown",
+    "type": "router",
     "vendor": "Unknown",
     "status": "online",
     "authorized": true,
@@ -650,68 +650,159 @@
     "riskLevel": "critical",
     "comprehensive_vulnerabilities": [
       {
-        "id": "vuln-1-192.168.1.1",
-        "vulnerability_number": 1,
-        "name": "Default Credentials",
-        "category": "auto-fixable",
-        "severity": "critical",
-        "description": "Devices using default admin/password credentials",
-        "fix_method": "Change default credentials to strong passwords",
-        "fix_commands": [
-          "echo 'Changing default credentials on {ip}'",
-          "ssh admin@{ip} 'passwd'"
-        ],
-        "manual_steps": [
-          "Login to device admin panel",
-          "Navigate to user management",
-          "Change default passwords"
-        ],
-        "potential_harm": "Full device compromise",
-        "status": "found",
-        "detected_at": "2025-10-23T08:34:01.683244"
-      },
-      {
-        "id": "vuln-2-192.168.1.1",
-        "vulnerability_number": 2,
+        "id": "vuln-36-192.168.1.1-d9e6a71f",
+        "vulnerability_number": 36,
         "name": "Weak Password Policy",
         "category": "auto-fixable",
         "severity": "high",
-        "description": "No password complexity requirements enabled",
+        "description": "No or weak password complexity requirements",
         "fix_method": "Enforce strong password policy",
         "fix_commands": [
-          "echo 'Enabling password policy on {ip}'"
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
         ],
         "manual_steps": [
-          "Access security settings",
-          "Enable password complexity",
-          "Set minimum length to 12 characters"
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
         ],
-        "potential_harm": "Brute force attacks",
+        "potential_harm": "Brute force attacks, credential stuffing",
         "status": "found",
-        "detected_at": "2025-10-23T08:34:01.683266"
+        "detected_at": "2025-11-03T08:10:45.219968",
+        "device_ip": "192.168.1.1"
       },
       {
-        "id": "vuln-8-192.168.1.1",
-        "vulnerability_number": 8,
-        "name": "Unencrypted HTTP",
+        "id": "vuln-37-192.168.1.1-c7a2f749",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
         "category": "auto-fixable",
-        "severity": "medium",
-        "description": "Web interface using HTTP without encryption",
-        "fix_method": "Enable HTTPS with valid certificate",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
         "fix_commands": [
-          "echo 'Enabling HTTPS on {ip}'"
+          "echo 'Changing default credentials for all services'",
+          "passwd"
         ],
         "manual_steps": [
-          "Install SSL certificate",
-          "Redirect HTTP to HTTPS",
-          "Enable HSTS"
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
         ],
-        "potential_harm": "Session hijacking",
+        "potential_harm": "Complete device compromise, unauthorized access",
         "status": "found",
-        "detected_at": "2025-10-23T08:34:01.683280"
+        "detected_at": "2025-11-03T08:10:45.220041",
+        "device_ip": "192.168.1.1"
+      },
+      {
+        "id": "vuln-38-192.168.1.1-efa89274",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-11-03T08:10:45.220075",
+        "device_ip": "192.168.1.1"
+      },
+      {
+        "id": "vuln-36-192.168.1.1-8e7013f7",
+        "vulnerability_number": 36,
+        "name": "Weak Password Policy",
+        "category": "auto-fixable",
+        "severity": "high",
+        "description": "No or weak password complexity requirements",
+        "fix_method": "Enforce strong password policy",
+        "fix_commands": [
+          "echo 'PASS_MAX_DAYS 90' >> /etc/login.defs",
+          "echo 'PASS_MIN_DAYS 1' >> /etc/login.defs",
+          "echo 'PASS_WARN_AGE 14' >> /etc/login.defs"
+        ],
+        "manual_steps": [
+          "Enable password complexity requirements",
+          "Set minimum password length to 12",
+          "Implement password expiration",
+          "Enable account lockout after failures"
+        ],
+        "potential_harm": "Brute force attacks, credential stuffing",
+        "status": "found",
+        "detected_at": "2025-11-03T08:10:45.220114",
+        "device_ip": "192.168.1.1"
+      },
+      {
+        "id": "vuln-37-192.168.1.1-c2c161dd",
+        "vulnerability_number": 37,
+        "name": "Default Credentials",
+        "category": "auto-fixable",
+        "severity": "critical",
+        "description": "Devices using factory default usernames and passwords",
+        "fix_method": "Change all default credentials",
+        "fix_commands": [
+          "echo 'Changing default credentials for all services'",
+          "passwd"
+        ],
+        "manual_steps": [
+          "Identify all default credentials",
+          "Change admin/root passwords",
+          "Change service account passwords",
+          "Document new credentials securely"
+        ],
+        "potential_harm": "Complete device compromise, unauthorized access",
+        "status": "found",
+        "detected_at": "2025-11-03T08:10:45.220143",
+        "device_ip": "192.168.1.1"
+      },
+      {
+        "id": "vuln-38-192.168.1.1-44228627",
+        "vulnerability_number": 38,
+        "name": "Unnecessary Services Running",
+        "category": "auto-fixable",
+        "severity": "medium",
+        "description": "Non-essential network services enabled",
+        "fix_method": "Disable unused services",
+        "fix_commands": [
+          "systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}' | xargs -r systemctl disable",
+          "systemctl stop $(systemctl list-unit-files | grep enabled | grep -E '(telnet|ftp|rsh|rlogin)' | awk '{print $1}')"
+        ],
+        "manual_steps": [
+          "Identify unused services",
+          "Disable unnecessary services",
+          "Remove unused software packages",
+          "Regularly audit running services"
+        ],
+        "potential_harm": "Increased attack surface, service exploitation",
+        "status": "found",
+        "detected_at": "2025-11-03T08:10:45.220180",
+        "device_ip": "192.168.1.1"
       }
     ],
-    "last_scanned": "2025-10-23T08:34:01.683288"
+    "last_scanned": "2025-11-03T08:10:45.220200",
+    "open_ports": [
+      53
+    ],
+    "services": [
+      {
+        "port": 53,
+        "protocol": "tcp",
+        "name": "domain",
+        "product": "Unbound",
+        "version": ""
+      }
+    ]
   },
   "192.168.1.127": {
     "id": "192.168.1.127",
