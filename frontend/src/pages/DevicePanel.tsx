@@ -8,7 +8,7 @@
 
 
 
-// import { useState, useEffect } from 'react';
+// import { useState, useEffect, useCallback } from 'react';
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 // import { Button } from '@/components/ui/button';
 // import { Badge } from '@/components/ui/badge';
@@ -33,1051 +33,6 @@
 //   RefreshCw,
 //   Search,
 //   Zap,
-//   XCircle,
-//   Trash2,
-//   Info,
-//   X,
-//   Shield,
-//   ShieldCheck,
-//   ShieldAlert,
-//   FileText
-// } from 'lucide-react';
-// import { toast } from 'sonner';
-
-// interface Vulnerability {
-//   id: string;
-//   description: string;
-//   severity: 'low' | 'medium' | 'high' | 'critical';
-//   mitigation?: string;
-//   vulnerability_number?: number;
-//   name?: string;
-//   category?: 'auto-fixable' | 'non-fixable';
-//   fix_method?: string;
-//   fix_commands?: string;
-//   potential_harm?: string;
-//   status?: 'found' | 'fixed' | 'fix_failed' | 'in_progress';
-// }
-
-// interface Device {
-//   id: string;
-//   name: string;
-//   ip: string;
-//   mac: string;
-//   type: string;
-//   vendor: string;
-//   status: 'online' | 'offline';
-//   authorized?: boolean;
-//   lastSeen: string;
-//   vulnerabilities: Vulnerability[];
-//   riskLevel: 'low' | 'medium' | 'high' | 'critical';
-//   comprehensive_vulnerabilities?: Vulnerability[];
-//   last_scanned?: string;
-//   fix_results?: any;
-// }
-
-// export default function DevicesPanel() {
-//   const [devices, setDevices] = useState<Device[]>([]);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [filterType, setFilterType] = useState<string>('all');
-//   const [filterStatus, setFilterStatus] = useState<string>('all');
-//   const [isScanningAll, setIsScanningAll] = useState(false);
-//   const [selectedSubnet, setSelectedSubnet] = useState<string>('auto');
-//   const [scanningDevices, setScanningDevices] = useState<Set<string>>(new Set());
-//   const [fixingDevices, setFixingDevices] = useState<Set<string>>(new Set());
-
-//   const [showInfoModal, setShowInfoModal] = useState(false);
-//   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
-//   const [vulnerabilityDefinitions, setVulnerabilityDefinitions] = useState<any>({});
-
-//   // Fetch vulnerability definitions on component mount
-//   useEffect(() => {
-//     fetchVulnerabilityDefinitions();
-//   }, []);
-
-//   const fetchVulnerabilityDefinitions = async () => {
-//     try {
-//       const res = await fetch('http://localhost:5000/api/dp/devices/vulnerability-definitions');
-//       const data = await res.json();
-//       setVulnerabilityDefinitions(data.vulnerability_definitions || {});
-//     } catch (err) {
-//       console.error('Failed to fetch vulnerability definitions:', err);
-//     }
-//   };
-
-//   const normalizeDevices = (data: any) => {
-//     if (Array.isArray(data)) return data;
-//     if (data && Array.isArray(data.devices)) return data.devices;
-//     return [];
-//   };
-
-//   const classifyDeviceType = (device: Device): string => {
-//     if (device.type && device.type !== 'unknown') return device.type;
-//     const vendorLower = (device.vendor || '').toLowerCase();
-//     const nameLower = (device.name || '').toLowerCase();
-//     if (
-//       vendorLower.includes('samsung') ||
-//       vendorLower.includes('apple') ||
-//       vendorLower.includes('xiaomi') ||
-//       vendorLower.includes('oneplus') ||
-//       vendorLower.includes('vivo') ||
-//       vendorLower.includes('oppo') ||
-//       nameLower.includes('phone') ||
-//       nameLower.includes('android')
-//     ) {
-//       return 'mobile';
-//     }
-//     if (
-//       vendorLower.includes('hue') ||
-//       vendorLower.includes('philips') ||
-//       vendorLower.includes('sonos') ||
-//       vendorLower.includes('nest') ||
-//       vendorLower.includes('tplink') ||
-//       vendorLower.includes('tp-link') ||
-//       nameLower.includes('iot') ||
-//       nameLower.includes('sensor')
-//     ) {
-//       return 'iot';
-//     }
-//     return 'other';
-//   };
-
-//   const fetchDevices = async () => {
-//     try {
-//       let url = 'http://localhost:5000/api/dp/devices/scan-network';
-//       if (selectedSubnet && selectedSubnet !== 'auto') {
-//         url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
-//       }
-//       const res = await fetch(url);
-//       const data = await res.json();
-//       setDevices(normalizeDevices(data));
-//     } catch (err) {
-//       console.error(err);
-//       toast.error('Failed to fetch devices');
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchDevices();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   const getDeviceIcon = (type: string) => {
-//     switch (type) {
-//       case 'computer':
-//         return Laptop;
-//       case 'mobile':
-//         return Smartphone;
-//       case 'printer':
-//         return Printer;
-//       case 'camera':
-//         return Camera;
-//       case 'tv':
-//         return Tv;
-//       case 'router':
-//         return Monitor;
-//       case 'iot':
-//         return Zap;
-//       default:
-//         return Monitor;
-//     }
-//   };
-
-//   const getRiskBadge = (risk: string) => {
-//     switch (risk) {
-//       case 'critical':
-//         return 'destructive';
-//       case 'high':
-//         return 'warning';
-//       case 'medium':
-//         return 'secondary';
-//       case 'low':
-//         return 'success';
-//       default:
-//         return 'outline';
-//     }
-//   };
-
-//   const getVulnerabilityBadge = (category: string) => {
-//     switch (category) {
-//       case 'auto-fixable':
-//         return 'success';
-//       case 'non-fixable':
-//         return 'secondary';
-//       default:
-//         return 'outline';
-//     }
-//   };
-
-//   const filteredDevices = devices.filter(device => {
-//     const actualType = classifyDeviceType(device);
-//     const matchesSearch =
-//       device.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       device.ip.includes(searchTerm) ||
-//       device.vendor.toLowerCase().includes(searchTerm.toLowerCase());
-//     const matchesType = filterType === 'all' || actualType === filterType;
-//     const matchesStatus =
-//       filterStatus === 'all' ||
-//       (filterStatus === 'online' && device.status === 'online') ||
-//       (filterStatus === 'offline' && device.status === 'offline');
-//     return matchesSearch && matchesType && matchesStatus;
-//   });
-
-//   // NEW: Bulk IoT Vulnerability Scanning
-//   const handleScanIoTNetwork = async () => {
-//     setIsScanningAll(true);
-//     toast.info('Scanning all IoT devices for vulnerabilities...');
-//     try {
-//       const response = await fetch('http://localhost:5000/api/iot/scan-all', {
-//         method: 'POST'
-//       });
-//       const result = await response.json();
-      
-//       if (result.status === 'success') {
-//         const data = result.data;
-//         toast.success(`Scanned ${data.total_devices_scanned} IoT devices, found ${data.total_vulnerabilities_found} vulnerabilities across ${data.affected_devices} devices`);
-        
-//         // Refresh devices to show updated vulnerabilities
-//         fetchDevices();
-//       } else {
-//         toast.error('IoT vulnerability scan failed');
-//       }
-//     } catch (err) {
-//       toast.error('IoT vulnerability scan failed');
-//     } finally {
-//       setIsScanningAll(false);
-//     }
-//   };
-
-
-
-//   // In your handleScanIoTNetwork function, add this after the scan:
-// const handleScanIoTNetwork = async () => {
-//   setIsScanningAll(true);
-//   toast.info('Scanning all IoT devices for vulnerabilities...');
-//   try {
-//     const response = await fetch('http://localhost:5000/api/iot/scan-all', {
-//       method: 'POST'
-//     });
-//     const result = await response.json();
-    
-//     if (result.status === 'success') {
-//       const data = result.data;
-//       toast.success(`Scanned ${data.total_devices_scanned} IoT devices, found ${data.total_vulnerabilities_found} vulnerabilities across ${data.affected_devices} devices`);
-      
-//       // FORCE REFRESH - wait a bit then fetch devices again
-//       setTimeout(() => {
-//         fetchDevices();
-//       }, 1000);
-      
-//     } else {
-//       toast.error('IoT vulnerability scan failed');
-//     }
-//   } catch (err) {
-//     toast.error('IoT vulnerability scan failed');
-//   } finally {
-//     setIsScanningAll(false);
-//   }
-// };
-
-//   // UPDATED: Single device scan (replaces both quick and deep scan)
-//   const handleScanDevice = async (deviceId: string) => {
-//     setScanningDevices(prev => new Set(prev).add(deviceId));
-//     toast.info('Scanning device for vulnerabilities...');
-    
-//     try {
-//       // For IoT devices, use the new IoT-specific scan
-//       const device = devices.find(d => d.id === deviceId);
-//       const isIoTDevice = device && classifyDeviceType(device) === 'iot';
-      
-//       if (isIoTDevice) {
-//         const response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/scan`, {
-//           method: 'POST'
-//         });
-//         const result = await response.json();
-        
-//         if (result.status === 'success') {
-//           toast.success(`Vulnerability scan completed for ${device?.name}`);
-//           fetchDevices();
-//         } else {
-//           toast.error('Device scan failed');
-//         }
-//       } else {
-//         // For non-IoT devices, use existing scan
-//         await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/scan`, { 
-//           method: 'POST' 
-//         });
-//         toast.success('Device vulnerability scan complete');
-//         fetchDevices();
-//       }
-//     } catch (err) {
-//       toast.error('Scan failed');
-//     } finally {
-//       setScanningDevices(prev => {
-//         const newSet = new Set(prev);
-//         newSet.delete(deviceId);
-//         return newSet;
-//       });
-//     }
-//   };
-
-//   // Auto-Fix Vulnerabilities
-//   const handleAutoFix = async (deviceId: string) => {
-//     setFixingDevices(prev => new Set(prev).add(deviceId));
-//     toast.info('Attempting to auto-fix vulnerabilities...');
-    
-//     try {
-//       const response = await fetch(
-//         `http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`,
-//         { method: 'POST' }
-//       );
-//       const result = await response.json();
-      
-//       if (result.status === 'success') {
-//         const summary = result.fix_summary;
-//         toast.success(
-//           `Fixed: ${summary.successful_fixes} | Failed: ${summary.failed_fixes} | Non-fixable: ${summary.non_fixable}`
-//         );
-//         fetchDevices(); // Refresh device list
-//       } else {
-//         toast.error('Auto-fix failed');
-//       }
-//     } catch (err) {
-//       toast.error('Auto-fix failed');
-//     } finally {
-//       setFixingDevices(prev => {
-//         const newSet = new Set(prev);
-//         newSet.delete(deviceId);
-//         return newSet;
-//       });
-//     }
-//   };
-
-//   // UPDATED: Get Vulnerability Report - Now working with new endpoint
-//   const handleGetVulnerabilityReport = async (deviceId: string) => {
-//     try {
-//       const device = devices.find(d => d.id === deviceId);
-//       const isIoTDevice = device && classifyDeviceType(device) === 'iot';
-      
-//       let response;
-//       if (isIoTDevice) {
-//         response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/report`);
-//       } else {
-//         response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/vulnerability-report`);
-//       }
-      
-//       const report = await response.json();
-      
-//       if (report.status === 'success') {
-//         // Display report in a detailed modal or alert
-//         const reportData = isIoTDevice ? report.report : report;
-        
-//         let reportText = `Vulnerability Report for ${reportData.device_info?.device_name || device?.name}:\n\n`;
-//         reportText += `IP: ${reportData.device_info?.ip_address || device?.ip}\n`;
-//         reportText += `Total Vulnerabilities: ${reportData.vulnerabilities?.length || reportData.total_vulnerabilities || 0}\n\n`;
-        
-//         if (reportData.vulnerabilities && reportData.vulnerabilities.length > 0) {
-//           reportText += "Vulnerabilities Found:\n";
-//           reportData.vulnerabilities.forEach((vuln: any, index: number) => {
-//             reportText += `\n${index + 1}. ${vuln.name} (${vuln.severity})\n`;
-//             reportText += `   Category: ${vuln.category}\n`;
-//             reportText += `   Fix: ${vuln.fix_method}\n`;
-//             if (vuln.fix_commands) {
-//               reportText += `   Commands: ${vuln.fix_commands}\n`;
-//             }
-//             if (vuln.potential_harm) {
-//               reportText += `   Risk: ${vuln.potential_harm}\n`;
-//             }
-//           });
-//         }
-        
-//         alert(reportText);
-//         toast.success('Vulnerability report generated');
-//       } else {
-//         toast.error('Failed to generate report');
-//       }
-//     } catch (err) {
-//       toast.error('Failed to get vulnerability report');
-//     }
-//   };
-
-//   // Existing functions
-//   const handleScanAll = async () => {
-//     setIsScanningAll(true);
-//     toast.info('Scanning all devices...');
-//     try {
-//       let url = 'http://localhost:5000/api/dp/devices/scan-network';
-//       if (selectedSubnet && selectedSubnet !== 'auto') {
-//         url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
-//       }
-//       const res = await fetch(url);
-//       const data = await res.json();
-//       setDevices(normalizeDevices(data));
-//       toast.success('All devices scanned');
-//     } catch (err) {
-//       toast.error('Scan failed');
-//     } finally {
-//       setIsScanningAll(false);
-//     }
-//   };
-
-//   const handleStopScan = async () => {
-//     try {
-//       await fetch('http://localhost:5000/api/dp/devices/stop-scan', {
-//         method: 'POST'
-//       });
-//       toast.success('Scan stopped');
-//     } catch {
-//       toast.success('Scan stopped');
-//     } finally {
-//       setIsScanningAll(false);
-//     }
-//   };
-
-//   const handleClearDevices = async () => {
-//     try {
-//       await fetch('http://localhost:5000/api/dp/devices/clear', {
-//         method: 'POST'
-//       });
-//     } catch {
-//       console.warn('Backend clear failed, clearing UI anyway');
-//     }
-//     setDevices([]);
-//     toast.success('Devices cleared');
-//   };
-
-//   const handleInfoDevice = async (device: Device) => {
-//     try {
-//       const res = await fetch(
-//         `http://localhost:5000/api/dp/devices/${device.id}/info`
-//       );
-//       const info = await res.json();
-//       setSelectedDevice(info);
-//       setShowInfoModal(true);
-//     } catch (err) {
-//       toast.error('Failed to fetch device info');
-//     }
-//   };
-
-//   const handleExportAll = async () => {
-//     toast.info('Exporting all devices report...');
-//     try {
-//       const res = await fetch(
-//         'http://localhost:5000/api/dp/devices/export-all'
-//       );
-//       const blob = await res.blob();
-//       const url = window.URL.createObjectURL(blob);
-//       const a = document.createElement('a');
-//       a.href = url;
-//       a.download = 'all_devices_report.pdf';
-//       a.click();
-//       toast.success('Report downloaded');
-//     } catch (err) {
-//       toast.error('Export failed');
-//     }
-//   };
-
-//   // Statistics Calculations
-//   const totalDevices = devices.length;
-//   const onlineDevices = devices.filter(d => d.status === 'online').length;
-//   const vulnerableDevices = devices.filter(
-//     d => d.vulnerabilities.length > 0 || (d.comprehensive_vulnerabilities && d.comprehensive_vulnerabilities.length > 0)
-//   ).length;
-
-//   // Calculate vulnerability stats
-//   const autoFixableVulnerabilities = devices.reduce((total, device) => {
-//     const vulns = device.comprehensive_vulnerabilities || [];
-//     return total + vulns.filter(v => v.category === 'auto-fixable').length;
-//   }, 0);
-
-//   const nonFixableVulnerabilities = devices.reduce((total, device) => {
-//     const vulns = device.comprehensive_vulnerabilities || [];
-//     return total + vulns.filter(v => v.category === 'non-fixable').length;
-//   }, 0);
-
-//   // IoT-specific statistics
-//   const iotDevices = devices.filter(d => classifyDeviceType(d) === 'iot');
-
-//   return (
-//     <div className="space-y-4 sm:space-y-6">
-//       {/* Header */}
-//       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-//         <div>
-//           <h1 className="text-2xl sm:text-3xl font-orbitron font-bold text-primary">
-//             Connected Devices
-//           </h1>
-//           <p className="text-muted-foreground font-code text-sm">
-//             Network device management and security scanning
-//           </p>
-//           <p className="text-muted-foreground font-code text-xs mt-1">
-//             Smaller subnets (/24) scan faster but may miss devices. Larger (/20)
-//             slower but more complete.
-//           </p>
-//         </div>
-//         <div className="flex flex-wrap gap-2">
-//           <Select value={selectedSubnet} onValueChange={setSelectedSubnet}>
-//             <SelectTrigger className="w-32 bg-input/50 border-border font-code">
-//               <SelectValue placeholder="Subnet" />
-//             </SelectTrigger>
-//             <SelectContent>
-//               <SelectItem value="auto">Auto Detect</SelectItem>
-//               <SelectItem value="192.168.1.0/24">/24 (Fast)</SelectItem>
-//               <SelectItem value="192.168.0.0/20">/20 (Slower)</SelectItem>
-//             </SelectContent>
-//           </Select>
-//           <Button
-//             onClick={handleScanAll}
-//             disabled={isScanningAll}
-//             variant="cyber"
-//             size="sm"
-//             className="font-code"
-//           >
-//             {isScanningAll ? (
-//               <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
-//             ) : (
-//               <Scan className="h-4 w-4 mr-1" />
-//             )}
-//             {isScanningAll ? 'Scanning...' : 'Scan All'}
-//           </Button>
-//           {/* UPDATED: IoT Scan Button - Now scans for vulnerabilities */}
-//           <Button
-//             onClick={handleScanIoTNetwork}
-//             disabled={isScanningAll}
-//             variant="cyber"
-//             size="sm"
-//             className="font-code bg-cyan-600 hover:bg-cyan-700"
-//           >
-//             <Zap className="h-4 w-4 mr-1" />
-//             {isScanningAll ? 'Scanning IoT...' : 'Scan IoT Vulnerabilities'}
-//           </Button>
-//           <Button
-//             onClick={handleStopScan}
-//             variant="outline"
-//             size="sm"
-//             className="font-code"
-//           >
-//             <XCircle className="h-4 w-4 mr-1" />
-//             Stop
-//           </Button>
-//           <Button
-//             onClick={handleClearDevices}
-//             variant="destructive"
-//             size="sm"
-//             className="font-code"
-//           >
-//             <Trash2 className="h-4 w-4 mr-1" />
-//             Clear
-//           </Button>
-//           <Button
-//             onClick={handleExportAll}
-//             variant="outline"
-//             size="sm"
-//             className="font-code"
-//           >
-//             <Download className="h-4 w-4 mr-1" />
-//             Export
-//           </Button>
-//         </div>
-//       </div>
-
-//       {/* Statistics */}
-//       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-primary mb-1">
-//               {totalDevices}
-//             </div>
-//             <div className="text-xs font-code text-muted-foreground">
-//               Total Devices
-//             </div>
-//           </CardContent>
-//         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-success mb-1">
-//               {onlineDevices}
-//             </div>
-//             <div className="text-xs font-code text-muted-foreground">
-//               Online
-//             </div>
-//           </CardContent>
-//         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-destructive mb-1">
-//               {vulnerableDevices}
-//             </div>
-//             <div className="text-xs font-code text-muted-foreground">
-//               Vulnerable Devices
-//             </div>
-//           </CardContent>
-//         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-cyan-500 mb-1">
-//               {iotDevices.length}
-//             </div>
-//             <div className="text-xs font-code text-muted-foreground">
-//               IoT Devices
-//             </div>
-//           </CardContent>
-//         </Card>
-//       </div>
-
-//       {/* Vulnerability Summary */}
-//       {(autoFixableVulnerabilities > 0 || nonFixableVulnerabilities > 0) && (
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//           <CardContent className="p-4">
-//             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-//               <div>
-//                 <h3 className="font-orbitron font-bold text-primary mb-2">
-//                   Vulnerability Summary
-//                 </h3>
-//                 <div className="flex flex-wrap gap-4 text-sm font-code">
-//                   <div className="flex items-center gap-2">
-//                     <ShieldCheck className="h-4 w-4 text-success" />
-//                     <span>Auto-fixable: {autoFixableVulnerabilities}</span>
-//                   </div>
-//                   <div className="flex items-center gap-2">
-//                     <ShieldAlert className="h-4 w-4 text-warning" />
-//                     <span>Non-fixable: {nonFixableVulnerabilities}</span>
-//                   </div>
-//                 </div>
-//               </div>
-//               <Button
-//                 onClick={() => {
-//                   alert(`Available Vulnerability Types:\n\n` +
-//                     `Auto-fixable: 43 vulnerabilities\n` +
-//                     `Non-fixable: 13 vulnerabilities\n\n` +
-//                     `Use scan button to detect vulnerabilities.`);
-//                 }}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <FileText className="h-4 w-4 mr-1" />
-//                 View All Types
-//               </Button>
-//             </div>
-//           </CardContent>
-//         </Card>
-//       )}
-
-//       {/* Filters */}
-//       <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//         <CardContent className="p-4">
-//           <div className="flex flex-col md:flex-row md:items-center gap-3">
-//             <div className="flex-1 relative">
-//               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-//               <Input
-//                 placeholder="Search devices by name, IP, or vendor..."
-//                 value={searchTerm}
-//                 onChange={e => setSearchTerm(e.target.value)}
-//                 className="pl-10 bg-input/50 border-border font-code"
-//               />
-//             </div>
-//             <Select value={filterType} onValueChange={setFilterType}>
-//               <SelectTrigger className="w-36 bg-input/50 border-border font-code">
-//                 <SelectValue placeholder="Device Type" />
-//               </SelectTrigger>
-//               <SelectContent>
-//                 <SelectItem value="all">All Types</SelectItem>
-//                 <SelectItem value="computer">Computer</SelectItem>
-//                 <SelectItem value="mobile">Mobile</SelectItem>
-//                 <SelectItem value="iot">IoT Device</SelectItem>
-//                 <SelectItem value="printer">Printer</SelectItem>
-//                 <SelectItem value="camera">Camera</SelectItem>
-//                 <SelectItem value="tv">TV</SelectItem>
-//                 <SelectItem value="router">Router</SelectItem>
-//                 <SelectItem value="other">Other</SelectItem>
-//               </SelectContent>
-//             </Select>
-//             <Select value={filterStatus} onValueChange={setFilterStatus}>
-//               <SelectTrigger className="w-36 bg-input/50 border-border font-code">
-//                 <SelectValue placeholder="Status" />
-//               </SelectTrigger>
-//               <SelectContent>
-//                 <SelectItem value="all">All Status</SelectItem>
-//                 <SelectItem value="online">Online</SelectItem>
-//                 <SelectItem value="offline">Offline</SelectItem>
-//               </SelectContent>
-//             </Select>
-//           </div>
-//         </CardContent>
-//       </Card>
-
-//       {/* Device List */}
-//       <Card className="neon-border bg-card/80 backdrop-blur-sm">
-//         <CardHeader>
-//           <CardTitle className="font-orbitron text-primary flex items-center">
-//             <Monitor className="h-5 w-5 mr-2" />
-//             Device Inventory ({filteredDevices.length})
-//           </CardTitle>
-//         </CardHeader>
-//         <CardContent>
-//           <div className="space-y-4">
-//             {filteredDevices.map(device => {
-//               const actualType = classifyDeviceType(device);
-//               const DeviceIcon = getDeviceIcon(actualType);
-//               const hasComprehensiveScan = device.comprehensive_vulnerabilities && device.comprehensive_vulnerabilities.length > 0;
-//               const vulnerabilities = device.comprehensive_vulnerabilities || device.vulnerabilities;
-//               const isIoTDevice = actualType === 'iot';
-              
-//               return (
-//                 <div
-//                   key={device.id}
-//                   className={`p-4 rounded-lg border border-border transition-colors ${
-//                     isIoTDevice 
-//                       ? 'bg-cyan-500/10 hover:bg-cyan-500/20 border-cyan-500/30' 
-//                       : 'bg-card/30 hover:bg-card/50'
-//                   }`}
-//                 >
-//                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-//                     <div className="flex items-center space-x-4">
-//                       <DeviceIcon className={`h-7 w-7 ${
-//                         isIoTDevice ? 'text-cyan-500' : 'text-primary'
-//                       }`} />
-//                       <div className="space-y-1">
-//                         <div className="flex flex-wrap items-center gap-2">
-//                           <h3 className="font-semibold text-foreground">
-//                             {device.name}
-//                           </h3>
-//                           <Badge
-//                             variant={
-//                               device.status === 'online'
-//                                 ? 'success'
-//                                 : 'secondary'
-//                             }
-//                             className="font-code text-2xs"
-//                           >
-//                             {device.status.toUpperCase()}
-//                           </Badge>
-//                           <Badge
-//                             variant={getRiskBadge(device.riskLevel)}
-//                             className="font-code text-2xs"
-//                           >
-//                             {device.riskLevel.toUpperCase()} RISK
-//                           </Badge>
-//                           {isIoTDevice && (
-//                             <Badge variant="outline" className="font-code text-2xs bg-cyan-500/20 text-cyan-500 border-cyan-500/50">
-//                               IoT
-//                             </Badge>
-//                           )}
-//                           {hasComprehensiveScan && (
-//                             <Badge variant="success" className="font-code text-2xs">
-//                               COMPREHENSIVE SCAN
-//                             </Badge>
-//                           )}
-//                         </div>
-//                         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-code text-muted-foreground">
-//                           <div>IP: {device.ip}</div>
-//                           <div>MAC: {device.mac}</div>
-//                           <div>Vendor: {device.vendor}</div>
-//                           <div>Last Seen: {device.lastSeen}</div>
-//                         </div>
-//                         {vulnerabilities.length > 0 && (
-//                           <div className="text-xs space-y-1 mt-2">
-//                             {vulnerabilities.slice(0, 2).map((vuln, index) => (
-//                               <div
-//                                 key={vuln.id || index}
-//                                 className="flex items-center space-x-2"
-//                               >
-//                                 <AlertTriangle className="h-3 w-3 text-warning" />
-//                                 <span className="font-code text-warning">
-//                                   {vuln.severity?.toUpperCase() || 'UNKNOWN'}: {vuln.name || vuln.description}
-//                                 </span>
-//                                 {vuln.category && (
-//                                   <Badge 
-//                                     variant={getVulnerabilityBadge(vuln.category)} 
-//                                     className="text-2xs"
-//                                   >
-//                                     {vuln.category}
-//                                   </Badge>
-//                                 )}
-//                               </div>
-//                             ))}
-//                             {vulnerabilities.length > 2 && (
-//                               <div className="text-muted-foreground font-code">
-//                                 +{vulnerabilities.length - 2} more vulnerabilities...
-//                               </div>
-//                             )}
-//                           </div>
-//                         )}
-//                       </div>
-//                     </div>
-//                     <div className="flex flex-wrap gap-2">
-//                       {/* UPDATED: Single Scan Button (replaces Quick/Deep Scan) */}
-//                       <Button
-//                         onClick={() => handleScanDevice(device.id)}
-//                         variant="outline"
-//                         size="xs"
-//                         className="font-code"
-//                         disabled={scanningDevices.has(device.id)}
-//                       >
-//                         {scanningDevices.has(device.id) ? (
-//                           <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-//                         ) : (
-//                           <Scan className="h-3 w-3 mr-1" />
-//                         )}
-//                         Scan
-//                       </Button>
-                      
-//                       {/* Auto-Fix Button - Only show if device has vulnerabilities */}
-//                       {vulnerabilities.length > 0 && (
-//                         <Button
-//                           onClick={() => handleAutoFix(device.id)}
-//                           variant="success"
-//                           size="xs"
-//                           className="font-code"
-//                           disabled={fixingDevices.has(device.id)}
-//                         >
-//                           {fixingDevices.has(device.id) ? (
-//                             <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-//                           ) : (
-//                             <ShieldCheck className="h-3 w-3 mr-1" />
-//                           )}
-//                           Auto-Fix
-//                         </Button>
-//                       )}
-                      
-//                       {/* Info Button */}
-//                       <Button
-//                         onClick={() => handleInfoDevice(device)}
-//                         variant="outline"
-//                         size="xs"
-//                         className="font-code"
-//                       >
-//                         <Info className="h-3 w-3 mr-1" />
-//                         Info
-//                       </Button>
-//                     </div>
-//                   </div>
-//                 </div>
-//               );
-//             })}
-//           </div>
-//         </CardContent>
-//       </Card>
-
-//       {/* Info Modal - Enhanced with Comprehensive Data */}
-//       {showInfoModal && selectedDevice && (
-//         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-//           <div className="bg-card text-foreground rounded-2xl shadow-2xl max-w-4xl w-full p-6 relative border border-border max-h-[90vh] overflow-y-auto">
-//             <button
-//               onClick={() => setShowInfoModal(false)}
-//               className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
-//             >
-//               <X className="h-5 w-5" />
-//             </button>
-
-//             <h2 className="text-xl font-orbitron font-bold mb-4">
-//               Device Info: {selectedDevice.name} ({selectedDevice.ip})
-//             </h2>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-code text-sm mb-4">
-//               <div>
-//                 <span className="font-semibold">IP:</span> {selectedDevice.ip}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">MAC:</span> {selectedDevice.mac}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Vendor:</span> {selectedDevice.vendor}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Type:</span> {selectedDevice.type}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Status:</span> {selectedDevice.status}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Last Seen:</span>{' '}
-//                 {selectedDevice.lastSeen}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Risk:</span>{' '}
-//                 {selectedDevice.riskLevel.toUpperCase()}
-//               </div>
-//               {selectedDevice.last_scanned && (
-//                 <div>
-//                   <span className="font-semibold">Last Scanned:</span>{' '}
-//                   {selectedDevice.last_scanned}
-//                 </div>
-//               )}
-//             </div>
-
-//             {/* Enhanced Vulnerabilities Display */}
-//             {selectedDevice.comprehensive_vulnerabilities && selectedDevice.comprehensive_vulnerabilities.length > 0 ? (
-//               <div className="mt-4">
-//                 <h3 className="text-lg font-orbitron font-bold text-primary mb-2">
-//                   Comprehensive Vulnerabilities ({selectedDevice.comprehensive_vulnerabilities.length})
-//                 </h3>
-//                 <div className="space-y-2 max-h-80 overflow-y-auto">
-//                   {selectedDevice.comprehensive_vulnerabilities.map((vuln, index) => (
-//                     <div
-//                       key={vuln.id || index}
-//                       className="p-3 rounded border border-border bg-card/30 space-y-2"
-//                     >
-//                       <div className="flex items-center justify-between">
-//                         <div className="flex items-center space-x-2">
-//                           <AlertTriangle className={`h-4 w-4 ${
-//                             vuln.severity === 'critical' ? 'text-destructive' :
-//                             vuln.severity === 'high' ? 'text-warning' :
-//                             vuln.severity === 'medium' ? 'text-secondary' : 'text-muted-foreground'
-//                           }`} />
-//                           <span className="font-code text-sm font-semibold">
-//                             {vuln.name || vuln.id} – {vuln.severity?.toUpperCase() || 'UNKNOWN'}
-//                           </span>
-//                         </div>
-//                         {vuln.category && (
-//                           <Badge variant={getVulnerabilityBadge(vuln.category)} className="text-2xs">
-//                             {vuln.category}
-//                           </Badge>
-//                         )}
-//                       </div>
-//                       <div className="font-code text-xs text-muted-foreground">
-//                         {vuln.description}
-//                       </div>
-//                       {vuln.fix_method && (
-//                         <div className="font-code text-xs">
-//                           <span className="font-semibold">Fix:</span> {vuln.fix_method}
-//                         </div>
-//                       )}
-//                       {vuln.fix_commands && (
-//                         <div className="font-code text-xs">
-//                           <span className="font-semibold">Commands:</span> {vuln.fix_commands}
-//                         </div>
-//                       )}
-//                       {vuln.potential_harm && (
-//                         <div className="font-code text-xs text-destructive">
-//                           <span className="font-semibold">Risk:</span> {vuln.potential_harm}
-//                         </div>
-//                       )}
-//                       {vuln.status && (
-//                         <div className="font-code text-xs">
-//                           <span className="font-semibold">Status:</span> {vuln.status}
-//                         </div>
-//                       )}
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             ) : selectedDevice.vulnerabilities && selectedDevice.vulnerabilities.length > 0 ? (
-//               <div className="mt-4">
-//                 <h3 className="text-lg font-orbitron font-bold text-destructive mb-2">
-//                   Basic Vulnerabilities
-//                 </h3>
-//                 <div className="space-y-2 max-h-60 overflow-y-auto">
-//                   {selectedDevice.vulnerabilities.map(vuln => (
-//                     <div
-//                       key={vuln.id}
-//                       className="p-3 rounded border border-border bg-card/30 space-y-1"
-//                     >
-//                       <div className="flex items-center space-x-2">
-//                         <AlertTriangle className="h-4 w-4 text-warning" />
-//                         <span className="font-code text-sm text-warning">
-//                           {vuln.id} – {vuln.severity.toUpperCase()}
-//                         </span>
-//                       </div>
-//                       <div className="font-code text-xs text-muted-foreground">
-//                         {vuln.description}
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             ) : (
-//               <p className="mt-4 text-sm font-code text-success">
-//                 No vulnerabilities detected.
-//               </p>
-//             )}
-
-//             <div className="flex justify-end gap-2 mt-6">
-//               <Button
-//                 onClick={() => handleGetVulnerabilityReport(selectedDevice.id)}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <FileText className="h-4 w-4 mr-1" /> Get Report
-//               </Button>
-//               <Button
-//                 onClick={async () => {
-//                   toast.info('Exporting device report...');
-//                   try {
-//                     const resp = await fetch(
-//                       `http://localhost:5000/api/dp/devices/${selectedDevice.id}/export-pdf`
-//                     );
-//                     const blob = await resp.blob();
-//                     const url = window.URL.createObjectURL(blob);
-//                     const a = document.createElement('a');
-//                     a.href = url;
-//                     a.download = `${selectedDevice.id}_report.pdf`;
-//                     a.click();
-//                     window.URL.revokeObjectURL(url);
-//                     toast.success('Device report downloaded');
-//                   } catch {
-//                     toast.error('Export failed');
-//                   }
-//                 }}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <Download className="h-4 w-4 mr-1" /> Export PDF
-//               </Button>
-//               <Button
-//                 onClick={() => setShowInfoModal(false)}
-//                 variant="destructive"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 Close
-//               </Button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useState, useEffect } from 'react';
-// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Button } from '@/components/ui/button';
-// import { Badge } from '@/components/ui/badge';
-// import { Input } from '@/components/ui/input';
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue
-// } from '@/components/ui/select';
-// import {
-//   Monitor,
-//   Smartphone,
-//   Printer,
-//   Camera,
-//   Tv,
-//   Laptop,
-//   AlertTriangle,
-//   Scan,
-//   Download,
-//   RefreshCw,
-//   Search,
-//   Zap,
-//   XCircle,
 //   Trash2,
 //   Info,
 //   X,
@@ -1088,10 +43,17 @@
 //   Wrench,
 //   CheckCircle,
 //   XOctagon,
-//   Clock
+//   Clock,
+//   Play,
+//   Square,
+//   Loader2,
+//   AlertCircle,
+//   Settings,
+//   Network
 // } from 'lucide-react';
 // import { toast } from 'sonner';
 
+// // Enhanced Type Definitions
 // interface Vulnerability {
 //   id: string;
 //   description: string;
@@ -1099,14 +61,17 @@
 //   mitigation?: string;
 //   vulnerability_number?: number;
 //   name?: string;
-//   category?: 'auto-fixable' | 'non-fixable';
+//   category?: 'auto-fixable' | 'manual' | 'non-fixable';
 //   fix_method?: string;
-//   fix_commands?: string;
-//   manual_steps?: string;
+//   fix_commands?: string[];
+//   manual_steps?: string[];
 //   potential_harm?: string;
 //   status?: 'found' | 'fixed' | 'fix_failed' | 'in_progress';
 //   detected_at?: string;
 //   fixed_at?: string;
+//   cve_id?: string;
+//   port?: number;
+//   service?: string;
 // }
 
 // interface Device {
@@ -1124,6 +89,37 @@
 //   comprehensive_vulnerabilities?: Vulnerability[];
 //   last_scanned?: string;
 //   fix_results?: any;
+//   os?: string;
+//   open_ports?: number[];
+//   services?: string[];
+//   hostname?: string;
+// }
+
+// interface ScanProgress {
+//   deviceId: string;
+//   progress: number;
+//   status: 'scanning' | 'vulnerability_scan' | 'completed' | 'failed';
+//   current_task?: string;
+// }
+
+// interface ScanStatus {
+//   [key: string]: {
+//     progress: number;
+//     status: string;
+//     current_task: string;
+//     started_at: string;
+//     type: string;
+//   };
+// }
+
+// interface FixStatus {
+//   [key: string]: boolean;
+// }
+
+// // WebSocket event types
+// interface SocketEvent {
+//   type: string;
+//   data: any;
 // }
 
 // export default function DevicesPanel() {
@@ -1136,48 +132,197 @@
 //   const [scanningDevices, setScanningDevices] = useState<Set<string>>(new Set());
 //   const [fixingDevices, setFixingDevices] = useState<Set<string>>(new Set());
 //   const [fixingVulnerabilities, setFixingVulnerabilities] = useState<Set<string>>(new Set());
-
+//   const [scanProgress, setScanProgress] = useState<ScanStatus>({});
+//   const [fixProgress, setFixProgress] = useState<FixStatus>({});
+  
 //   const [showInfoModal, setShowInfoModal] = useState(false);
 //   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
-//   const [vulnerabilityDefinitions, setVulnerabilityDefinitions] = useState<any>({});
+//   const [socket, setSocket] = useState<WebSocket | null>(null);
+//   const [isConnected, setIsConnected] = useState(false);
 
-//   // Fetch vulnerability definitions on component mount
+//   // WebSocket connection for real-time updates
 //   useEffect(() => {
-//     fetchVulnerabilityDefinitions();
+//     const ws = new WebSocket('ws://localhost:5000');
+    
+//     ws.onopen = () => {
+//       console.log('✅ WebSocket connected');
+//       setIsConnected(true);
+//     };
+    
+//     ws.onmessage = (event) => {
+//       try {
+//         const data: SocketEvent = JSON.parse(event.data);
+//         handleSocketEvent(data);
+//       } catch (error) {
+//         console.error('WebSocket message error:', error);
+//       }
+//     };
+    
+//     ws.onclose = () => {
+//       console.log('❌ WebSocket disconnected');
+//       setIsConnected(false);
+//     };
+    
+//     ws.onerror = (error) => {
+//       console.error('WebSocket error:', error);
+//       setIsConnected(false);
+//     };
+    
+//     setSocket(ws);
+    
+//     return () => {
+//       ws.close();
+//     };
 //   }, []);
 
-//   const fetchVulnerabilityDefinitions = async () => {
+//   // Handle real-time WebSocket events
+//   const handleSocketEvent = useCallback((event: SocketEvent) => {
+//     switch (event.type) {
+//       case 'device_scan_started':
+//         toast.info(`Scan started for ${event.data.device_id}`);
+//         setScanningDevices(prev => new Set(prev).add(event.data.device_id));
+//         break;
+        
+//       case 'device_scan_progress':
+//         setScanProgress(prev => ({
+//           ...prev,
+//           [event.data.device_id]: {
+//             progress: event.data.progress,
+//             status: event.data.status,
+//             current_task: event.data.current_task,
+//             started_at: new Date().toISOString(),
+//             type: 'device_scan'
+//           }
+//         }));
+//         break;
+        
+//       case 'device_scan_completed':
+//         toast.success(`Scan completed for ${event.data.device_id}: ${event.data.vulnerabilities_found} vulnerabilities found`);
+//         setScanningDevices(prev => {
+//           const newSet = new Set(prev);
+//           newSet.delete(event.data.device_id);
+//           return newSet;
+//         });
+//         setScanProgress(prev => {
+//           const newProgress = { ...prev };
+//           delete newProgress[event.data.device_id];
+//           return newProgress;
+//         });
+//         // Refresh devices to get updated vulnerabilities
+//         fetchDevices();
+//         break;
+        
+//       case 'device_scan_failed':
+//         toast.error(`Scan failed for ${event.data.device_id}: ${event.data.message}`);
+//         setScanningDevices(prev => {
+//           const newSet = new Set(prev);
+//           newSet.delete(event.data.device_id);
+//           return newSet;
+//         });
+//         break;
+        
+//       case 'deep_scan_started':
+//         toast.info('Deep IoT vulnerability scan started');
+//         setIsScanningAll(true);
+//         break;
+        
+//       case 'deep_scan_progress':
+//         setScanProgress(prev => ({
+//           ...prev,
+//           'deep_iot_scan': {
+//             progress: event.data.progress,
+//             status: 'scanning',
+//             current_task: `Scanning ${event.data.current_device} (${event.data.devices_scanned}/${event.data.total_devices})`,
+//             started_at: new Date().toISOString(),
+//             type: 'iot_scan'
+//           }
+//         }));
+//         break;
+        
+//       case 'deep_scan_completed':
+//         toast.success(`Deep IoT scan completed: ${event.data.total_vulnerabilities_found} vulnerabilities found across ${event.data.total_devices_scanned} devices`);
+//         setIsScanningAll(false);
+//         setScanProgress(prev => {
+//           const newProgress = { ...prev };
+//           delete newProgress['deep_iot_scan'];
+//           return newProgress;
+//         });
+//         fetchDevices();
+//         break;
+        
+//       case 'vulnerability_fix_attempt':
+//         if (event.data.status === 'success') {
+//           toast.success(`Vulnerability fixed: ${event.data.message}`);
+//         } else {
+//           toast.error(`Fix failed: ${event.data.message}`);
+//         }
+//         setFixingVulnerabilities(prev => {
+//           const newSet = new Set(prev);
+//           newSet.delete(event.data.vulnerability_id);
+//           return newSet;
+//         });
+//         // Refresh to get updated status
+//         setTimeout(() => fetchDevices(), 1000);
+//         break;
+        
+//       case 'all_scans_stopped':
+//         toast.info(`All scans stopped: ${event.data.stopped_scans} scans terminated`);
+//         setIsScanningAll(false);
+//         setScanningDevices(new Set());
+//         setScanProgress({});
+//         break;
+        
+//       default:
+//         console.log('Unhandled WebSocket event:', event);
+//     }
+//   }, []);
+
+//   // Real-time updates via polling (fallback)
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       fetchDevices();
+//       fetchScanStatus();
+//     }, 10000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   // Fetch devices from backend
+//   const fetchDevices = async (): Promise<void> => {
 //     try {
-//       const res = await fetch('http://localhost:5000/api/dp/devices/vulnerability-definitions');
-//       const data = await res.json();
-//       setVulnerabilityDefinitions(data.vulnerability_definitions || {});
+//       const response = await fetch('http://localhost:5000/api/dp/devices/scan-network');
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const data = await response.json();
+//       setDevices(data.devices || data.data || []);
 //     } catch (err) {
-//       console.error('Failed to fetch vulnerability definitions:', err);
+//       console.error('Failed to fetch devices:', err);
+//       toast.error('Failed to fetch devices');
 //     }
 //   };
 
-//   const normalizeDevices = (data: any) => {
-//     if (Array.isArray(data)) return data;
-//     if (data && Array.isArray(data.devices)) return data.devices;
-//     return [];
+//   // Fetch scan status
+//   const fetchScanStatus = async (): Promise<void> => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/dp/devices/scan-status');
+//       if (response.ok) {
+//         const data = await response.json();
+//         setScanProgress(data.active_scans || {});
+//       }
+//     } catch (err) {
+//       console.error('Failed to fetch scan status:', err);
+//     }
 //   };
 
+//   // Device classification
 //   const classifyDeviceType = (device: Device): string => {
 //     if (device.type && device.type !== 'unknown') return device.type;
+    
 //     const vendorLower = (device.vendor || '').toLowerCase();
 //     const nameLower = (device.name || '').toLowerCase();
-//     if (
-//       vendorLower.includes('samsung') ||
-//       vendorLower.includes('apple') ||
-//       vendorLower.includes('xiaomi') ||
-//       vendorLower.includes('oneplus') ||
-//       vendorLower.includes('vivo') ||
-//       vendorLower.includes('oppo') ||
-//       nameLower.includes('phone') ||
-//       nameLower.includes('android')
-//     ) {
-//       return 'mobile';
-//     }
+//     const osLower = (device.os || '').toLowerCase();
+
+//     // IoT devices
 //     if (
 //       vendorLower.includes('hue') ||
 //       vendorLower.includes('philips') ||
@@ -1185,239 +330,128 @@
 //       vendorLower.includes('nest') ||
 //       vendorLower.includes('tplink') ||
 //       vendorLower.includes('tp-link') ||
+//       vendorLower.includes('smart') ||
+//       vendorLower.includes('iot') ||
 //       nameLower.includes('iot') ||
-//       nameLower.includes('sensor')
+//       nameLower.includes('sensor') ||
+//       nameLower.includes('smart') ||
+//       (nameLower.includes('camera') && !nameLower.includes('webcam'))
 //     ) {
 //       return 'iot';
 //     }
+
+//     // Network equipment
+//     if (
+//       vendorLower.includes('cisco') ||
+//       vendorLower.includes('netgear') ||
+//       vendorLower.includes('d-link') ||
+//       vendorLower.includes('linksys') ||
+//       vendorLower.includes('tenda') ||
+//       nameLower.includes('router') ||
+//       nameLower.includes('switch') ||
+//       nameLower.includes('access point')
+//     ) {
+//       return 'router';
+//     }
+
+//     // Computers
+//     if (
+//       osLower.includes('windows') ||
+//       osLower.includes('linux') ||
+//       osLower.includes('mac') ||
+//       nameLower.includes('pc') ||
+//       nameLower.includes('laptop') ||
+//       nameLower.includes('desktop') ||
+//       nameLower.includes('computer')
+//     ) {
+//       return 'computer';
+//     }
+
 //     return 'other';
 //   };
 
-//   const fetchDevices = async () => {
+//   // Device discovery scan
+//   const handleScanAll = async (): Promise<void> => {
+//     setIsScanningAll(true);
+//     toast.info('Starting network device discovery...');
+    
 //     try {
 //       let url = 'http://localhost:5000/api/dp/devices/scan-network';
 //       if (selectedSubnet && selectedSubnet !== 'auto') {
 //         url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
 //       }
-//       const res = await fetch(url);
-//       const data = await res.json();
-//       setDevices(normalizeDevices(data));
-//     } catch (err) {
-//       console.error(err);
-//       toast.error('Failed to fetch devices');
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchDevices();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   const getDeviceIcon = (type: string) => {
-//     switch (type) {
-//       case 'computer':
-//         return Laptop;
-//       case 'mobile':
-//         return Smartphone;
-//       case 'printer':
-//         return Printer;
-//       case 'camera':
-//         return Camera;
-//       case 'tv':
-//         return Tv;
-//       case 'router':
-//         return Monitor;
-//       case 'iot':
-//         return Zap;
-//       default:
-//         return Monitor;
-//     }
-//   };
-
-//   const getRiskBadge = (risk: string) => {
-//     switch (risk) {
-//       case 'critical':
-//         return 'destructive';
-//       case 'high':
-//         return 'warning';
-//       case 'medium':
-//         return 'secondary';
-//       case 'low':
-//         return 'success';
-//       default:
-//         return 'outline';
-//     }
-//   };
-
-//   const getVulnerabilityBadge = (category: string) => {
-//     switch (category) {
-//       case 'auto-fixable':
-//         return 'success';
-//       case 'non-fixable':
-//         return 'secondary';
-//       default:
-//         return 'outline';
-//     }
-//   };
-
-//   const getStatusIcon = (status: string) => {
-//     switch (status) {
-//       case 'fixed':
-//         return <CheckCircle className="h-3 w-3 text-success" />;
-//       case 'fix_failed':
-//         return <XOctagon className="h-3 w-3 text-destructive" />;
-//       case 'in_progress':
-//         return <Clock className="h-3 w-3 text-warning animate-pulse" />;
-//       default:
-//         return <AlertTriangle className="h-3 w-3 text-warning" />;
-//     }
-//   };
-
-//   const filteredDevices = devices.filter(device => {
-//     const actualType = classifyDeviceType(device);
-//     const matchesSearch =
-//       device.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       device.ip.includes(searchTerm) ||
-//       device.vendor.toLowerCase().includes(searchTerm.toLowerCase());
-//     const matchesType = filterType === 'all' || actualType === filterType;
-//     const matchesStatus =
-//       filterStatus === 'all' ||
-//       (filterStatus === 'online' && device.status === 'online') ||
-//       (filterStatus === 'offline' && device.status === 'offline');
-//     return matchesSearch && matchesType && matchesStatus;
-//   });
-
-//   // NEW: Individual Vulnerability Fixing
-//   const handleFixVulnerability = async (vulnerabilityId: string, deviceId: string) => {
-//     setFixingVulnerabilities(prev => new Set(prev).add(vulnerabilityId));
-//     toast.info('Attempting to fix vulnerability...');
-    
-//     try {
-//       const response = await fetch(`http://localhost:5000/api/vulnerabilities/${vulnerabilityId}/fix`, {
-//         method: 'POST'
-//       });
-//       const result = await response.json();
       
-//       if (result.status === 'success') {
-//         toast.success('Vulnerability fixed successfully!');
-//         // Refresh devices to show updated status
-//         fetchDevices();
-//       } else if (result.status === 'non_fixable') {
-//         toast.warning('This vulnerability cannot be auto-fixed', {
-//           description: result.message,
-//           duration: 5000
-//         });
-//         // Show manual steps in alert
-//         if (result.manual_steps) {
-//           alert(`Manual Fix Required:\n\n${result.manual_steps}`);
-//         }
-//       } else {
-//         toast.error(`Fix failed: ${result.message}`);
-//       }
-//     } catch (err) {
-//       toast.error('Failed to fix vulnerability');
-//     } finally {
-//       setFixingVulnerabilities(prev => {
-//         const newSet = new Set(prev);
-//         newSet.delete(vulnerabilityId);
-//         return newSet;
-//       });
-//     }
-//   };
-
-//   // NEW: Batch Fix Vulnerabilities
-//   const handleBatchFix = async (deviceId: string, vulnerabilityIds: string[]) => {
-//     setFixingDevices(prev => new Set(prev).add(deviceId));
-//     toast.info(`Fixing ${vulnerabilityIds.length} vulnerabilities...`);
-    
-//     try {
-//       const response = await fetch(`http://localhost:5000/api/devices/${deviceId}/vulnerabilities/fix-multiple`, {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ vulnerability_ids: vulnerabilityIds })
-//       });
-//       const result = await response.json();
+//       const response = await fetch(url);
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
-//       if (result.status === 'success') {
-//         const data = result.data;
-//         toast.success(`Batch fix completed: ${data.successful_fixes} successful, ${data.failed_fixes} failed`);
-//         fetchDevices();
-//       } else {
-//         toast.error('Batch fix failed');
-//       }
+//       const data = await response.json();
+//       setDevices(data.devices || data.data || []);
+//       toast.success(`Found ${data.devices?.length || data.data?.length || 0} devices`);
 //     } catch (err) {
-//       toast.error('Batch fix failed');
-//     } finally {
-//       setFixingDevices(prev => {
-//         const newSet = new Set(prev);
-//         newSet.delete(deviceId);
-//         return newSet;
-//       });
-//     }
-//   };
-
-//   // Bulk IoT Vulnerability Scanning
-//   const handleScanIoTNetwork = async () => {
-//     setIsScanningAll(true);
-//     toast.info('Scanning all IoT devices for vulnerabilities...');
-//     try {
-//       const response = await fetch('http://localhost:5000/api/iot/scan-all', {
-//         method: 'POST'
-//       });
-//       const result = await response.json();
-      
-//       if (result.status === 'success') {
-//         const data = result.data;
-//         toast.success(`Scanned ${data.total_devices_scanned} IoT devices, found ${data.total_vulnerabilities_found} vulnerabilities across ${data.affected_devices} devices`);
-        
-//         // FORCE REFRESH - wait a bit then fetch devices again
-//         setTimeout(() => {
-//           fetchDevices();
-//         }, 1000);
-        
-//       } else {
-//         toast.error('IoT vulnerability scan failed');
-//       }
-//     } catch (err) {
-//       toast.error('IoT vulnerability scan failed');
+//       toast.error('Network scan failed');
+//       console.error('Scan error:', err);
 //     } finally {
 //       setIsScanningAll(false);
 //     }
 //   };
 
-//   // Single device scan
-//   const handleScanDevice = async (deviceId: string) => {
-//     setScanningDevices(prev => new Set(prev).add(deviceId));
-//     toast.info('Scanning device for vulnerabilities...');
+//   // Deep IoT vulnerability scan
+//   const handleScanIoTNetwork = async (): Promise<void> => {
+//     setIsScanningAll(true);
+//     toast.info('Starting comprehensive IoT vulnerability scan...');
     
 //     try {
-//       const device = devices.find(d => d.id === deviceId);
-//       const isIoTDevice = device && classifyDeviceType(device) === 'iot';
-      
-//       if (isIoTDevice) {
-//         const response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/scan`, {
-//           method: 'POST'
-//         });
-//         const result = await response.json();
-        
-//         if (result.status === 'success') {
-//           toast.success(`Vulnerability scan completed for ${device?.name}`);
-//           fetchDevices();
-//         } else {
-//           toast.error('Device scan failed');
+//       const response = await fetch('http://localhost:5000/api/dp/devices/iot/scan-all', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
 //         }
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const data = await response.json();
+      
+//       if (data.status === 'success') {
+//         toast.success('IoT vulnerability scan started successfully');
 //       } else {
-//         await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/scan`, { 
-//           method: 'POST' 
-//         });
-//         toast.success('Device vulnerability scan complete');
-//         fetchDevices();
+//         toast.error(`IoT scan failed: ${data.message}`);
 //       }
 //     } catch (err) {
-//       toast.error('Scan failed');
-//     } finally {
+//       toast.error('Failed to start IoT vulnerability scan');
+//       console.error('IoT scan error:', err);
+//     }
+//   };
+
+//   // Individual device vulnerability scan
+//   const handleScanDevice = async (deviceId: string): Promise<void> => {
+//     setScanningDevices(prev => new Set(prev).add(deviceId));
+    
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/scan`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const data = await response.json();
+      
+//       if (data.status === 'success') {
+//         toast.success(`Vulnerability scan started for device`);
+//       } else {
+//         toast.error(`Device scan failed: ${data.message}`);
+//         setScanningDevices(prev => {
+//           const newSet = new Set(prev);
+//           newSet.delete(deviceId);
+//           return newSet;
+//         });
+//       }
+//     } catch (err) {
+//       toast.error('Failed to scan device');
+//       console.error('Device scan error:', err);
 //       setScanningDevices(prev => {
 //         const newSet = new Set(prev);
 //         newSet.delete(deviceId);
@@ -1426,29 +460,105 @@
 //     }
 //   };
 
-//   // Auto-Fix All Vulnerabilities on Device
-//   const handleAutoFix = async (deviceId: string) => {
-//     setFixingDevices(prev => new Set(prev).add(deviceId));
-//     toast.info('Attempting to auto-fix all vulnerabilities...');
+//   // Stop all scans
+//   const handleStopScan = async (): Promise<void> => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/dp/devices/stop-scan', {
+//         method: 'POST'
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const data = await response.json();
+//       toast.success(data.message || 'All scans stopped successfully');
+      
+//       // Update local state
+//       setIsScanningAll(false);
+//       setScanningDevices(new Set());
+//       setScanProgress({});
+//     } catch (err) {
+//       toast.error('Failed to stop scans');
+//       console.error('Stop scan error:', err);
+//     }
+//   };
+
+//   // Fix individual vulnerability
+//   const handleFixVulnerability = async (vulnerabilityId: string, deviceId: string): Promise<void> => {
+//     setFixingVulnerabilities(prev => new Set(prev).add(vulnerabilityId));
     
 //     try {
-//       const response = await fetch(
-//         `http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`,
-//         { method: 'POST' }
-//       );
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/vulnerabilities/${vulnerabilityId}/fix`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           device_id: deviceId
+//         })
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
 //       const result = await response.json();
       
 //       if (result.status === 'success') {
-//         const summary = result.fix_summary;
-//         toast.success(
-//           `Fixed: ${summary.successful_fixes} | Failed: ${summary.failed_fixes} | Non-fixable: ${summary.non_fixable}`
-//         );
-//         fetchDevices();
+//         toast.success('Vulnerability fix initiated successfully');
+//       } else if (result.status === 'non_fixable') {
+//         toast.warning('This vulnerability requires manual intervention', {
+//           description: result.message,
+//           duration: 8000
+//         });
+        
+//         if (result.manual_steps) {
+//           const steps = Array.isArray(result.manual_steps) 
+//             ? result.manual_steps.join('\n\n• ')
+//             : result.manual_steps;
+          
+//           // Show manual steps in a modal or alert
+//           alert(`🔧 Manual Fix Required\n\n${result.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
+//         }
 //       } else {
-//         toast.error('Auto-fix failed');
+//         toast.error(`Fix failed: ${result.message || 'Unknown error'}`);
 //       }
 //     } catch (err) {
-//       toast.error('Auto-fix failed');
+//       toast.error('Failed to fix vulnerability');
+//       console.error('Fix vulnerability error:', err);
+//     } finally {
+//       // Don't remove from fixing state immediately - wait for WebSocket event
+//     }
+//   };
+
+//   // Batch fix all auto-fixable vulnerabilities on a device
+//   const handleBatchFix = async (deviceId: string, vulnerabilityIds: string[]): Promise<void> => {
+//     setFixingDevices(prev => new Set(prev).add(deviceId));
+    
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/devices/${deviceId}/vulnerabilities/fix-multiple`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ 
+//           vulnerability_ids: vulnerabilityIds,
+//           auto_fix_only: true
+//         })
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const result = await response.json();
+      
+//       if (result.status === 'success') {
+//         toast.success(`Batch fix completed: ${result.data?.successful_fixes || 0} successful, ${result.data?.failed_fixes || 0} failed`);
+        
+//         // Refresh devices to get updated status
+//         setTimeout(() => fetchDevices(), 2000);
+//       } else {
+//         toast.error(`Batch fix failed: ${result.message || 'Unknown error'}`);
+//       }
+//     } catch (err) {
+//       toast.error('Failed to execute batch fix');
+//       console.error('Batch fix error:', err);
 //     } finally {
 //       setFixingDevices(prev => {
 //         const newSet = new Set(prev);
@@ -1458,170 +568,341 @@
 //     }
 //   };
 
-//   // Get Vulnerability Report
-//   const handleGetVulnerabilityReport = async (deviceId: string) => {
+//   // Auto-fix all vulnerabilities on device
+//   const handleAutoFix = async (deviceId: string): Promise<void> => {
+//     setFixingDevices(prev => new Set(prev).add(deviceId));
+    
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const result = await response.json();
+      
+//       if (result.status === 'success') {
+//         const summary = result.fix_summary;
+//         toast.success(
+//           `Auto-fix completed: ${summary.successful_fixes} fixed, ${summary.failed_fixes} failed, ${summary.non_fixable} non-fixable`
+//         );
+        
+//         // Refresh devices
+//         setTimeout(() => fetchDevices(), 2000);
+//       } else {
+//         toast.error(`Auto-fix failed: ${result.message || 'Unknown error'}`);
+//       }
+//     } catch (err) {
+//       toast.error('Failed to execute auto-fix');
+//       console.error('Auto-fix error:', err);
+//     } finally {
+//       setFixingDevices(prev => {
+//         const newSet = new Set(prev);
+//         newSet.delete(deviceId);
+//         return newSet;
+//       });
+//     }
+//   };
+
+//   // Get device info for modal
+//   const handleInfoDevice = async (device: Device): Promise<void> => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/${device.id}/info`);
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const info = await response.json();
+//       setSelectedDevice(info);
+//       setShowInfoModal(true);
+//     } catch (err) {
+//       toast.error('Failed to fetch device details');
+//       console.error('Device info error:', err);
+//     }
+//   };
+
+//   // Generate vulnerability report
+//   const handleGetVulnerabilityReport = async (deviceId: string): Promise<void> => {
 //     try {
 //       const device = devices.find(d => d.id === deviceId);
-//       const isIoTDevice = device && classifyDeviceType(device) === 'iot';
+//       toast.info('Generating comprehensive vulnerability report...');
       
-//       let response;
-//       if (isIoTDevice) {
-//         response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/report`);
-//       } else {
-//         response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/vulnerability-report`);
-//       }
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/vulnerability-report`);
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
 //       const report = await response.json();
       
 //       if (report.status === 'success') {
-//         const reportData = isIoTDevice ? report.report : report;
+//         let reportText = `=== COMPREHENSIVE VULNERABILITY REPORT ===\n\n`;
+//         reportText += `Device: ${report.device_name}\n`;
+//         reportText += `IP: ${report.ip_address}\n`;
+//         reportText += `MAC: ${report.mac_address}\n`;
+//         reportText += `Type: ${report.device_type}\n`;
+//         reportText += `Vendor: ${report.vendor}\n`;
+//         reportText += `Risk Level: ${report.risk_level.toUpperCase()}\n`;
+//         reportText += `Scan Date: ${report.scan_date}\n`;
+//         reportText += `Total Vulnerabilities: ${report.total_vulnerabilities}\n\n`;
         
-//         let reportText = `Vulnerability Report for ${reportData.device_info?.device_name || device?.name}:\n\n`;
-//         reportText += `IP: ${reportData.device_info?.ip_address || device?.ip}\n`;
-//         reportText += `Total Vulnerabilities: ${reportData.vulnerabilities?.length || reportData.total_vulnerabilities || 0}\n\n`;
+//         reportText += "VULNERABILITY SUMMARY:\n";
+//         reportText += "=".repeat(50) + "\n";
+//         reportText += `Auto-fixable: ${report.auto_fixable}\n`;
+//         reportText += `Manual: ${report.manual}\n`;
+//         reportText += `Non-fixable: ${report.non_fixable}\n`;
+//         reportText += `Already Fixed: ${report.fixed}\n\n`;
         
-//         if (reportData.vulnerabilities && reportData.vulnerabilities.length > 0) {
-//           reportText += "Vulnerabilities Found:\n";
-//           reportData.vulnerabilities.forEach((vuln: any, index: number) => {
-//             reportText += `\n${index + 1}. ${vuln.name} (${vuln.severity})\n`;
-//             reportText += `   Category: ${vuln.category}\n`;
+//         reportText += "SEVERITY BREAKDOWN:\n";
+//         reportText += "=".repeat(50) + "\n";
+//         reportText += `Critical: ${report.by_severity.critical}\n`;
+//         reportText += `High: ${report.by_severity.high}\n`;
+//         reportText += `Medium: ${report.by_severity.medium}\n`;
+//         reportText += `Low: ${report.by_severity.low}\n\n`;
+        
+//         if (report.vulnerabilities && report.vulnerabilities.length > 0) {
+//           reportText += "DETAILED VULNERABILITIES:\n";
+//           reportText += "=".repeat(50) + "\n";
+          
+//           report.vulnerabilities.forEach((vuln: Vulnerability, index: number) => {
+//             reportText += `\n${index + 1}. ${vuln.name || vuln.id}\n`;
+//             reportText += `   Severity: ${vuln.severity?.toUpperCase()}\n`;
+//             reportText += `   Category: ${vuln.category || 'unknown'}\n`;
 //             reportText += `   Status: ${vuln.status || 'found'}\n`;
-//             reportText += `   Fix: ${vuln.fix_method}\n`;
-//             if (vuln.fix_commands) {
-//               reportText += `   Commands: ${vuln.fix_commands}\n`;
+//             reportText += `   Description: ${vuln.description}\n`;
+            
+//             if (vuln.fix_method) {
+//               reportText += `   Fix Method: ${vuln.fix_method}\n`;
 //             }
+            
+//             if (vuln.manual_steps && Array.isArray(vuln.manual_steps)) {
+//               reportText += `   Manual Steps:\n`;
+//               vuln.manual_steps.forEach((step: string, stepIndex: number) => {
+//                 reportText += `     ${stepIndex + 1}. ${step}\n`;
+//               });
+//             }
+            
 //             if (vuln.potential_harm) {
-//               reportText += `   Risk: ${vuln.potential_harm}\n`;
+//               reportText += `   Potential Harm: ${vuln.potential_harm}\n`;
 //             }
+            
+//             if (vuln.port) {
+//               reportText += `   Affected Port: ${vuln.port}\n`;
+//             }
+            
+//             reportText += `   Detected: ${vuln.detected_at || 'Unknown'}\n`;
+//             if (vuln.fixed_at) {
+//               reportText += `   Fixed: ${vuln.fixed_at}\n`;
+//             }
+//             reportText += "-".repeat(40) + "\n";
 //           });
+//         } else {
+//           reportText += "No vulnerabilities found. Device appears to be secure.\n";
 //         }
         
-//         alert(reportText);
-//         toast.success('Vulnerability report generated');
+//         // Create downloadable report
+//         const blob = new Blob([reportText], { type: 'text/plain' });
+//         const url = window.URL.createObjectURL(blob);
+//         const a = document.createElement('a');
+//         a.href = url;
+//         a.download = `vulnerability-report-${report.device_name}-${new Date().toISOString().split('T')[0]}.txt`;
+//         a.click();
+//         window.URL.revokeObjectURL(url);
+        
+//         toast.success('Vulnerability report downloaded');
 //       } else {
-//         toast.error('Failed to generate report');
+//         toast.error('Failed to generate vulnerability report');
 //       }
 //     } catch (err) {
 //       toast.error('Failed to get vulnerability report');
+//       console.error('Report generation error:', err);
 //     }
 //   };
 
-//   // Existing functions
-//   const handleScanAll = async () => {
-//     setIsScanningAll(true);
-//     toast.info('Scanning all devices...');
+//   // Export PDF report
+//   const handleExportPDF = async (deviceId: string): Promise<void> => {
 //     try {
-//       let url = 'http://localhost:5000/api/dp/devices/scan-network';
-//       if (selectedSubnet && selectedSubnet !== 'auto') {
-//         url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
-//       }
-//       const res = await fetch(url);
-//       const data = await res.json();
-//       setDevices(normalizeDevices(data));
-//       toast.success('All devices scanned');
-//     } catch (err) {
-//       toast.error('Scan failed');
-//     } finally {
-//       setIsScanningAll(false);
-//     }
-//   };
-
-//   const handleStopScan = async () => {
-//     try {
-//       await fetch('http://localhost:5000/api/dp/devices/stop-scan', {
-//         method: 'POST'
-//       });
-//       toast.success('Scan stopped');
-//     } catch {
-//       toast.success('Scan stopped');
-//     } finally {
-//       setIsScanningAll(false);
-//     }
-//   };
-
-//   const handleClearDevices = async () => {
-//     try {
-//       await fetch('http://localhost:5000/api/dp/devices/clear', {
-//         method: 'POST'
-//       });
-//     } catch {
-//       console.warn('Backend clear failed, clearing UI anyway');
-//     }
-//     setDevices([]);
-//     toast.success('Devices cleared');
-//   };
-
-//   const handleInfoDevice = async (device: Device) => {
-//     try {
-//       const res = await fetch(
-//         `http://localhost:5000/api/dp/devices/${device.id}/info`
-//       );
-//       const info = await res.json();
-//       setSelectedDevice(info);
-//       setShowInfoModal(true);
-//     } catch (err) {
-//       toast.error('Failed to fetch device info');
-//     }
-//   };
-
-//   const handleExportAll = async () => {
-//     toast.info('Exporting all devices report...');
-//     try {
-//       const res = await fetch(
-//         'http://localhost:5000/api/dp/devices/export-all'
-//       );
-//       const blob = await res.blob();
+//       toast.info('Generating PDF report...');
+      
+//       const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/export-pdf`);
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const blob = await response.blob();
 //       const url = window.URL.createObjectURL(blob);
 //       const a = document.createElement('a');
 //       a.href = url;
-//       a.download = 'all_devices_report.pdf';
+//       a.download = `device-security-report-${deviceId}-${new Date().toISOString().split('T')[0]}.pdf`;
 //       a.click();
-//       toast.success('Report downloaded');
+//       window.URL.revokeObjectURL(url);
+      
+//       toast.success('PDF report downloaded');
 //     } catch (err) {
-//       toast.error('Export failed');
+//       toast.error('Failed to export PDF report');
+//       console.error('PDF export error:', err);
 //     }
 //   };
 
-//   // Statistics Calculations
+//   // Clear all devices
+//   const handleClearDevices = async (): Promise<void> => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/dp/devices/clear', {
+//         method: 'POST'
+//       });
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       setDevices([]);
+//       toast.success('Devices cleared from memory');
+//     } catch (err) {
+//       toast.error('Failed to clear devices');
+//       console.error('Clear devices error:', err);
+//     }
+//   };
+
+//   // Export all devices report
+//   const handleExportAll = async (): Promise<void> => {
+//     toast.info('Generating comprehensive network report...');
+//     try {
+//       const response = await fetch('http://localhost:5000/api/dp/devices/export-all');
+      
+//       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+//       const blob = await response.blob();
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement('a');
+//       a.href = url;
+//       a.download = `network-security-report-${new Date().toISOString().split('T')[0]}.pdf`;
+//       a.click();
+//       window.URL.revokeObjectURL(url);
+      
+//       toast.success('Comprehensive report downloaded');
+//     } catch (err) {
+//       toast.error('Report export failed');
+//       console.error('Export error:', err);
+//     }
+//   };
+
+//   // Utility functions
+//   const getDeviceIcon = (type: string) => {
+//     switch (type) {
+//       case 'computer': return Laptop;
+//       case 'mobile': return Smartphone;
+//       case 'printer': return Printer;
+//       case 'camera': return Camera;
+//       case 'tv': return Tv;
+//       case 'router': return Monitor;
+//       case 'iot': return Zap;
+//       default: return Monitor;
+//     }
+//   };
+
+//   const getRiskBadge = (risk: string) => {
+//     switch (risk) {
+//       case 'critical': return 'destructive';
+//       case 'high': return 'warning';
+//       case 'medium': return 'secondary';
+//       case 'low': return 'success';
+//       default: return 'outline';
+//     }
+//   };
+
+//   const getVulnerabilityBadge = (category?: string) => {
+//     switch (category) {
+//       case 'auto-fixable': return 'success';
+//       case 'manual': return 'warning';
+//       case 'non-fixable': return 'secondary';
+//       default: return 'outline';
+//     }
+//   };
+
+//   const getStatusIcon = (status?: string) => {
+//     switch (status) {
+//       case 'fixed': return <CheckCircle className="h-3 w-3 text-green-500" />;
+//       case 'fix_failed': return <XOctagon className="h-3 w-3 text-red-500" />;
+//       case 'in_progress': return <Clock className="h-3 w-3 text-yellow-500 animate-pulse" />;
+//       default: return <AlertTriangle className="h-3 w-3 text-orange-500" />;
+//     }
+//   };
+
+//   const getSeverityColor = (severity: string) => {
+//     switch (severity) {
+//       case 'critical': return 'text-red-500';
+//       case 'high': return 'text-orange-500';
+//       case 'medium': return 'text-yellow-500';
+//       case 'low': return 'text-blue-500';
+//       default: return 'text-gray-500';
+//     }
+//   };
+
+//   // Filter devices
+//   const filteredDevices = devices.filter(device => {
+//     const actualType = classifyDeviceType(device);
+//     const matchesSearch =
+//       device.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       device.ip.includes(searchTerm) ||
+//       device.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       device.mac.toLowerCase().includes(searchTerm.toLowerCase());
+//     const matchesType = filterType === 'all' || actualType === filterType;
+//     const matchesStatus =
+//       filterStatus === 'all' ||
+//       (filterStatus === 'online' && device.status === 'online') ||
+//       (filterStatus === 'offline' && device.status === 'offline');
+//     return matchesSearch && matchesType && matchesStatus;
+//   });
+
+//   // Statistics calculations
 //   const totalDevices = devices.length;
 //   const onlineDevices = devices.filter(d => d.status === 'online').length;
 //   const vulnerableDevices = devices.filter(
-//     d => d.vulnerabilities.length > 0 || (d.comprehensive_vulnerabilities && d.comprehensive_vulnerabilities.length > 0)
+//     d => (d.vulnerabilities?.length > 0) || (d.comprehensive_vulnerabilities?.length > 0)
 //   ).length;
 
-//   // Calculate vulnerability stats
 //   const autoFixableVulnerabilities = devices.reduce((total, device) => {
-//     const vulns = device.comprehensive_vulnerabilities || [];
+//     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
 //     return total + vulns.filter(v => v.category === 'auto-fixable' && v.status !== 'fixed').length;
 //   }, 0);
 
+//   const manualVulnerabilities = devices.reduce((total, device) => {
+//     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
+//     return total + vulns.filter(v => v.category === 'manual').length;
+//   }, 0);
+
 //   const nonFixableVulnerabilities = devices.reduce((total, device) => {
-//     const vulns = device.comprehensive_vulnerabilities || [];
+//     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
 //     return total + vulns.filter(v => v.category === 'non-fixable').length;
 //   }, 0);
 
 //   const fixedVulnerabilities = devices.reduce((total, device) => {
-//     const vulns = device.comprehensive_vulnerabilities || [];
+//     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
 //     return total + vulns.filter(v => v.status === 'fixed').length;
 //   }, 0);
 
-//   // IoT-specific statistics
 //   const iotDevices = devices.filter(d => classifyDeviceType(d) === 'iot');
+//   const criticalRiskDevices = devices.filter(d => d.riskLevel === 'critical').length;
 
 //   return (
 //     <div className="space-y-4 sm:space-y-6">
+//       {/* Connection Status */}
+//       <div className="flex items-center justify-between">
+//         <div className="flex items-center space-x-2">
+//           <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+//           <span className="text-sm text-muted-foreground">
+//             {isConnected ? 'Real-time updates connected' : 'Real-time updates disconnected'}
+//           </span>
+//         </div>
+//       </div>
+
 //       {/* Header */}
 //       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
 //         <div>
 //           <h1 className="text-2xl sm:text-3xl font-orbitron font-bold text-primary">
-//             Connected Devices
+//             Network Security Dashboard
 //           </h1>
 //           <p className="text-muted-foreground font-code text-sm">
-//             Network device management and security scanning
+//             Real-time device monitoring and vulnerability management
 //           </p>
 //           <p className="text-muted-foreground font-code text-xs mt-1">
-//             Smaller subnets (/24) scan faster but may miss devices. Larger (/20)
-//             slower but more complete.
+//             Active scanning, auto-remediation, and comprehensive security reporting
 //           </p>
 //         </div>
 //         <div className="flex flex-wrap gap-2">
@@ -1633,12 +914,14 @@
 //               <SelectItem value="auto">Auto Detect</SelectItem>
 //               <SelectItem value="192.168.1.0/24">/24 (Fast)</SelectItem>
 //               <SelectItem value="192.168.0.0/20">/20 (Slower)</SelectItem>
+//               <SelectItem value="10.0.0.0/16">10.0.0.0/16</SelectItem>
+//               <SelectItem value="172.16.0.0/16">172.16.0.0/16</SelectItem>
 //             </SelectContent>
 //           </Select>
 //           <Button
 //             onClick={handleScanAll}
 //             disabled={isScanningAll}
-//             variant="cyber"
+//             variant="default"
 //             size="sm"
 //             className="font-code"
 //           >
@@ -1647,26 +930,27 @@
 //             ) : (
 //               <Scan className="h-4 w-4 mr-1" />
 //             )}
-//             {isScanningAll ? 'Scanning...' : 'Scan All'}
+//             {isScanningAll ? 'Scanning...' : 'Discover Devices'}
 //           </Button>
 //           <Button
 //             onClick={handleScanIoTNetwork}
 //             disabled={isScanningAll}
-//             variant="cyber"
+//             variant="default"
 //             size="sm"
 //             className="font-code bg-cyan-600 hover:bg-cyan-700"
 //           >
 //             <Zap className="h-4 w-4 mr-1" />
-//             {isScanningAll ? 'Scanning IoT...' : 'Scan IoT Vulnerabilities'}
+//             {isScanningAll ? 'Scanning...' : 'Deep IoT Scan'}
 //           </Button>
 //           <Button
 //             onClick={handleStopScan}
 //             variant="outline"
 //             size="sm"
 //             className="font-code"
+//             disabled={!isScanningAll && scanningDevices.size === 0}
 //           >
-//             <XCircle className="h-4 w-4 mr-1" />
-//             Stop
+//             <Square className="h-4 w-4 mr-1" />
+//             Stop All
 //           </Button>
 //           <Button
 //             onClick={handleClearDevices}
@@ -1689,9 +973,9 @@
 //         </div>
 //       </div>
 
-//       {/* Statistics */}
-//       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//       {/* Enhanced Statistics */}
+//       <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4 text-center">
 //             <div className="text-2xl font-orbitron font-bold text-primary mb-1">
 //               {totalDevices}
@@ -1701,9 +985,9 @@
 //             </div>
 //           </CardContent>
 //         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-success mb-1">
+//             <div className="text-2xl font-orbitron font-bold text-green-500 mb-1">
 //               {onlineDevices}
 //             </div>
 //             <div className="text-xs font-code text-muted-foreground">
@@ -1711,17 +995,17 @@
 //             </div>
 //           </CardContent>
 //         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4 text-center">
-//             <div className="text-2xl font-orbitron font-bold text-destructive mb-1">
+//             <div className="text-2xl font-orbitron font-bold text-red-500 mb-1">
 //               {vulnerableDevices}
 //             </div>
 //             <div className="text-xs font-code text-muted-foreground">
-//               Vulnerable Devices
+//               Vulnerable
 //             </div>
 //           </CardContent>
 //         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4 text-center">
 //             <div className="text-2xl font-orbitron font-bold text-cyan-500 mb-1">
 //               {iotDevices.length}
@@ -1731,34 +1015,48 @@
 //             </div>
 //           </CardContent>
 //         </Card>
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//         <Card className="bg-card/80 backdrop-blur-sm">
+//           <CardContent className="p-4 text-center">
+//             <div className="text-2xl font-orbitron font-bold text-yellow-500 mb-1">
+//               {criticalRiskDevices}
+//             </div>
+//             <div className="text-xs font-code text-muted-foreground">
+//               Critical Risk
+//             </div>
+//           </CardContent>
+//         </Card>
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4 text-center">
 //             <div className="text-2xl font-orbitron font-bold text-green-500 mb-1">
 //               {fixedVulnerabilities}
 //             </div>
 //             <div className="text-xs font-code text-muted-foreground">
-//               Fixed Vulnerabilities
+//               Fixed Vulns
 //             </div>
 //           </CardContent>
 //         </Card>
 //       </div>
 
-//       {/* Vulnerability Summary */}
-//       {(autoFixableVulnerabilities > 0 || nonFixableVulnerabilities > 0 || fixedVulnerabilities > 0) && (
-//         <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//       {/* Vulnerability Management Summary */}
+//       {(autoFixableVulnerabilities > 0 || manualVulnerabilities > 0 || nonFixableVulnerabilities > 0 || fixedVulnerabilities > 0) && (
+//         <Card className="bg-card/80 backdrop-blur-sm">
 //           <CardContent className="p-4">
 //             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 //               <div>
 //                 <h3 className="font-orbitron font-bold text-primary mb-2">
-//                   Vulnerability Summary
+//                   Vulnerability Management
 //                 </h3>
 //                 <div className="flex flex-wrap gap-4 text-sm font-code">
 //                   <div className="flex items-center gap-2">
-//                     <ShieldCheck className="h-4 w-4 text-success" />
+//                     <ShieldCheck className="h-4 w-4 text-green-500" />
 //                     <span>Auto-fixable: {autoFixableVulnerabilities}</span>
 //                   </div>
 //                   <div className="flex items-center gap-2">
-//                     <ShieldAlert className="h-4 w-4 text-warning" />
+//                     <Wrench className="h-4 w-4 text-yellow-500" />
+//                     <span>Manual: {manualVulnerabilities}</span>
+//                   </div>
+//                   <div className="flex items-center gap-2">
+//                     <ShieldAlert className="h-4 w-4 text-orange-500" />
 //                     <span>Non-fixable: {nonFixableVulnerabilities}</span>
 //                   </div>
 //                   <div className="flex items-center gap-2">
@@ -1767,56 +1065,92 @@
 //                   </div>
 //                 </div>
 //               </div>
-//               <Button
-//                 onClick={() => {
-//                   alert(`Available Vulnerability Types:\n\n` +
-//                     `Auto-fixable: 43 vulnerabilities\n` +
-//                     `Non-fixable: 13 vulnerabilities\n\n` +
-//                     `Click individual fix buttons to auto-fix vulnerabilities.`);
-//                 }}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <FileText className="h-4 w-4 mr-1" />
-//                 View All Types
-//               </Button>
+//               <div className="flex gap-2">
+//                 <Button
+//                   onClick={() => {
+//                     alert(`Vulnerability Classification:\n\n` +
+//                       `🟢 Auto-fixable: Vulnerabilities that can be automatically remediated\n` +
+//                       `🟡 Manual: Vulnerabilities requiring manual intervention\n` +
+//                       `🔴 Non-fixable: Vulnerabilities that cannot be fixed automatically\n\n` +
+//                       `Click individual fix buttons to remediate vulnerabilities.`);
+//                   }}
+//                   variant="outline"
+//                   size="sm"
+//                   className="font-code"
+//                 >
+//                   <FileText className="h-4 w-4 mr-1" />
+//                   Help
+//                 </Button>
+//               </div>
 //             </div>
 //           </CardContent>
 //         </Card>
 //       )}
 
-//       {/* Filters */}
-//       <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//       {/* Active Scans Progress */}
+//       {Object.keys(scanProgress).length > 0 && (
+//         <Card className="bg-card/80 backdrop-blur-sm border-yellow-500/50">
+//           <CardContent className="p-4">
+//             <h3 className="font-orbitron font-bold text-yellow-500 mb-3 flex items-center">
+//               <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+//               Active Scans ({Object.keys(scanProgress).length})
+//             </h3>
+//             <div className="space-y-3">
+//               {Object.entries(scanProgress).map(([scanId, progress]) => (
+//                 <div key={scanId} className="space-y-2">
+//                   <div className="flex items-center justify-between text-sm">
+//                     <span className="font-medium">
+//                       {scanId === 'deep_iot_scan' ? 'Deep IoT Scan' : `Device: ${scanId}`}
+//                     </span>
+//                     <span className="text-muted-foreground">{progress.progress}%</span>
+//                   </div>
+//                   <div className="w-full bg-gray-200 rounded-full h-2">
+//                     <div 
+//                       className="h-2 rounded-full bg-yellow-500 transition-all duration-300"
+//                       style={{ width: `${progress.progress}%` }}
+//                     ></div>
+//                   </div>
+//                   <div className="text-xs text-muted-foreground">
+//                     {progress.current_task}
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </CardContent>
+//         </Card>
+//       )}
+
+//       {/* Enhanced Filters */}
+//       <Card className="bg-card/80 backdrop-blur-sm">
 //         <CardContent className="p-4">
 //           <div className="flex flex-col md:flex-row md:items-center gap-3">
 //             <div className="flex-1 relative">
 //               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
 //               <Input
-//                 placeholder="Search devices by name, IP, or vendor..."
+//                 placeholder="Search devices by name, IP, MAC, or vendor..."
 //                 value={searchTerm}
 //                 onChange={e => setSearchTerm(e.target.value)}
 //                 className="pl-10 bg-input/50 border-border font-code"
 //               />
 //             </div>
 //             <Select value={filterType} onValueChange={setFilterType}>
-//               <SelectTrigger className="w-36 bg-input/50 border-border font-code">
+//               <SelectTrigger className="w-40 bg-input/50 border-border font-code">
 //                 <SelectValue placeholder="Device Type" />
 //               </SelectTrigger>
 //               <SelectContent>
 //                 <SelectItem value="all">All Types</SelectItem>
-//                 <SelectItem value="computer">Computer</SelectItem>
-//                 <SelectItem value="mobile">Mobile</SelectItem>
-//                 <SelectItem value="iot">IoT Device</SelectItem>
-//                 <SelectItem value="printer">Printer</SelectItem>
-//                 <SelectItem value="camera">Camera</SelectItem>
-//                 <SelectItem value="tv">TV</SelectItem>
-//                 <SelectItem value="router">Router</SelectItem>
+//                 <SelectItem value="computer">Computers</SelectItem>
+//                 <SelectItem value="mobile">Mobile Devices</SelectItem>
+//                 <SelectItem value="iot">IoT Devices</SelectItem>
+//                 <SelectItem value="router">Network Equipment</SelectItem>
+//                 <SelectItem value="printer">Printers</SelectItem>
+//                 <SelectItem value="camera">Cameras</SelectItem>
+//                 <SelectItem value="tv">TV & Media</SelectItem>
 //                 <SelectItem value="other">Other</SelectItem>
 //               </SelectContent>
 //             </Select>
 //             <Select value={filterStatus} onValueChange={setFilterStatus}>
-//               <SelectTrigger className="w-36 bg-input/50 border-border font-code">
+//               <SelectTrigger className="w-32 bg-input/50 border-border font-code">
 //                 <SelectValue placeholder="Status" />
 //               </SelectTrigger>
 //               <SelectContent>
@@ -1829,12 +1163,17 @@
 //         </CardContent>
 //       </Card>
 
-//       {/* Device List */}
-//       <Card className="neon-border bg-card/80 backdrop-blur-sm">
+//       {/* Enhanced Device List */}
+//       <Card className="bg-card/80 backdrop-blur-sm">
 //         <CardHeader>
 //           <CardTitle className="font-orbitron text-primary flex items-center">
 //             <Monitor className="h-5 w-5 mr-2" />
 //             Device Inventory ({filteredDevices.length})
+//             {scanningDevices.size > 0 && (
+//               <Badge variant="secondary" className="ml-2 font-code">
+//                 Scanning: {scanningDevices.size}
+//               </Badge>
+//             )}
 //           </CardTitle>
 //         </CardHeader>
 //         <CardContent>
@@ -1843,25 +1182,31 @@
 //               const actualType = classifyDeviceType(device);
 //               const DeviceIcon = getDeviceIcon(actualType);
 //               const hasComprehensiveScan = device.comprehensive_vulnerabilities && device.comprehensive_vulnerabilities.length > 0;
-//               const vulnerabilities = device.comprehensive_vulnerabilities || device.vulnerabilities;
+//               const vulnerabilities = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
 //               const isIoTDevice = actualType === 'iot';
-//               const autoFixableVulns = vulnerabilities.filter(v => v.category === 'auto-fixable' && v.status !== 'fixed');
+//               const autoFixableVulns = vulnerabilities.filter(v => 
+//                 v.category === 'auto-fixable' && v.status !== 'fixed'
+//               );
+//               const manualVulns = vulnerabilities.filter(v => 
+//                 v.category === 'manual' && v.status !== 'fixed'
+//               );
+//               const currentScanProgress = scanProgress[device.id];
               
 //               return (
 //                 <div
 //                   key={device.id}
-//                   className={`p-4 rounded-lg border border-border transition-colors ${
+//                   className={`p-4 rounded-lg border transition-colors ${
 //                     isIoTDevice 
 //                       ? 'bg-cyan-500/10 hover:bg-cyan-500/20 border-cyan-500/30' 
-//                       : 'bg-card/30 hover:bg-card/50'
-//                   }`}
+//                       : 'bg-card/30 hover:bg-card/50 border-border'
+//                   } ${device.riskLevel === 'critical' ? 'border-red-500/50 bg-red-500/5' : ''}`}
 //                 >
 //                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-//                     <div className="flex items-center space-x-4">
-//                       <DeviceIcon className={`h-7 w-7 ${
+//                     <div className="flex items-start space-x-4 flex-1">
+//                       <DeviceIcon className={`h-7 w-7 mt-1 ${
 //                         isIoTDevice ? 'text-cyan-500' : 'text-primary'
 //                       }`} />
-//                       <div className="space-y-1">
+//                       <div className="space-y-2 flex-1">
 //                         <div className="flex flex-wrap items-center gap-2">
 //                           <h3 className="font-semibold text-foreground">
 //                             {device.name}
@@ -1892,6 +1237,11 @@
 //                               COMPREHENSIVE SCAN
 //                             </Badge>
 //                           )}
+//                           {device.last_scanned && (
+//                             <Badge variant="outline" className="font-code text-2xs">
+//                               Scanned: {new Date(device.last_scanned).toLocaleDateString()}
+//                             </Badge>
+//                           )}
 //                         </div>
 //                         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-code text-muted-foreground">
 //                           <div>IP: {device.ip}</div>
@@ -1899,25 +1249,67 @@
 //                           <div>Vendor: {device.vendor}</div>
 //                           <div>Last Seen: {device.lastSeen}</div>
 //                         </div>
+                        
+//                         {/* Scan Progress */}
+//                         {currentScanProgress && (
+//                           <div className="mt-2">
+//                             <div className="flex items-center justify-between text-xs font-code">
+//                               <span className="text-muted-foreground">
+//                                 {currentScanProgress.current_task}
+//                               </span>
+//                               <span>{currentScanProgress.progress}%</span>
+//                             </div>
+//                             <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+//                               <div 
+//                                 className={`h-1.5 rounded-full ${
+//                                   currentScanProgress.status === 'completed' ? 'bg-green-500' :
+//                                   currentScanProgress.status === 'failed' ? 'bg-red-500' :
+//                                   'bg-blue-500'
+//                                 }`}
+//                                 style={{ width: `${currentScanProgress.progress}%` }}
+//                               ></div>
+//                             </div>
+//                           </div>
+//                         )}
+
+//                         {/* Enhanced Vulnerabilities Display */}
 //                         {vulnerabilities.length > 0 && (
-//                           <div className="text-xs space-y-1 mt-2">
+//                           <div className="text-xs space-y-2 mt-3">
+//                             <div className="flex items-center justify-between">
+//                               <span className="font-semibold text-foreground">
+//                                 Vulnerabilities ({vulnerabilities.length})
+//                               </span>
+//                               <div className="flex gap-2 text-2xs">
+//                                 {autoFixableVulns.length > 0 && (
+//                                   <span className="text-green-500">
+//                                     {autoFixableVulns.length} auto-fixable
+//                                   </span>
+//                                 )}
+//                                 {manualVulns.length > 0 && (
+//                                   <span className="text-yellow-500">
+//                                     {manualVulns.length} manual
+//                                   </span>
+//                                 )}
+//                               </div>
+//                             </div>
+                            
 //                             {vulnerabilities.slice(0, 3).map((vuln, index) => (
 //                               <div
-//                                 key={vuln.id || index}
-//                                 className="flex items-center justify-between"
+//                                 key={vuln.id || `vuln-${index}`}
+//                                 className="flex items-center justify-between p-2 bg-background/50 rounded border"
 //                               >
-//                                 <div className="flex items-center space-x-2">
+//                                 <div className="flex items-center space-x-2 flex-1">
 //                                   {getStatusIcon(vuln.status || 'found')}
-//                                   <span className={`font-code ${
-//                                     vuln.status === 'fixed' ? 'text-success' : 
-//                                     vuln.status === 'fix_failed' ? 'text-destructive' : 'text-warning'
-//                                   }`}>
-//                                     {vuln.severity?.toUpperCase() || 'UNKNOWN'}: {vuln.name || vuln.description}
+//                                   <span className={`font-code ${getSeverityColor(vuln.severity)}`}>
+//                                     {vuln.severity?.toUpperCase()}: 
+//                                   </span>
+//                                   <span className="flex-1 truncate">
+//                                     {vuln.name || vuln.description}
 //                                   </span>
 //                                   {vuln.category && (
 //                                     <Badge 
 //                                       variant={getVulnerabilityBadge(vuln.category)} 
-//                                       className="text-2xs"
+//                                       className="text-2xs whitespace-nowrap"
 //                                     >
 //                                       {vuln.category}
 //                                     </Badge>
@@ -1929,21 +1321,42 @@
 //                                     onClick={() => handleFixVulnerability(vuln.id, device.id)}
 //                                     variant="outline"
 //                                     size="sm"
-//                                     className="h-5 text-2xs"
+//                                     className="h-6 text-2xs ml-2"
 //                                     disabled={fixingVulnerabilities.has(vuln.id)}
 //                                   >
 //                                     {fixingVulnerabilities.has(vuln.id) ? (
-//                                       <RefreshCw className="h-2 w-2 mr-1 animate-spin" />
+//                                       <Loader2 className="h-3 w-3 mr-1 animate-spin" />
 //                                     ) : (
-//                                       <Wrench className="h-2 w-2 mr-1" />
+//                                       <Wrench className="h-3 w-3 mr-1" />
 //                                     )}
 //                                     Fix
 //                                   </Button>
 //                                 )}
+//                                 {vuln.category === 'manual' && vuln.status !== 'fixed' && (
+//                                   <Button
+//                                     onClick={() => {
+//                                       if (vuln.manual_steps) {
+//                                         const steps = Array.isArray(vuln.manual_steps) 
+//                                           ? vuln.manual_steps.join('\n\n• ')
+//                                           : vuln.manual_steps;
+//                                         alert(`🔧 Manual Fix Required\n\n${vuln.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
+//                                       } else {
+//                                         alert('Manual intervention required for this vulnerability. No specific steps provided.');
+//                                       }
+//                                     }}
+//                                     variant="outline"
+//                                     size="sm"
+//                                     className="h-6 text-2xs ml-2 bg-yellow-500/20 hover:bg-yellow-500/30"
+//                                   >
+//                                     <Settings className="h-3 w-3 mr-1" />
+//                                     Manual
+//                                   </Button>
+//                                 )}
 //                               </div>
 //                             ))}
+                            
 //                             {vulnerabilities.length > 3 && (
-//                               <div className="text-muted-foreground font-code">
+//                               <div className="text-muted-foreground font-code text-center">
 //                                 +{vulnerabilities.length - 3} more vulnerabilities...
 //                               </div>
 //                             )}
@@ -1951,6 +1364,8 @@
 //                         )}
 //                       </div>
 //                     </div>
+                    
+//                     {/* Action Buttons */}
 //                     <div className="flex flex-wrap gap-2">
 //                       {/* Scan Button */}
 //                       <Button
@@ -1961,24 +1376,24 @@
 //                         disabled={scanningDevices.has(device.id)}
 //                       >
 //                         {scanningDevices.has(device.id) ? (
-//                           <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+//                           <Loader2 className="h-3 w-3 mr-1 animate-spin" />
 //                         ) : (
 //                           <Scan className="h-3 w-3 mr-1" />
 //                         )}
-//                         Scan
+//                         {scanningDevices.has(device.id) ? 'Scanning' : 'Scan'}
 //                       </Button>
                       
-//                       {/* Auto-Fix All Button - Only show if device has auto-fixable vulnerabilities */}
+//                       {/* Auto-Fix All Button */}
 //                       {autoFixableVulns.length > 0 && (
 //                         <Button
 //                           onClick={() => handleBatchFix(device.id, autoFixableVulns.map(v => v.id))}
-//                           variant="success"
+//                           variant="default"
 //                           size="sm"
-//                           className="font-code"
+//                           className="font-code bg-green-600 hover:bg-green-700"
 //                           disabled={fixingDevices.has(device.id)}
 //                         >
 //                           {fixingDevices.has(device.id) ? (
-//                             <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+//                             <Loader2 className="h-3 w-3 mr-1 animate-spin" />
 //                           ) : (
 //                             <ShieldCheck className="h-3 w-3 mr-1" />
 //                           )}
@@ -1996,13 +1411,35 @@
 //                           disabled={fixingDevices.has(device.id)}
 //                         >
 //                           {fixingDevices.has(device.id) ? (
-//                             <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+//                             <Loader2 className="h-3 w-3 mr-1 animate-spin" />
 //                           ) : (
 //                             <Shield className="h-3 w-3 mr-1" />
 //                           )}
 //                           Auto-Fix All
 //                         </Button>
 //                       )}
+                      
+//                       {/* Report Button */}
+//                       <Button
+//                         onClick={() => handleGetVulnerabilityReport(device.id)}
+//                         variant="outline"
+//                         size="sm"
+//                         className="font-code"
+//                       >
+//                         <FileText className="h-3 w-3 mr-1" />
+//                         Report
+//                       </Button>
+
+//                       {/* PDF Export Button */}
+//                       <Button
+//                         onClick={() => handleExportPDF(device.id)}
+//                         variant="outline"
+//                         size="sm"
+//                         className="font-code"
+//                       >
+//                         <Download className="h-3 w-3 mr-1" />
+//                         PDF
+//                       </Button>
                       
 //                       {/* Info Button */}
 //                       <Button
@@ -2019,236 +1456,289 @@
 //                 </div>
 //               );
 //             })}
+            
+//             {filteredDevices.length === 0 && (
+//               <div className="text-center py-8 text-muted-foreground font-code">
+//                 {devices.length === 0 ? 'No devices found. Click "Discover Devices" to start scanning.' : 'No devices match your filters.'}
+//               </div>
+//             )}
 //           </div>
 //         </CardContent>
 //       </Card>
 
-//       {/* Enhanced Info Modal with Individual Fix Buttons */}
+//       {/* Enhanced Info Modal */}
 //       {showInfoModal && selectedDevice && (
-//         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-//           <div className="bg-card text-foreground rounded-2xl shadow-2xl max-w-4xl w-full p-6 relative border border-border max-h-[90vh] overflow-y-auto">
-//             <button
-//               onClick={() => setShowInfoModal(false)}
-//               className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
-//             >
-//               <X className="h-5 w-5" />
-//             </button>
-
-//             <h2 className="text-xl font-orbitron font-bold mb-4">
-//               Device Info: {selectedDevice.name} ({selectedDevice.ip})
-//             </h2>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-code text-sm mb-4">
-//               <div>
-//                 <span className="font-semibold">IP:</span> {selectedDevice.ip}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">MAC:</span> {selectedDevice.mac}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Vendor:</span> {selectedDevice.vendor}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Type:</span> {selectedDevice.type}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Status:</span> {selectedDevice.status}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Last Seen:</span>{' '}
-//                 {selectedDevice.lastSeen}
-//               </div>
-//               <div>
-//                 <span className="font-semibold">Risk:</span>{' '}
-//                 {selectedDevice.riskLevel.toUpperCase()}
-//               </div>
-//               {selectedDevice.last_scanned && (
-//                 <div>
-//                   <span className="font-semibold">Last Scanned:</span>{' '}
-//                   {selectedDevice.last_scanned}
-//                 </div>
-//               )}
+//         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+//           <div className="bg-card text-foreground rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+//             <div className="flex items-center justify-between p-6 border-b border-border">
+//               <h2 className="text-xl font-orbitron font-bold">
+//                 Device Details: {selectedDevice.name} ({selectedDevice.ip})
+//               </h2>
+//               <button
+//                 onClick={() => setShowInfoModal(false)}
+//                 className="text-muted-foreground hover:text-foreground p-1"
+//               >
+//                 <X className="h-5 w-5" />
+//               </button>
 //             </div>
 
-//             {/* Enhanced Vulnerabilities Display with Individual Fix Buttons */}
-//             {selectedDevice.comprehensive_vulnerabilities && selectedDevice.comprehensive_vulnerabilities.length > 0 ? (
-//               <div className="mt-4">
-//                 <div className="flex items-center justify-between mb-2">
-//                   <h3 className="text-lg font-orbitron font-bold text-primary">
-//                     Comprehensive Vulnerabilities ({selectedDevice.comprehensive_vulnerabilities.length})
-//                   </h3>
-//                   <Button
-//                     onClick={() => {
-//                       const autoFixableVulns = selectedDevice.comprehensive_vulnerabilities?.filter(v => 
-//                         v.category === 'auto-fixable' && v.status !== 'fixed'
-//                       ) || [];
-//                       if (autoFixableVulns.length > 0) {
-//                         handleBatchFix(selectedDevice.id, autoFixableVulns.map(v => v.id));
-//                       }
-//                     }}
-//                     variant="success"
-//                     size="sm"
-//                     className="font-code"
-//                     disabled={fixingDevices.has(selectedDevice.id)}
-//                   >
-//                     {fixingDevices.has(selectedDevice.id) ? (
-//                       <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-//                     ) : (
-//                       <ShieldCheck className="h-3 w-3 mr-1" />
-//                     )}
-//                     Fix All Auto-Fixable
-//                   </Button>
+//             <div className="flex-1 overflow-y-auto p-6">
+//               {/* Device Information */}
+//               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-code text-sm mb-6">
+//                 <div className="space-y-2">
+//                   <div><span className="font-semibold">IP Address:</span> {selectedDevice.ip}</div>
+//                   <div><span className="font-semibold">MAC Address:</span> {selectedDevice.mac}</div>
+//                   <div><span className="font-semibold">Vendor:</span> {selectedDevice.vendor}</div>
 //                 </div>
-//                 <div className="space-y-2 max-h-80 overflow-y-auto">
-//                   {selectedDevice.comprehensive_vulnerabilities.map((vuln, index) => (
-//                     <div
-//                       key={vuln.id || index}
-//                       className="p-3 rounded border border-border bg-card/30 space-y-2"
-//                     >
-//                       <div className="flex items-center justify-between">
-//                         <div className="flex items-center space-x-2">
-//                           {getStatusIcon(vuln.status || 'found')}
-//                           <span className="font-code text-sm font-semibold">
-//                             {vuln.name || vuln.id} – {vuln.severity?.toUpperCase() || 'UNKNOWN'}
-//                           </span>
-//                         </div>
-//                         <div className="flex items-center space-x-2">
-//                           {vuln.category && (
-//                             <Badge variant={getVulnerabilityBadge(vuln.category)} className="text-2xs">
-//                               {vuln.category}
-//                             </Badge>
+//                 <div className="space-y-2">
+//                   <div><span className="font-semibold">Type:</span> {classifyDeviceType(selectedDevice)}</div>
+//                   <div><span className="font-semibold">Status:</span> 
+//                     <Badge variant={selectedDevice.status === 'online' ? 'success' : 'secondary'} className="ml-2 text-2xs">
+//                       {selectedDevice.status.toUpperCase()}
+//                     </Badge>
+//                   </div>
+//                   <div><span className="font-semibold">Risk Level:</span>
+//                     <Badge variant={getRiskBadge(selectedDevice.riskLevel)} className="ml-2 text-2xs">
+//                       {selectedDevice.riskLevel.toUpperCase()}
+//                     </Badge>
+//                   </div>
+//                 </div>
+//                 <div className="space-y-2">
+//                   <div><span className="font-semibold">Last Seen:</span> {selectedDevice.lastSeen}</div>
+//                   {selectedDevice.last_scanned && (
+//                     <div><span className="font-semibold">Last Scanned:</span> {selectedDevice.last_scanned}</div>
+//                   )}
+//                   {selectedDevice.os && (
+//                     <div><span className="font-semibold">Operating System:</span> {selectedDevice.os}</div>
+//                   )}
+//                 </div>
+//               </div>
+
+//               {/* Enhanced Vulnerabilities Display */}
+//               {selectedDevice.comprehensive_vulnerabilities && selectedDevice.comprehensive_vulnerabilities.length > 0 ? (
+//                 <div className="mt-6">
+//                   <div className="flex items-center justify-between mb-4">
+//                     <h3 className="text-lg font-orbitron font-bold text-primary">
+//                       Detected Vulnerabilities ({selectedDevice.comprehensive_vulnerabilities.length})
+//                     </h3>
+//                     <div className="flex gap-2">
+//                       <Button
+//                         onClick={() => {
+//                           const autoFixableVulns = selectedDevice.comprehensive_vulnerabilities?.filter(v => 
+//                             v.category === 'auto-fixable' && v.status !== 'fixed'
+//                           ) || [];
+//                           if (autoFixableVulns.length > 0) {
+//                             handleBatchFix(selectedDevice.id, autoFixableVulns.map(v => v.id));
+//                           }
+//                         }}
+//                         variant="default"
+//                         size="sm"
+//                         className="font-code bg-green-600 hover:bg-green-700"
+//                         disabled={fixingDevices.has(selectedDevice.id)}
+//                       >
+//                         {fixingDevices.has(selectedDevice.id) ? (
+//                           <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+//                         ) : (
+//                           <ShieldCheck className="h-3 w-3 mr-1" />
+//                         )}
+//                         Fix All Auto-Fixable
+//                       </Button>
+//                     </div>
+//                   </div>
+                  
+//                   <div className="space-y-3 max-h-96 overflow-y-auto">
+//                     {selectedDevice.comprehensive_vulnerabilities.map((vuln, index) => (
+//                       <div
+//                         key={vuln.id || `modal-vuln-${index}`}
+//                         className="p-4 rounded border border-border bg-card/30 space-y-3"
+//                       >
+//                         <div className="flex items-start justify-between">
+//                           <div className="flex items-start space-x-3 flex-1">
+//                             {getStatusIcon(vuln.status || 'found')}
+//                             <div className="flex-1">
+//                               <div className="flex items-center space-x-2 mb-1">
+//                                 <span className="font-code font-semibold text-foreground">
+//                                   {vuln.name || vuln.id}
+//                                 </span>
+//                                 <Badge variant={getRiskBadge(vuln.severity)} className="text-2xs">
+//                                   {vuln.severity?.toUpperCase()}
+//                                 </Badge>
+//                                 {vuln.category && (
+//                                   <Badge variant={getVulnerabilityBadge(vuln.category)} className="text-2xs">
+//                                     {vuln.category}
+//                                   </Badge>
+//                                 )}
+//                                 {vuln.cve_id && (
+//                                   <Badge variant="outline" className="text-2xs">
+//                                     {vuln.cve_id}
+//                                   </Badge>
+//                                 )}
+//                               </div>
+//                               <div className="font-code text-sm text-muted-foreground mb-2">
+//                                 {vuln.description}
+//                               </div>
+//                             </div>
+//                           </div>
+                          
+//                           {/* Fix Button in Modal */}
+//                           {(vuln.category === 'auto-fixable' && vuln.status !== 'fixed') && (
+//                             <Button
+//                               onClick={() => handleFixVulnerability(vuln.id, selectedDevice.id)}
+//                               variant="outline"
+//                               size="sm"
+//                               className="ml-2 flex-shrink-0"
+//                               disabled={fixingVulnerabilities.has(vuln.id)}
+//                             >
+//                               {fixingVulnerabilities.has(vuln.id) ? (
+//                                 <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+//                               ) : (
+//                                 <Wrench className="h-3 w-3 mr-1" />
+//                               )}
+//                               Fix
+//                             </Button>
 //                           )}
-//                           {/* Individual Fix Button in Modal */}
-//                           {/* Individual Fix Button */}
-// {/* Individual Fix Button in modal - More permissive */}
-// {(vuln.fix_commands && vuln.status !== 'fixed') && (
-//   <Button
-//     onClick={() => handleFixVulnerability(vuln.id, selectedDevice.id)}
-//     variant="outline"
-//     size="sm"
-//     className="h-6 text-xs"
-//     disabled={fixingVulnerabilities.has(vuln.id)}
-//   >
-//     {fixingVulnerabilities.has(vuln.id) ? (
-//       <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-//     ) : (
-//       <Wrench className="h-3 w-3 mr-1" />
-//     )}
-//     Fix
-//   </Button>
-// )}
+//                           {(vuln.category === 'manual' && vuln.status !== 'fixed') && (
+//                             <Button
+//                               onClick={() => {
+//                                 if (vuln.manual_steps) {
+//                                   const steps = Array.isArray(vuln.manual_steps) 
+//                                     ? vuln.manual_steps.join('\n\n• ')
+//                                     : vuln.manual_steps;
+//                                   alert(`🔧 Manual Fix Required\n\n${vuln.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
+//                                 }
+//                               }}
+//                               variant="outline"
+//                               size="sm"
+//                               className="ml-2 flex-shrink-0 bg-yellow-500/20 hover:bg-yellow-500/30"
+//                             >
+//                               <Settings className="h-3 w-3 mr-1" />
+//                               Manual Steps
+//                             </Button>
+//                           )}
 //                           {vuln.status === 'fixed' && (
-//                             <Badge variant="success" className="text-2xs">
+//                             <Badge variant="success" className="ml-2 flex-shrink-0">
 //                               FIXED
 //                             </Badge>
 //                           )}
 //                         </div>
+                        
+//                         {/* Vulnerability Details */}
+//                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-code">
+//                           {vuln.fix_method && (
+//                             <div>
+//                               <span className="font-semibold">Fix Method:</span> {vuln.fix_method}
+//                             </div>
+//                           )}
+//                           {vuln.port && (
+//                             <div>
+//                               <span className="font-semibold">Affected Port:</span> {vuln.port}
+//                             </div>
+//                           )}
+//                           {vuln.service && (
+//                             <div>
+//                               <span className="font-semibold">Service:</span> {vuln.service}
+//                             </div>
+//                           )}
+//                           {vuln.potential_harm && (
+//                             <div className="md:col-span-2">
+//                               <span className="font-semibold text-red-500">Risk:</span> {vuln.potential_harm}
+//                             </div>
+//                           )}
+//                         </div>
+                        
+//                         {/* Fix Commands */}
+//                         {vuln.fix_commands && vuln.fix_commands.length > 0 && (
+//                           <div className="text-xs">
+//                             <div className="font-semibold mb-1">Fix Commands:</div>
+//                             <div className="bg-muted p-2 rounded space-y-1">
+//                               {vuln.fix_commands.map((cmd, cmdIndex) => (
+//                                 <div key={cmdIndex} className="font-mono text-2xs">
+//                                   {cmd}
+//                                 </div>
+//                               ))}
+//                             </div>
+//                           </div>
+//                         )}
+                        
+//                         {/* Status and Timestamps */}
+//                         <div className="flex justify-between items-center text-xs text-muted-foreground">
+//                           <div>
+//                             <span className="font-semibold">Detected:</span> {vuln.detected_at || 'Unknown'}
+//                           </div>
+//                           {vuln.fixed_at && (
+//                             <div>
+//                               <span className="font-semibold">Fixed:</span> {vuln.fixed_at}
+//                             </div>
+//                           )}
+//                         </div>
 //                       </div>
-//                       <div className="font-code text-xs text-muted-foreground">
-//                         {vuln.description}
-//                       </div>
-//                       {vuln.fix_method && (
-//                         <div className="font-code text-xs">
-//                           <span className="font-semibold">Fix:</span> {vuln.fix_method}
-//                         </div>
-//                       )}
-//                       {vuln.fix_commands && (
-//                         <div className="font-code text-xs bg-muted p-2 rounded">
-//                           <span className="font-semibold">Commands:</span> {vuln.fix_commands}
-//                         </div>
-//                       )}
-//                       {vuln.potential_harm && (
-//                         <div className="font-code text-xs text-destructive">
-//                           <span className="font-semibold">Risk:</span> {vuln.potential_harm}
-//                         </div>
-//                       )}
-//                       {vuln.status && vuln.status !== 'found' && (
-//                         <div className="font-code text-xs">
-//                           <span className="font-semibold">Status:</span> 
-//                           <Badge variant={
-//                             vuln.status === 'fixed' ? 'success' : 
-//                             vuln.status === 'fix_failed' ? 'destructive' : 'secondary'
-//                           } className="ml-2 text-2xs">
-//                             {vuln.status.toUpperCase()}
-//                           </Badge>
-//                         </div>
-//                       )}
-//                     </div>
-//                   ))}
+//                     ))}
+//                   </div>
 //                 </div>
-//               </div>
-//             ) : selectedDevice.vulnerabilities && selectedDevice.vulnerabilities.length > 0 ? (
-//               <div className="mt-4">
-//                 <h3 className="text-lg font-orbitron font-bold text-destructive mb-2">
-//                   Basic Vulnerabilities
-//                 </h3>
-//                 <div className="space-y-2 max-h-60 overflow-y-auto">
-//                   {selectedDevice.vulnerabilities.map(vuln => (
-//                     <div
-//                       key={vuln.id}
-//                       className="p-3 rounded border border-border bg-card/30 space-y-1"
-//                     >
-//                       <div className="flex items-center space-x-2">
-//                         <AlertTriangle className="h-4 w-4 text-warning" />
-//                         <span className="font-code text-sm text-warning">
-//                           {vuln.id} – {vuln.severity.toUpperCase()}
-//                         </span>
+//               ) : selectedDevice.vulnerabilities && selectedDevice.vulnerabilities.length > 0 ? (
+//                 <div className="mt-6">
+//                   <h3 className="text-lg font-orbitron font-bold text-destructive mb-4">
+//                     Basic Vulnerabilities ({selectedDevice.vulnerabilities.length})
+//                   </h3>
+//                   <div className="space-y-2 max-h-60 overflow-y-auto">
+//                     {selectedDevice.vulnerabilities.map(vuln => (
+//                       <div
+//                         key={vuln.id}
+//                         className="p-3 rounded border border-border bg-card/30 space-y-1"
+//                       >
+//                         <div className="flex items-center space-x-2">
+//                           <AlertTriangle className="h-4 w-4 text-warning" />
+//                           <span className="font-code text-sm text-warning">
+//                             {vuln.id} – {vuln.severity.toUpperCase()}
+//                           </span>
+//                         </div>
+//                         <div className="font-code text-xs text-muted-foreground">
+//                           {vuln.description}
+//                         </div>
 //                       </div>
-//                       <div className="font-code text-xs text-muted-foreground">
-//                         {vuln.description}
-//                       </div>
-//                     </div>
-//                   ))}
+//                     ))}
+//                   </div>
 //                 </div>
-//               </div>
-//             ) : (
-//               <p className="mt-4 text-sm font-code text-success">
-//                 No vulnerabilities detected.
-//               </p>
-//             )}
+//               ) : (
+//                 <div className="text-center py-8 text-success font-code">
+//                   <CheckCircle className="h-12 w-12 mx-auto mb-2 text-green-500" />
+//                   <div>No vulnerabilities detected.</div>
+//                   <div className="text-muted-foreground text-sm mt-1">This device appears to be secure.</div>
+//                 </div>
+//               )}
+//             </div>
 
-//             <div className="flex justify-end gap-2 mt-6">
-//               <Button
-//                 onClick={() => handleGetVulnerabilityReport(selectedDevice.id)}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <FileText className="h-4 w-4 mr-1" /> Get Report
-//               </Button>
-//               <Button
-//                 onClick={async () => {
-//                   toast.info('Exporting device report...');
-//                   try {
-//                     const resp = await fetch(
-//                       `http://localhost:5000/api/dp/devices/${selectedDevice.id}/export-pdf`
-//                     );
-//                     const blob = await resp.blob();
-//                     const url = window.URL.createObjectURL(blob);
-//                     const a = document.createElement('a');
-//                     a.href = url;
-//                     a.download = `${selectedDevice.id}_report.pdf`;
-//                     a.click();
-//                     window.URL.revokeObjectURL(url);
-//                     toast.success('Device report downloaded');
-//                   } catch {
-//                     toast.error('Export failed');
-//                   }
-//                 }}
-//                 variant="outline"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 <Download className="h-4 w-4 mr-1" /> Export PDF
-//               </Button>
-//               <Button
-//                 onClick={() => setShowInfoModal(false)}
-//                 variant="destructive"
-//                 size="sm"
-//                 className="font-code"
-//               >
-//                 Close
-//               </Button>
+//             {/* Modal Footer */}
+//             <div className="flex justify-between items-center p-6 border-t border-border bg-card/50">
+//               <div className="text-xs font-code text-muted-foreground">
+//                 Device ID: {selectedDevice.id}
+//               </div>
+//               <div className="flex gap-2">
+//                 <Button
+//                   onClick={() => handleGetVulnerabilityReport(selectedDevice.id)}
+//                   variant="outline"
+//                   size="sm"
+//                   className="font-code"
+//                 >
+//                   <FileText className="h-4 w-4 mr-1" /> Detailed Report
+//                 </Button>
+//                 <Button
+//                   onClick={() => handleExportPDF(selectedDevice.id)}
+//                   variant="outline"
+//                   size="sm"
+//                   className="font-code"
+//                 >
+//                   <Download className="h-4 w-4 mr-1" /> Export PDF
+//                 </Button>
+//                 <Button
+//                   onClick={() => setShowInfoModal(false)}
+//                   variant="destructive"
+//                   size="sm"
+//                   className="font-code"
+//                 >
+//                   Close
+//                 </Button>
+//               </div>
 //             </div>
 //           </div>
 //         </div>
@@ -2276,9 +1766,7 @@
 
 
 
-
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -2303,7 +1791,6 @@ import {
   RefreshCw,
   Search,
   Zap,
-  XCircle,
   Trash2,
   Info,
   X,
@@ -2316,10 +1803,16 @@ import {
   XOctagon,
   Clock,
   Play,
-  Square
+  Square,
+  Loader2,
+  AlertCircle,
+  Settings,
+  Network,
+  Radio
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Enhanced Type Definitions
 interface Vulnerability {
   id: string;
   description: string;
@@ -2327,7 +1820,7 @@ interface Vulnerability {
   mitigation?: string;
   vulnerability_number?: number;
   name?: string;
-  category?: 'auto-fixable' | 'non-fixable' | 'manual';
+  category?: 'auto-fixable' | 'manual' | 'non-fixable';
   fix_method?: string;
   fix_commands?: string[];
   manual_steps?: string[];
@@ -2358,13 +1851,27 @@ interface Device {
   os?: string;
   open_ports?: number[];
   services?: string[];
+  hostname?: string;
 }
 
-interface ScanProgress {
-  deviceId: string;
-  progress: number;
-  status: 'scanning' | 'vulnerability_scan' | 'completed' | 'failed';
-  current_task?: string;
+interface ScanStatus {
+  [key: string]: {
+    progress: number;
+    status: string;
+    current_task: string;
+    started_at: string;
+    type: string;
+  };
+}
+
+interface FixStatus {
+  [key: string]: boolean;
+}
+
+// WebSocket event types
+interface SocketEvent {
+  type: string;
+  data: any;
 }
 
 export default function DevicesPanel() {
@@ -2377,64 +1884,689 @@ export default function DevicesPanel() {
   const [scanningDevices, setScanningDevices] = useState<Set<string>>(new Set());
   const [fixingDevices, setFixingDevices] = useState<Set<string>>(new Set());
   const [fixingVulnerabilities, setFixingVulnerabilities] = useState<Set<string>>(new Set());
-  const [scanProgress, setScanProgress] = useState<Map<string, ScanProgress>>(new Map());
-
+  const [scanProgress, setScanProgress] = useState<ScanStatus>({});
+  const [fixProgress, setFixProgress] = useState<FixStatus>({});
+  
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
-  const [vulnerabilityDefinitions, setVulnerabilityDefinitions] = useState<any>({});
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pollTimer, setPollTimer] = useState<number | null>(null);
 
-  // Real-time updates via WebSocket or polling
+  // WebSocket connection for real-time updates
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchDevices();
-    }, 10000); // Update every 10 seconds
-
-    return () => clearInterval(interval);
+    const ws = new WebSocket('ws://localhost:5000');
+    
+    ws.onopen = () => {
+      console.log('✅ WebSocket connected');
+      setIsConnected(true);
+      toast.success('Real-time updates connected');
+    };
+    
+    ws.onmessage = (event) => {
+      try {
+        const data: SocketEvent = JSON.parse(event.data);
+        handleSocketEvent(data);
+      } catch (error) {
+        console.error('WebSocket message error:', error);
+      }
+    };
+    
+    ws.onclose = () => {
+      console.log('❌ WebSocket disconnected');
+      setIsConnected(false);
+      toast.error('Real-time updates disconnected');
+    };
+    
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      setIsConnected(false);
+    };
+    
+    setSocket(ws);
+    
+    return () => {
+      ws.close();
+    };
   }, []);
 
-  // Fetch vulnerability definitions on component mount
-  useEffect(() => {
-    fetchVulnerabilityDefinitions();
+  // Handle real-time WebSocket events
+  const handleSocketEvent = useCallback((event: SocketEvent) => {
+    switch (event.type) {
+      case 'device_scan_started':
+        toast.info(`Scan started for device`);
+        setScanningDevices(prev => new Set(prev).add(event.data.device_id));
+        break;
+        
+      case 'device_scan_progress':
+        setScanProgress(prev => ({
+          ...prev,
+          [event.data.device_id]: {
+            progress: event.data.progress || 50,
+            status: event.data.status || 'scanning',
+            current_task: event.data.current_task || 'Scanning vulnerabilities',
+            started_at: new Date().toISOString(),
+            type: 'device_scan'
+          }
+        }));
+        break;
+        
+      case 'device_scan_completed':
+        toast.success(`Scan completed: ${event.data.vulnerabilities_found} vulnerabilities found`);
+        setScanningDevices(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(event.data.device_id);
+          return newSet;
+        });
+        setScanProgress(prev => {
+          const newProgress = { ...prev };
+          delete newProgress[event.data.device_id];
+          return newProgress;
+        });
+        fetchDevices();
+        break;
+        
+      case 'device_scan_failed':
+        toast.error(`Scan failed: ${event.data.message}`);
+        setScanningDevices(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(event.data.device_id);
+          return newSet;
+        });
+        break;
+        
+      case 'deep_scan_started':
+        toast.info('Deep IoT vulnerability scan started');
+        setIsScanningAll(true);
+        break;
+        
+      case 'deep_scan_progress':
+        setScanProgress(prev => ({
+          ...prev,
+          'deep_iot_scan': {
+            progress: event.data.progress || 30,
+            status: 'scanning',
+            current_task: `Scanning IoT devices (${event.data.devices_scanned || 0}/${event.data.total_devices || 0})`,
+            started_at: new Date().toISOString(),
+            type: 'iot_scan'
+          }
+        }));
+        break;
+        
+      case 'deep_scan_completed':
+        toast.success(`Deep IoT scan completed: ${event.data.total_vulnerabilities_found} vulnerabilities found across ${event.data.total_devices_scanned} devices`);
+        setIsScanningAll(false);
+        setScanProgress(prev => {
+          const newProgress = { ...prev };
+          delete newProgress['deep_iot_scan'];
+          return newProgress;
+        });
+        fetchDevices();
+        break;
+        
+      case 'vulnerability_fix_attempt':
+        if (event.data.status === 'success') {
+          toast.success(`Vulnerability fixed: ${event.data.message}`);
+        } else {
+          toast.error(`Fix failed: ${event.data.message}`);
+        }
+        setFixingVulnerabilities(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(event.data.vulnerability_id);
+          return newSet;
+        });
+        setTimeout(() => fetchDevices(), 1000);
+        break;
+        
+      case 'all_scans_stopped':
+        toast.info(`All scans stopped`);
+        setIsScanningAll(false);
+        setScanningDevices(new Set());
+        setScanProgress({});
+        break;
+        
+      default:
+        console.log('Unhandled WebSocket event:', event);
+    }
   }, []);
 
-  const fetchVulnerabilityDefinitions = async () => {
+  // Load devices on component mount
+  useEffect(() => {
+    fetchDevices();
+  }, []);
+
+  // Poll scan status regularly to prevent UI from getting stuck (fallback when Socket.IO is unavailable)
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        const resp = await fetch('http://localhost:5000/api/dp/devices/scan-status');
+        if (!resp.ok) return;
+        const data = await resp.json();
+        const active = data.active_scans || {};
+        setScanProgress(active);
+        // If IoT batch scan finished, clear scanning flag
+        if (!('iot_batch_scan' in active) && !('deep_iot_scan' in active)) {
+          setIsScanningAll(false);
+        }
+      } catch (e) {
+        // ignore polling errors
+      }
+    };
+
+    const shouldPoll = isScanningAll || scanningDevices.size > 0 || Object.keys(scanProgress).length > 0;
+    if (shouldPoll && pollTimer === null) {
+      const id = window.setInterval(poll, 2000);
+      setPollTimer(id);
+    }
+    if (!shouldPoll && pollTimer !== null) {
+      window.clearInterval(pollTimer);
+      setPollTimer(null);
+    }
+
+    return () => {
+      if (pollTimer !== null) {
+        window.clearInterval(pollTimer);
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isScanningAll, scanningDevices, scanProgress, pollTimer]);
+
+  // Fetch devices from backend
+  const fetchDevices = async (): Promise<void> => {
+    setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/dp/devices/vulnerability-definitions');
-      const data = await res.json();
-      setVulnerabilityDefinitions(data.vulnerability_definitions || {});
+      const response = await fetch('http://localhost:5000/api/dp/devices/scan-network');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      setDevices(data.devices || data.data || data || []);
     } catch (err) {
-      console.error('Failed to fetch vulnerability definitions:', err);
+      console.error('Failed to fetch devices:', err);
+      toast.error('Failed to fetch devices. Make sure backend is running.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const normalizeDevices = (data: any): Device[] => {
-    if (Array.isArray(data)) return data;
-    if (data && Array.isArray(data.devices)) return data.devices;
-    return [];
+  // Device discovery scan
+  const handleScanAll = async (): Promise<void> => {
+    setIsScanningAll(true);
+    toast.info('Starting REAL network device discovery...');
+    
+    try {
+      let url = 'http://localhost:5000/api/dp/devices/scan-network';
+      if (selectedSubnet && selectedSubnet !== 'auto') {
+        url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      setDevices(data.devices || data.data || data || []);
+      toast.success(`Found ${data.devices?.length || data.data?.length || data?.length || 0} REAL devices`);
+    } catch (err) {
+      toast.error('Network scan failed. Check backend connection.');
+      console.error('Scan error:', err);
+    } finally {
+      setIsScanningAll(false);
+    }
   };
 
+  // Deep IoT vulnerability scan
+  const handleScanIoTNetwork = async (): Promise<void> => {
+    setIsScanningAll(true);
+    toast.info('Starting comprehensive IoT vulnerability scan...');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/dp/devices/iot/scan-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        toast.success('IoT vulnerability scan started successfully');
+      } else {
+        toast.error(`IoT scan failed: ${data.message}`);
+        setIsScanningAll(false);
+      }
+    } catch (err) {
+      toast.error('Failed to start IoT vulnerability scan');
+      console.error('IoT scan error:', err);
+      setIsScanningAll(false);
+    }
+  };
+
+  // Individual device vulnerability scan
+  const handleScanDevice = async (deviceId: string): Promise<void> => {
+    setScanningDevices(prev => new Set(prev).add(deviceId));
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/scan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      
+      if (data.status === 'success' || data.vulnerabilities_found !== undefined) {
+        toast.success(`Vulnerability scan started for device`);
+      } else {
+        toast.error(`Device scan failed: ${data.message || 'Unknown error'}`);
+        setScanningDevices(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(deviceId);
+          return newSet;
+        });
+      }
+    } catch (err) {
+      toast.error('Failed to scan device');
+      console.error('Device scan error:', err);
+      setScanningDevices(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(deviceId);
+        return newSet;
+      });
+    }
+  };
+
+  // Stop all scans
+  const handleStopScan = async (): Promise<void> => {
+    try {
+      const response = await fetch('http://localhost:5000/api/dp/devices/stop-scan', {
+        method: 'POST'
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      toast.success(data.message || 'All scans stopped successfully');
+      
+      // Update local state
+      setIsScanningAll(false);
+      setScanningDevices(new Set());
+      setScanProgress({});
+    } catch (err) {
+      toast.error('Failed to stop scans');
+      console.error('Stop scan error:', err);
+    }
+  };
+
+  // Fix individual vulnerability
+  const handleFixVulnerability = async (vulnerabilityId: string, deviceId: string): Promise<void> => {
+    setFixingVulnerabilities(prev => new Set(prev).add(vulnerabilityId));
+    
+    try {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device) {
+        toast.error('Device not found');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/dp/devices/vulnerabilities/${encodeURIComponent(vulnerabilityId)}/fix`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          device_id: deviceId
+        })
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        toast.success('Vulnerability fix initiated successfully');
+      } else if (result.status === 'non_fixable') {
+        toast.warning('This vulnerability requires manual intervention', {
+          description: result.message,
+          duration: 8000
+        });
+        if (result.manual_steps) {
+          const steps = Array.isArray(result.manual_steps) ? result.manual_steps.join('\n\n• ') : result.manual_steps;
+          alert(`🔧 Manual Fix Required\n\n${result.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
+        }
+      } else {
+        toast.error(`Fix failed: ${result.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      toast.error('Failed to fix vulnerability');
+      console.error('Fix vulnerability error:', err);
+    } finally {
+      setTimeout(() => {
+        setFixingVulnerabilities(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(vulnerabilityId);
+          return newSet;
+        });
+        fetchDevices();
+      }, 1500);
+    }
+  };
+
+
+
+  // Batch fix all auto-fixable vulnerabilities on a device
+  const handleBatchFix = async (deviceId: string): Promise<void> => {
+    setFixingDevices(prev => new Set(prev).add(deviceId));
+    
+    try {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device || !device.ip) {
+        toast.error('Device not found or missing IP address');
+        return;
+      }
+
+      const vulnerabilities = device.comprehensive_vulnerabilities || [];
+      const autoFixableVulns = vulnerabilities.filter(v => 
+        v.category === 'auto-fixable' && v.status !== 'fixed'
+      );
+
+      if (autoFixableVulns.length === 0) {
+        toast.info('No auto-fixable vulnerabilities found');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        const summary = result.fix_summary;
+        toast.success(
+          `Auto-fix completed: ${summary.successful_fixes} fixed, ${summary.failed_fixes} failed`
+        );
+      } else {
+        toast.error(`Batch fix failed: ${result.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      toast.error('Failed to execute batch fix');
+      console.error('Batch fix error:', err);
+    } finally {
+      setFixingDevices(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(deviceId);
+        return newSet;
+      });
+      setTimeout(() => fetchDevices(), 2000);
+    }
+  };
+
+  // Auto-fix all vulnerabilities on device
+  const handleAutoFix = async (deviceId: string): Promise<void> => {
+    setFixingDevices(prev => new Set(prev).add(deviceId));
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        const summary = result.fix_summary;
+        toast.success(
+          `Auto-fix completed: ${summary.successful_fixes} fixed, ${summary.failed_fixes} failed, ${summary.non_fixable} non-fixable`
+        );
+      } else {
+        toast.error(`Auto-fix failed: ${result.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      toast.error('Failed to execute auto-fix');
+      console.error('Auto-fix error:', err);
+    } finally {
+      setFixingDevices(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(deviceId);
+        return newSet;
+      });
+      setTimeout(() => fetchDevices(), 2000);
+    }
+  };
+
+  // Get device info for modal
+  const handleInfoDevice = async (device: Device): Promise<void> => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/dp/devices/${device.id}/info`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const info = await response.json();
+      setSelectedDevice(info);
+      setShowInfoModal(true);
+    } catch (err) {
+      // If info endpoint fails, use the device data we have
+      setSelectedDevice(device);
+      setShowInfoModal(true);
+    }
+  };
+
+  // Generate vulnerability report
+  const handleGetVulnerabilityReport = async (deviceId: string): Promise<void> => {
+    try {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device) {
+        toast.error('Device not found');
+        return;
+      }
+
+      toast.info('Generating comprehensive vulnerability report...');
+      
+      // Create report from device data
+      const vulnerabilities = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
+      const autoFixable = vulnerabilities.filter(v => v.category === 'auto-fixable').length;
+      const manual = vulnerabilities.filter(v => v.category === 'manual').length;
+      const nonFixable = vulnerabilities.filter(v => v.category === 'non-fixable').length;
+      const fixed = vulnerabilities.filter(v => v.status === 'fixed').length;
+      
+      let reportText = `=== COMPREHENSIVE VULNERABILITY REPORT ===\n\n`;
+      reportText += `Device: ${device.name}\n`;
+      reportText += `IP: ${device.ip}\n`;
+      reportText += `MAC: ${device.mac}\n`;
+      reportText += `Type: ${device.type}\n`;
+      reportText += `Vendor: ${device.vendor}\n`;
+      reportText += `Risk Level: ${device.riskLevel.toUpperCase()}\n`;
+      reportText += `Scan Date: ${device.last_scanned || new Date().toISOString()}\n`;
+      reportText += `Total Vulnerabilities: ${vulnerabilities.length}\n\n`;
+      
+      reportText += "VULNERABILITY SUMMARY:\n";
+      reportText += "=".repeat(50) + "\n";
+      reportText += `Auto-fixable: ${autoFixable}\n`;
+      reportText += `Manual: ${manual}\n`;
+      reportText += `Non-fixable: ${nonFixable}\n`;
+      reportText += `Already Fixed: ${fixed}\n\n`;
+      
+      if (vulnerabilities.length > 0) {
+        reportText += "DETAILED VULNERABILITIES:\n";
+        reportText += "=".repeat(50) + "\n";
+        
+        vulnerabilities.forEach((vuln, index) => {
+          reportText += `\n${index + 1}. ${vuln.name || vuln.id}\n`;
+          reportText += `   Severity: ${vuln.severity?.toUpperCase()}\n`;
+          reportText += `   Category: ${vuln.category || 'unknown'}\n`;
+          reportText += `   Status: ${vuln.status || 'found'}\n`;
+          reportText += `   Description: ${vuln.description}\n`;
+          
+          if (vuln.fix_method) {
+            reportText += `   Fix Method: ${vuln.fix_method}\n`;
+          }
+          
+          if (vuln.manual_steps && Array.isArray(vuln.manual_steps)) {
+            reportText += `   Manual Steps:\n`;
+            vuln.manual_steps.forEach((step, stepIndex) => {
+              reportText += `     ${stepIndex + 1}. ${step}\n`;
+            });
+          }
+          
+          if (vuln.potential_harm) {
+            reportText += `   Potential Harm: ${vuln.potential_harm}\n`;
+          }
+          
+          if (vuln.port) {
+            reportText += `   Affected Port: ${vuln.port}\n`;
+          }
+          
+          reportText += `   Detected: ${vuln.detected_at || 'Unknown'}\n`;
+          if (vuln.fixed_at) {
+            reportText += `   Fixed: ${vuln.fixed_at}\n`;
+          }
+          reportText += "-".repeat(40) + "\n";
+        });
+      } else {
+        reportText += "No vulnerabilities found. Device appears to be secure.\n";
+      }
+      
+      // Create downloadable report
+      const blob = new Blob([reportText], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `vulnerability-report-${device.name}-${new Date().toISOString().split('T')[0]}.txt`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Vulnerability report downloaded');
+    } catch (err) {
+      toast.error('Failed to generate vulnerability report');
+      console.error('Report generation error:', err);
+    }
+  };
+
+  // Clear all devices
+  const handleClearDevices = async (): Promise<void> => {
+    try {
+      const response = await fetch('http://localhost:5000/api/dp/devices/clear', {
+        method: 'POST'
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      setDevices([]);
+      toast.success('Devices cleared from memory');
+    } catch (err) {
+      toast.error('Failed to clear devices');
+      console.error('Clear devices error:', err);
+    }
+  };
+
+  // Export all devices report
+  const handleExportAll = async (): Promise<void> => {
+    toast.info('Generating comprehensive network report...');
+    try {
+      let reportText = `=== NETWORK SECURITY REPORT ===\n\n`;
+      reportText += `Generated: ${new Date().toISOString()}\n`;
+      reportText += `Total Devices: ${devices.length}\n\n`;
+      
+      reportText += "DEVICE SUMMARY:\n";
+      reportText += "=".repeat(50) + "\n";
+      
+      devices.forEach((device, index) => {
+        const vulnerabilities = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
+        reportText += `\n${index + 1}. ${device.name} (${device.ip})\n`;
+        reportText += `   Type: ${device.type}\n`;
+        reportText += `   Vendor: ${device.vendor}\n`;
+        reportText += `   Risk Level: ${device.riskLevel}\n`;
+        reportText += `   Vulnerabilities: ${vulnerabilities.length}\n`;
+      });
+      
+      // Create downloadable report
+      const blob = new Blob([reportText], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `network-security-report-${new Date().toISOString().split('T')[0]}.txt`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Comprehensive report downloaded');
+    } catch (err) {
+      toast.error('Report export failed');
+      console.error('Export error:', err);
+    }
+  };
+
+  // Utility functions
+  const getDeviceIcon = (type: string) => {
+    switch (type) {
+      case 'computer': return Laptop;
+      case 'mobile': return Smartphone;
+      case 'printer': return Printer;
+      case 'camera': return Camera;
+      case 'tv': return Tv;
+      case 'router': return Monitor;
+      case 'iot': return Radio;
+      default: return Monitor;
+    }
+  };
+
+  const getRiskBadge = (risk: string) => {
+    switch (risk) {
+      case 'critical': return 'destructive';
+      case 'high': return 'warning';
+      case 'medium': return 'secondary';
+      case 'low': return 'success';
+      default: return 'outline';
+    }
+  };
+
+  const getVulnerabilityBadge = (category?: string) => {
+    switch (category) {
+      case 'auto-fixable': return 'success';
+      case 'manual': return 'warning';
+      case 'non-fixable': return 'secondary';
+      default: return 'outline';
+    }
+  };
+
+  const getStatusIcon = (status?: string) => {
+    switch (status) {
+      case 'fixed': return <CheckCircle className="h-3 w-3 text-green-500" />;
+      case 'fix_failed': return <XOctagon className="h-3 w-3 text-red-500" />;
+      case 'in_progress': return <Clock className="h-3 w-3 text-yellow-500 animate-pulse" />;
+      default: return <AlertTriangle className="h-3 w-3 text-orange-500" />;
+    }
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'critical': return 'text-red-500';
+      case 'high': return 'text-orange-500';
+      case 'medium': return 'text-yellow-500';
+      case 'low': return 'text-blue-500';
+      default: return 'text-gray-500';
+    }
+  };
+
+  // Enhanced device classification
   const classifyDeviceType = (device: Device): string => {
     if (device.type && device.type !== 'unknown') return device.type;
     
     const vendorLower = (device.vendor || '').toLowerCase();
     const nameLower = (device.name || '').toLowerCase();
-    const osLower = (device.os || '').toLowerCase();
-
-    // Mobile devices
-    if (
-      vendorLower.includes('samsung') ||
-      vendorLower.includes('apple') ||
-      vendorLower.includes('xiaomi') ||
-      vendorLower.includes('oneplus') ||
-      vendorLower.includes('vivo') ||
-      vendorLower.includes('oppo') ||
-      nameLower.includes('phone') ||
-      nameLower.includes('android') ||
-      nameLower.includes('iphone') ||
-      nameLower.includes('mobile')
-    ) {
-      return 'mobile';
-    }
 
     // IoT devices
     if (
@@ -2449,7 +2581,12 @@ export default function DevicesPanel() {
       nameLower.includes('iot') ||
       nameLower.includes('sensor') ||
       nameLower.includes('smart') ||
-      nameLower.includes('camera') && !nameLower.includes('webcam')
+      (nameLower.includes('camera') && !nameLower.includes('webcam')) ||
+      nameLower.includes('thermostat') ||
+      nameLower.includes('plug') ||
+      nameLower.includes('switch') ||
+      nameLower.includes('bulb') ||
+      nameLower.includes('doorbell')
     ) {
       return 'iot';
     }
@@ -2463,124 +2600,41 @@ export default function DevicesPanel() {
       vendorLower.includes('tenda') ||
       nameLower.includes('router') ||
       nameLower.includes('switch') ||
-      nameLower.includes('access point')
+      nameLower.includes('access point') ||
+      nameLower.includes('gateway') ||
+      device.ip.endsWith('.1')
     ) {
       return 'router';
     }
 
     // Computers
     if (
-      osLower.includes('windows') ||
-      osLower.includes('linux') ||
-      osLower.includes('mac') ||
       nameLower.includes('pc') ||
       nameLower.includes('laptop') ||
       nameLower.includes('desktop') ||
-      nameLower.includes('computer')
+      nameLower.includes('computer') ||
+      nameLower.includes('windows') ||
+      nameLower.includes('mac') ||
+      nameLower.includes('linux')
     ) {
       return 'computer';
     }
 
-    return 'other';
-  };
-
-  const fetchDevices = async () => {
-    try {
-      let url = 'http://localhost:5000/api/dp/devices/scan-network';
-      if (selectedSubnet && selectedSubnet !== 'auto') {
-        url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
-      }
-      const res = await fetch(url);
-      const data = await res.json();
-      setDevices(normalizeDevices(data));
-    } catch (err) {
-      console.error('Failed to fetch devices:', err);
-      toast.error('Failed to fetch devices');
+    // Mobile devices
+    if (
+      vendorLower.includes('apple') ||
+      vendorLower.includes('samsung') ||
+      vendorLower.includes('android') ||
+      vendorLower.includes('xiaomi') ||
+      vendorLower.includes('huawei')
+    ) {
+      return 'mobile';
     }
+
+    return device.type || 'unknown';
   };
 
-  useEffect(() => {
-    fetchDevices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getDeviceIcon = (type: string) => {
-    switch (type) {
-      case 'computer':
-        return Laptop;
-      case 'mobile':
-        return Smartphone;
-      case 'printer':
-        return Printer;
-      case 'camera':
-        return Camera;
-      case 'tv':
-        return Tv;
-      case 'router':
-        return Monitor;
-      case 'iot':
-        return Zap;
-      default:
-        return Monitor;
-    }
-  };
-
-  const getRiskBadge = (risk: string) => {
-    switch (risk) {
-      case 'critical':
-        return 'destructive';
-      case 'high':
-        return 'warning';
-      case 'medium':
-        return 'secondary';
-      case 'low':
-        return 'success';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getVulnerabilityBadge = (category: string) => {
-    switch (category) {
-      case 'auto-fixable':
-        return 'success';
-      case 'non-fixable':
-        return 'secondary';
-      case 'manual':
-        return 'warning';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'fixed':
-        return <CheckCircle className="h-3 w-3 text-green-500" />;
-      case 'fix_failed':
-        return <XOctagon className="h-3 w-3 text-red-500" />;
-      case 'in_progress':
-        return <Clock className="h-3 w-3 text-yellow-500 animate-pulse" />;
-      default:
-        return <AlertTriangle className="h-3 w-3 text-orange-500" />;
-    }
-  };
-
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'critical':
-        return 'text-red-500';
-      case 'high':
-        return 'text-orange-500';
-      case 'medium':
-        return 'text-yellow-500';
-      case 'low':
-        return 'text-blue-500';
-      default:
-        return 'text-gray-500';
-    }
-  };
-
+  // Filter devices
   const filteredDevices = devices.filter(device => {
     const actualType = classifyDeviceType(device);
     const matchesSearch =
@@ -2596,486 +2650,16 @@ export default function DevicesPanel() {
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  // Enhanced Vulnerability Fixing with better error handling
-  const handleFixVulnerability = async (vulnerabilityId: string, deviceId: string) => {
-    setFixingVulnerabilities(prev => new Set(prev).add(vulnerabilityId));
-    
-    try {
-      const response = await fetch(`http://localhost:5000/api/vulnerabilities/${vulnerabilityId}/fix`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          device_id: deviceId
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-        toast.success('Vulnerability fixed successfully!');
-        // Update local state immediately for better UX
-        setDevices(prev => prev.map(device => {
-          if (device.id === deviceId) {
-            const updatedVulns = device.comprehensive_vulnerabilities?.map(vuln => 
-              vuln.id === vulnerabilityId ? { ...vuln, status: 'fixed', fixed_at: new Date().toISOString() } : vuln
-            ) || device.vulnerabilities.map(vuln => 
-              vuln.id === vulnerabilityId ? { ...vuln, status: 'fixed', fixed_at: new Date().toISOString() } : vuln
-            );
-            
-            return {
-              ...device,
-              comprehensive_vulnerabilities: updatedVulns,
-              vulnerabilities: updatedVulns
-            };
-          }
-          return device;
-        }));
-      } else if (result.status === 'non_fixable') {
-        toast.warning('This vulnerability requires manual intervention', {
-          description: result.message,
-          duration: 6000
-        });
-        
-        if (result.manual_steps) {
-          const manualSteps = Array.isArray(result.manual_steps) 
-            ? result.manual_steps.join('\n• ')
-            : result.manual_steps;
-          
-          alert(`Manual Fix Required:\n\n• ${manualSteps}`);
-        }
-      } else if (result.status === 'in_progress') {
-        toast.info('Vulnerability fix in progress...', {
-          duration: 3000
-        });
-      } else {
-        toast.error(`Fix failed: ${result.message || 'Unknown error'}`);
-      }
-    } catch (err) {
-      console.error('Vulnerability fix error:', err);
-      toast.error('Failed to connect to vulnerability service');
-    } finally {
-      setFixingVulnerabilities(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(vulnerabilityId);
-        return newSet;
-      });
-    }
-  };
-
-  // Enhanced Batch Fix with progress tracking
-  const handleBatchFix = async (deviceId: string, vulnerabilityIds: string[]) => {
-    setFixingDevices(prev => new Set(prev).add(deviceId));
-    
-    try {
-      const response = await fetch(`http://localhost:5000/api/devices/${deviceId}/vulnerabilities/fix-multiple`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          vulnerability_ids: vulnerabilityIds,
-          auto_fix_only: true
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-        const data = result.data;
-        toast.success(`Batch fix completed: ${data.successful_fixes} successful, ${data.failed_fixes} failed`);
-        
-        // Update local state
-        setDevices(prev => prev.map(device => {
-          if (device.id === deviceId) {
-            const updatedVulns = device.comprehensive_vulnerabilities?.map(vuln => 
-              vulnerabilityIds.includes(vuln.id) && data.successful_fixes_list?.includes(vuln.id)
-                ? { ...vuln, status: 'fixed', fixed_at: new Date().toISOString() }
-                : vuln
-            ) || device.vulnerabilities.map(vuln => 
-              vulnerabilityIds.includes(vuln.id) && data.successful_fixes_list?.includes(vuln.id)
-                ? { ...vuln, status: 'fixed', fixed_at: new Date().toISOString() }
-                : vuln
-            );
-            
-            return {
-              ...device,
-              comprehensive_vulnerabilities: updatedVulns,
-              vulnerabilities: updatedVulns
-            };
-          }
-          return device;
-        }));
-        
-      } else {
-        toast.error(`Batch fix failed: ${result.message || 'Unknown error'}`);
-      }
-    } catch (err) {
-      console.error('Batch fix error:', err);
-      toast.error('Failed to execute batch fix');
-    } finally {
-      setFixingDevices(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(deviceId);
-        return newSet;
-      });
-    }
-  };
-
-  // Enhanced IoT Vulnerability Scanning
-  const handleScanIoTNetwork = async () => {
-    setIsScanningAll(true);
-    toast.info('Starting comprehensive IoT vulnerability scan...');
-    
-    try {
-      const response = await fetch('http://localhost:5000/api/iot/scan-all', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          deep_scan: true,
-          port_scan: true,
-          vulnerability_check: true
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-        const data = result.data;
-        toast.success(`IoT Scan Complete: ${data.total_devices_scanned} devices, ${data.total_vulnerabilities_found} vulnerabilities found`);
-        
-        // Enhanced device update with new vulnerabilities
-        setTimeout(() => {
-          fetchDevices();
-        }, 2000);
-        
-      } else if (result.status === 'in_progress') {
-        toast.info('IoT scan is already in progress');
-      } else {
-        toast.error(`IoT scan failed: ${result.message}`);
-      }
-    } catch (err) {
-      console.error('IoT scan error:', err);
-      toast.error('Failed to start IoT vulnerability scan');
-    } finally {
-      setIsScanningAll(false);
-    }
-  };
-
-  // Enhanced Single Device Scan with Progress
-  const handleScanDevice = async (deviceId: string) => {
-    setScanningDevices(prev => new Set(prev).add(deviceId));
-    
-    // Initialize progress tracking
-    setScanProgress(prev => new Map(prev).set(deviceId, {
-      deviceId,
-      progress: 0,
-      status: 'scanning',
-      current_task: 'Starting scan...'
-    }));
-    
-    try {
-      const device = devices.find(d => d.id === deviceId);
-      const isIoTDevice = device && classifyDeviceType(device) === 'iot';
-      
-      let response;
-      if (isIoTDevice) {
-        response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/scan`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            comprehensive: true,
-            port_scan: true
-          })
-        });
-      } else {
-        response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/scan`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-      }
-      
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-        toast.success(`Vulnerability scan completed for ${device?.name}`);
-        
-        // Update progress to completed
-        setScanProgress(prev => new Map(prev).set(deviceId, {
-          deviceId,
-          progress: 100,
-          status: 'completed',
-          current_task: 'Scan completed'
-        }));
-        
-        // Refresh devices after short delay
-        setTimeout(() => {
-          fetchDevices();
-          // Clear progress after success
-          setScanProgress(prev => {
-            const newMap = new Map(prev);
-            newMap.delete(deviceId);
-            return newMap;
-          });
-        }, 1000);
-        
-      } else if (result.status === 'in_progress') {
-        toast.info('Scan already in progress for this device');
-      } else {
-        toast.error(`Device scan failed: ${result.message}`);
-        setScanProgress(prev => new Map(prev).set(deviceId, {
-          deviceId,
-          progress: 0,
-          status: 'failed',
-          current_task: 'Scan failed'
-        }));
-      }
-    } catch (err) {
-      console.error('Device scan error:', err);
-      toast.error('Failed to scan device');
-      setScanProgress(prev => new Map(prev).set(deviceId, {
-        deviceId,
-        progress: 0,
-        status: 'failed',
-        current_task: 'Scan failed - connection error'
-      }));
-    } finally {
-      setScanningDevices(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(deviceId);
-        return newSet;
-      });
-    }
-  };
-
-  // Enhanced Auto-Fix with better feedback
-  const handleAutoFix = async (deviceId: string) => {
-    setFixingDevices(prev => new Set(prev).add(deviceId));
-    
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/dp/devices/${deviceId}/auto-fix`,
-        { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
-      
-      const result = await response.json();
-      
-      if (result.status === 'success') {
-        const summary = result.fix_summary;
-        toast.success(
-          `Auto-fix completed: ${summary.successful_fixes} fixed, ${summary.failed_fixes} failed, ${summary.non_fixable} non-fixable`
-        );
-        
-        // Update local state
-        fetchDevices();
-      } else {
-        toast.error(`Auto-fix failed: ${result.message || 'Unknown error'}`);
-      }
-    } catch (err) {
-      console.error('Auto-fix error:', err);
-      toast.error('Failed to execute auto-fix');
-    } finally {
-      setFixingDevices(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(deviceId);
-        return newSet;
-      });
-    }
-  };
-
-  // Enhanced Vulnerability Report
-  const handleGetVulnerabilityReport = async (deviceId: string) => {
-    try {
-      const device = devices.find(d => d.id === deviceId);
-      const isIoTDevice = device && classifyDeviceType(device) === 'iot';
-      
-      let response;
-      if (isIoTDevice) {
-        response = await fetch(`http://localhost:5000/api/iot/device/${deviceId}/report`);
-      } else {
-        response = await fetch(`http://localhost:5000/api/dp/devices/${deviceId}/vulnerability-report`);
-      }
-      
-      const report = await response.json();
-      
-      if (report.status === 'success') {
-        const reportData = isIoTDevice ? report.report : report;
-        const vulnerabilities = reportData.vulnerabilities || [];
-        
-        let reportText = `=== VULNERABILITY REPORT ===\n\n`;
-        reportText += `Device: ${reportData.device_info?.device_name || device?.name}\n`;
-        reportText += `IP: ${reportData.device_info?.ip_address || device?.ip}\n`;
-        reportText += `MAC: ${reportData.device_info?.mac_address || device?.mac}\n`;
-        reportText += `Type: ${classifyDeviceType(device || {})}\n`;
-        reportText += `Scan Date: ${new Date().toLocaleString()}\n`;
-        reportText += `Total Vulnerabilities: ${vulnerabilities.length}\n\n`;
-        
-        if (vulnerabilities.length > 0) {
-          reportText += "DETAILED VULNERABILITIES:\n";
-          reportText += "=".repeat(50) + "\n";
-          
-          vulnerabilities.forEach((vuln: any, index: number) => {
-            reportText += `\n${index + 1}. ${vuln.name || vuln.id}\n`;
-            reportText += `   Severity: ${vuln.severity?.toUpperCase()}\n`;
-            reportText += `   Category: ${vuln.category || 'unknown'}\n`;
-            reportText += `   Status: ${vuln.status || 'found'}\n`;
-            reportText += `   Description: ${vuln.description}\n`;
-            
-            if (vuln.fix_method) {
-              reportText += `   Fix Method: ${vuln.fix_method}\n`;
-            }
-            
-            if (vuln.manual_steps && Array.isArray(vuln.manual_steps)) {
-              reportText += `   Manual Steps:\n`;
-              vuln.manual_steps.forEach((step: string, stepIndex: number) => {
-                reportText += `     ${stepIndex + 1}. ${step}\n`;
-              });
-            }
-            
-            if (vuln.potential_harm) {
-              reportText += `   Potential Harm: ${vuln.potential_harm}\n`;
-            }
-            
-            if (vuln.port) {
-              reportText += `   Affected Port: ${vuln.port}\n`;
-            }
-            
-            reportText += `   Detected: ${vuln.detected_at || 'Unknown'}\n`;
-            if (vuln.fixed_at) {
-              reportText += `   Fixed: ${vuln.fixed_at}\n`;
-            }
-            reportText += "-".repeat(40) + "\n";
-          });
-        } else {
-          reportText += "No vulnerabilities found. Device appears to be secure.\n";
-        }
-        
-        // Create downloadable report
-        const blob = new Blob([reportText], { type: 'text/plain' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `vulnerability-report-${device?.name}-${new Date().toISOString().split('T')[0]}.txt`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        
-        toast.success('Vulnerability report downloaded');
-      } else {
-        toast.error('Failed to generate vulnerability report');
-      }
-    } catch (err) {
-      console.error('Report generation error:', err);
-      toast.error('Failed to get vulnerability report');
-    }
-  };
-
-  // Existing functions with minor improvements
-  const handleScanAll = async () => {
-    setIsScanningAll(true);
-    toast.info('Starting network-wide device discovery...');
-    try {
-      let url = 'http://localhost:5000/api/dp/devices/scan-network';
-      if (selectedSubnet && selectedSubnet !== 'auto') {
-        url += `?subnet=${encodeURIComponent(selectedSubnet)}`;
-      }
-      const res = await fetch(url);
-      const data = await res.json();
-      setDevices(normalizeDevices(data));
-      toast.success(`Found ${normalizeDevices(data).length} devices`);
-    } catch (err) {
-      toast.error('Network scan failed');
-    } finally {
-      setIsScanningAll(false);
-    }
-  };
-
-  const handleStopScan = async () => {
-    try {
-      await fetch('http://localhost:5000/api/dp/devices/stop-scan', {
-        method: 'POST'
-      });
-      toast.success('All scans stopped');
-    } catch {
-      toast.info('Scan stop requested');
-    } finally {
-      setIsScanningAll(false);
-      setScanningDevices(new Set());
-      setScanProgress(new Map());
-    }
-  };
-
-  const handleClearDevices = async () => {
-    try {
-      await fetch('http://localhost:5000/api/dp/devices/clear', {
-        method: 'POST'
-      });
-    } catch {
-      console.warn('Backend clear failed, clearing UI anyway');
-    }
-    setDevices([]);
-    toast.success('Devices cleared from memory');
-  };
-
-  const handleInfoDevice = async (device: Device) => {
-    try {
-      const res = await fetch(
-        `http://localhost:5000/api/dp/devices/${device.id}/info`
-      );
-      const info = await res.json();
-      setSelectedDevice(info);
-      setShowInfoModal(true);
-    } catch (err) {
-      toast.error('Failed to fetch device details');
-    }
-  };
-
-  const handleExportAll = async () => {
-    toast.info('Generating comprehensive network report...');
-    try {
-      const res = await fetch(
-        'http://localhost:5000/api/dp/devices/export-all'
-      );
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `network-security-report-${new Date().toISOString().split('T')[0]}.pdf`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      toast.success('Comprehensive report downloaded');
-    } catch (err) {
-      toast.error('Report export failed');
-    }
-  };
-
-  // Enhanced Statistics Calculations
+  // Statistics calculations
   const totalDevices = devices.length;
   const onlineDevices = devices.filter(d => d.status === 'online').length;
   const vulnerableDevices = devices.filter(
     d => (d.vulnerabilities?.length > 0) || (d.comprehensive_vulnerabilities?.length > 0)
   ).length;
 
-  // Enhanced vulnerability stats
   const autoFixableVulnerabilities = devices.reduce((total, device) => {
     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
     return total + vulns.filter(v => v.category === 'auto-fixable' && v.status !== 'fixed').length;
-  }, 0);
-
-  const nonFixableVulnerabilities = devices.reduce((total, device) => {
-    const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
-    return total + vulns.filter(v => v.category === 'non-fixable').length;
   }, 0);
 
   const manualVulnerabilities = devices.reduce((total, device) => {
@@ -3083,60 +2667,81 @@ export default function DevicesPanel() {
     return total + vulns.filter(v => v.category === 'manual').length;
   }, 0);
 
+  const nonFixableVulnerabilities = devices.reduce((total, device) => {
+    const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
+    return total + vulns.filter(v => v.category === 'non-fixable').length;
+  }, 0);
+
   const fixedVulnerabilities = devices.reduce((total, device) => {
     const vulns = device.comprehensive_vulnerabilities || device.vulnerabilities || [];
     return total + vulns.filter(v => v.status === 'fixed').length;
   }, 0);
 
-  // Enhanced device type statistics
   const iotDevices = devices.filter(d => classifyDeviceType(d) === 'iot');
-  const computerDevices = devices.filter(d => classifyDeviceType(d) === 'computer');
-  const mobileDevices = devices.filter(d => classifyDeviceType(d) === 'mobile');
-  const networkDevices = devices.filter(d => classifyDeviceType(d) === 'router');
-
-  // Calculate risk distribution
   const criticalRiskDevices = devices.filter(d => d.riskLevel === 'critical').length;
-  const highRiskDevices = devices.filter(d => d.riskLevel === 'high').length;
-  const mediumRiskDevices = devices.filter(d => d.riskLevel === 'medium').length;
-  const lowRiskDevices = devices.filter(d => d.riskLevel === 'low').length;
 
   return (
     <div className="space-y-4 sm:space-y-6">
+      {/* Connection Status */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+          <span className="text-sm text-muted-foreground">
+            {isConnected ? 'Real-time updates connected' : 'Real-time updates disconnected'}
+          </span>
+        </div>
+        <Button
+          onClick={fetchDevices}
+          variant="outline"
+          size="sm"
+          className="font-code"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+          ) : (
+            <RefreshCw className="h-4 w-4 mr-1" />
+          )}
+          Refresh
+        </Button>
+      </div>
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-orbitron font-bold text-primary">
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary">
             Network Security Dashboard
           </h1>
-          <p className="text-muted-foreground font-code text-sm">
+          <p className="text-muted-foreground text-sm">
             Real-time device monitoring and vulnerability management
           </p>
-          <p className="text-muted-foreground font-code text-xs mt-1">
+          <p className="text-muted-foreground text-xs mt-1">
             Active scanning, auto-remediation, and comprehensive security reporting
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Select value={selectedSubnet} onValueChange={setSelectedSubnet}>
-            <SelectTrigger className="w-32 bg-input/50 border-border font-code">
-              <SelectValue placeholder="Subnet" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="auto">Auto Detect</SelectItem>
-              <SelectItem value="192.168.1.0/24">/24 (Fast)</SelectItem>
-              <SelectItem value="192.168.0.0/20">/20 (Slower)</SelectItem>
-              <SelectItem value="10.0.0.0/16">10.0.0.0/16</SelectItem>
-              <SelectItem value="172.16.0.0/16">172.16.0.0/16</SelectItem>
-            </SelectContent>
-          </Select>
+          // In your DevicesPanel component, update the subnet selector:
+<Select value={selectedSubnet} onValueChange={setSelectedSubnet}>
+  <SelectTrigger className="w-40 bg-input/50 border-border">
+    <SelectValue placeholder="Subnet" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="auto">Auto Detect</SelectItem>
+    <SelectItem value="192.168.1.0/24">192.168.1.0/24</SelectItem>
+    <SelectItem value="192.168.0.0/24">192.168.0.0/24</SelectItem>
+    <SelectItem value="192.168.0.0/20">192.168.0.0/20 (Large Scan)</SelectItem>
+    <SelectItem value="10.0.0.0/24">10.0.0.0/24</SelectItem>
+    <SelectItem value="172.16.0.0/24">172.16.0.0/24</SelectItem>
+  </SelectContent>
+</Select>
           <Button
             onClick={handleScanAll}
             disabled={isScanningAll}
-            variant="cyber"
+            variant="default"
             size="sm"
-            className="font-code"
           >
             {isScanningAll ? (
-              <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
+              <Loader2 className="h-4 w-4 mr-1 animate-spin" />
             ) : (
               <Scan className="h-4 w-4 mr-1" />
             )}
@@ -3145,9 +2750,9 @@ export default function DevicesPanel() {
           <Button
             onClick={handleScanIoTNetwork}
             disabled={isScanningAll}
-            variant="cyber"
+            variant="default"
             size="sm"
-            className="font-code bg-cyan-600 hover:bg-cyan-700"
+            className="bg-cyan-600 hover:bg-cyan-700"
           >
             <Zap className="h-4 w-4 mr-1" />
             {isScanningAll ? 'Scanning...' : 'Deep IoT Scan'}
@@ -3156,7 +2761,6 @@ export default function DevicesPanel() {
             onClick={handleStopScan}
             variant="outline"
             size="sm"
-            className="font-code"
             disabled={!isScanningAll && scanningDevices.size === 0}
           >
             <Square className="h-4 w-4 mr-1" />
@@ -3166,97 +2770,87 @@ export default function DevicesPanel() {
             onClick={handleClearDevices}
             variant="destructive"
             size="sm"
-            className="font-code"
           >
             <Trash2 className="h-4 w-4 mr-1" />
             Clear
-          </Button>
-          <Button
-            onClick={handleExportAll}
-            variant="outline"
-            size="sm"
-            className="font-code"
-          >
-            <Download className="h-4 w-4 mr-1" />
-            Export
           </Button>
         </div>
       </div>
 
       {/* Enhanced Statistics */}
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-primary mb-1">
+            <div className="text-2xl font-bold text-primary mb-1">
               {totalDevices}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Total Devices
             </div>
           </CardContent>
         </Card>
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-green-500 mb-1">
+            <div className="text-2xl font-bold text-green-500 mb-1">
               {onlineDevices}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Online
             </div>
           </CardContent>
         </Card>
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-red-500 mb-1">
+            <div className="text-2xl font-bold text-red-500 mb-1">
               {vulnerableDevices}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Vulnerable
             </div>
           </CardContent>
         </Card>
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-cyan-500 mb-1">
+            <div className="text-2xl font-bold text-cyan-500 mb-1">
               {iotDevices.length}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               IoT Devices
             </div>
           </CardContent>
         </Card>
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-yellow-500 mb-1">
+            <div className="text-2xl font-bold text-yellow-500 mb-1">
               {criticalRiskDevices}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Critical Risk
             </div>
           </CardContent>
         </Card>
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-orbitron font-bold text-green-500 mb-1">
+            <div className="text-2xl font-bold text-green-500 mb-1">
               {fixedVulnerabilities}
             </div>
-            <div className="text-xs font-code text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               Fixed Vulns
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Enhanced Vulnerability Summary */}
-      {(autoFixableVulnerabilities > 0 || nonFixableVulnerabilities > 0 || manualVulnerabilities > 0 || fixedVulnerabilities > 0) && (
-        <Card className="neon-border bg-card/80 backdrop-blur-sm">
+      {/* Vulnerability Management Summary */}
+      {(autoFixableVulnerabilities > 0 || manualVulnerabilities > 0 || nonFixableVulnerabilities > 0 || fixedVulnerabilities > 0) && (
+        <Card className="bg-card/80 backdrop-blur-sm">
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
-                <h3 className="font-orbitron font-bold text-primary mb-2">
+                <h3 className="font-bold text-primary mb-2">
                   Vulnerability Management
                 </h3>
-                <div className="flex flex-wrap gap-4 text-sm font-code">
+                <div className="flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-green-500" />
                     <span>Auto-fixable: {autoFixableVulnerabilities}</span>
@@ -3277,19 +2871,12 @@ export default function DevicesPanel() {
               </div>
               <div className="flex gap-2">
                 <Button
-                  onClick={() => {
-                    alert(`Vulnerability Classification:\n\n` +
-                      `🟢 Auto-fixable: Vulnerabilities that can be automatically remediated\n` +
-                      `🟡 Manual: Vulnerabilities requiring manual intervention\n` +
-                      `🔴 Non-fixable: Vulnerabilities that cannot be fixed automatically\n\n` +
-                      `Click individual fix buttons to remediate vulnerabilities.`);
-                  }}
+                  onClick={handleExportAll}
                   variant="outline"
                   size="sm"
-                  className="font-code"
                 >
-                  <FileText className="h-4 w-4 mr-1" />
-                  Help
+                  <Download className="h-4 w-4 mr-1" />
+                  Export Report
                 </Button>
               </div>
             </div>
@@ -3297,8 +2884,41 @@ export default function DevicesPanel() {
         </Card>
       )}
 
+      {/* Active Scans Progress */}
+      {Object.keys(scanProgress).length > 0 && (
+        <Card className="bg-card/80 backdrop-blur-sm border-yellow-500/50">
+          <CardContent className="p-4">
+            <h3 className="font-bold text-yellow-500 mb-3 flex items-center">
+              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              Active Scans ({Object.keys(scanProgress).length})
+            </h3>
+            <div className="space-y-3">
+              {Object.entries(scanProgress).map(([scanId, progress]) => (
+                <div key={scanId} className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">
+                      {scanId === 'deep_iot_scan' ? 'Deep IoT Scan' : `Device: ${scanId}`}
+                    </span>
+                    <span className="text-muted-foreground">{progress.progress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="h-2 rounded-full bg-yellow-500 transition-all duration-300"
+                      style={{ width: `${progress.progress}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {progress.current_task}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Enhanced Filters */}
-      <Card className="neon-border bg-card/80 backdrop-blur-sm">
+      <Card className="bg-card/80 backdrop-blur-sm">
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row md:items-center gap-3">
             <div className="flex-1 relative">
@@ -3307,11 +2927,11 @@ export default function DevicesPanel() {
                 placeholder="Search devices by name, IP, MAC, or vendor..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="pl-10 bg-input/50 border-border font-code"
+                className="pl-10 bg-input/50 border-border"
               />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className="w-40 bg-input/50 border-border font-code">
+              <SelectTrigger className="w-40 bg-input/50 border-border">
                 <SelectValue placeholder="Device Type" />
               </SelectTrigger>
               <SelectContent>
@@ -3322,12 +2942,11 @@ export default function DevicesPanel() {
                 <SelectItem value="router">Network Equipment</SelectItem>
                 <SelectItem value="printer">Printers</SelectItem>
                 <SelectItem value="camera">Cameras</SelectItem>
-                <SelectItem value="tv">TV & Media</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-32 bg-input/50 border-border font-code">
+              <SelectTrigger className="w-32 bg-input/50 border-border">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -3341,13 +2960,13 @@ export default function DevicesPanel() {
       </Card>
 
       {/* Enhanced Device List */}
-      <Card className="neon-border bg-card/80 backdrop-blur-sm">
+      <Card className="bg-card/80 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="font-orbitron text-primary flex items-center">
+          <CardTitle className="text-primary flex items-center">
             <Monitor className="h-5 w-5 mr-2" />
             Device Inventory ({filteredDevices.length})
             {scanningDevices.size > 0 && (
-              <Badge variant="secondary" className="ml-2 font-code">
+              <Badge variant="secondary" className="ml-2">
                 Scanning: {scanningDevices.size}
               </Badge>
             )}
@@ -3367,7 +2986,7 @@ export default function DevicesPanel() {
               const manualVulns = vulnerabilities.filter(v => 
                 v.category === 'manual' && v.status !== 'fixed'
               );
-              const currentScanProgress = scanProgress.get(device.id);
+              const currentScanProgress = scanProgress[device.id];
               
               return (
                 <div
@@ -3394,43 +3013,43 @@ export default function DevicesPanel() {
                                 ? 'success'
                                 : 'secondary'
                             }
-                            className="font-code text-2xs"
+                            className="text-xs"
                           >
                             {device.status.toUpperCase()}
                           </Badge>
                           <Badge
                             variant={getRiskBadge(device.riskLevel)}
-                            className="font-code text-2xs"
+                            className="text-xs"
                           >
                             {device.riskLevel.toUpperCase()} RISK
                           </Badge>
                           {isIoTDevice && (
-                            <Badge variant="outline" className="font-code text-2xs bg-cyan-500/20 text-cyan-500 border-cyan-500/50">
+                            <Badge variant="outline" className="text-xs bg-cyan-500/20 text-cyan-500 border-cyan-500/50">
                               IoT
                             </Badge>
                           )}
                           {hasComprehensiveScan && (
-                            <Badge variant="success" className="font-code text-2xs">
+                            <Badge variant="success" className="text-xs">
                               COMPREHENSIVE SCAN
                             </Badge>
                           )}
                           {device.last_scanned && (
-                            <Badge variant="outline" className="font-code text-2xs">
+                            <Badge variant="outline" className="text-xs">
                               Scanned: {new Date(device.last_scanned).toLocaleDateString()}
                             </Badge>
                           )}
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-code text-muted-foreground">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs text-muted-foreground">
                           <div>IP: {device.ip}</div>
                           <div>MAC: {device.mac}</div>
                           <div>Vendor: {device.vendor}</div>
-                          <div>Last Seen: {device.lastSeen}</div>
+                          <div>Last Seen: {new Date(device.lastSeen).toLocaleString()}</div>
                         </div>
                         
                         {/* Scan Progress */}
                         {currentScanProgress && (
                           <div className="mt-2">
-                            <div className="flex items-center justify-between text-xs font-code">
+                            <div className="flex items-center justify-between text-xs">
                               <span className="text-muted-foreground">
                                 {currentScanProgress.current_task}
                               </span>
@@ -3456,7 +3075,7 @@ export default function DevicesPanel() {
                               <span className="font-semibold text-foreground">
                                 Vulnerabilities ({vulnerabilities.length})
                               </span>
-                              <div className="flex gap-2 text-2xs">
+                              <div className="flex gap-2 text-xs">
                                 {autoFixableVulns.length > 0 && (
                                   <span className="text-green-500">
                                     {autoFixableVulns.length} auto-fixable
@@ -3472,12 +3091,12 @@ export default function DevicesPanel() {
                             
                             {vulnerabilities.slice(0, 3).map((vuln, index) => (
                               <div
-                                key={vuln.id || index}
+                                key={vuln.id || `vuln-${index}`}
                                 className="flex items-center justify-between p-2 bg-background/50 rounded border"
                               >
                                 <div className="flex items-center space-x-2 flex-1">
                                   {getStatusIcon(vuln.status || 'found')}
-                                  <span className={`font-code ${getSeverityColor(vuln.severity)}`}>
+                                  <span className={`${getSeverityColor(vuln.severity)}`}>
                                     {vuln.severity?.toUpperCase()}: 
                                   </span>
                                   <span className="flex-1 truncate">
@@ -3486,7 +3105,7 @@ export default function DevicesPanel() {
                                   {vuln.category && (
                                     <Badge 
                                       variant={getVulnerabilityBadge(vuln.category)} 
-                                      className="text-2xs whitespace-nowrap"
+                                      className="text-xs whitespace-nowrap"
                                     >
                                       {vuln.category}
                                     </Badge>
@@ -3498,11 +3117,11 @@ export default function DevicesPanel() {
                                     onClick={() => handleFixVulnerability(vuln.id, device.id)}
                                     variant="outline"
                                     size="sm"
-                                    className="h-6 text-2xs ml-2"
+                                    className="h-6 text-xs ml-2"
                                     disabled={fixingVulnerabilities.has(vuln.id)}
                                   >
                                     {fixingVulnerabilities.has(vuln.id) ? (
-                                      <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                                     ) : (
                                       <Wrench className="h-3 w-3 mr-1" />
                                     )}
@@ -3516,16 +3135,16 @@ export default function DevicesPanel() {
                                         const steps = Array.isArray(vuln.manual_steps) 
                                           ? vuln.manual_steps.join('\n\n• ')
                                           : vuln.manual_steps;
-                                        alert(`Manual Fix Required:\n\n• ${steps}`);
+                                        alert(`🔧 Manual Fix Required\n\n${vuln.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
                                       } else {
                                         alert('Manual intervention required for this vulnerability. No specific steps provided.');
                                       }
                                     }}
                                     variant="outline"
                                     size="sm"
-                                    className="h-6 text-2xs ml-2 bg-yellow-500/20 hover:bg-yellow-500/30"
+                                    className="h-6 text-xs ml-2 bg-yellow-500/20 hover:bg-yellow-500/30"
                                   >
-                                    <Wrench className="h-3 w-3 mr-1" />
+                                    <Settings className="h-3 w-3 mr-1" />
                                     Manual
                                   </Button>
                                 )}
@@ -3533,7 +3152,7 @@ export default function DevicesPanel() {
                             ))}
                             
                             {vulnerabilities.length > 3 && (
-                              <div className="text-muted-foreground font-code text-center">
+                              <div className="text-muted-foreground text-center">
                                 +{vulnerabilities.length - 3} more vulnerabilities...
                               </div>
                             )}
@@ -3549,11 +3168,10 @@ export default function DevicesPanel() {
                         onClick={() => handleScanDevice(device.id)}
                         variant="outline"
                         size="sm"
-                        className="font-code"
                         disabled={scanningDevices.has(device.id)}
                       >
                         {scanningDevices.has(device.id) ? (
-                          <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                         ) : (
                           <Scan className="h-3 w-3 mr-1" />
                         )}
@@ -3563,36 +3181,18 @@ export default function DevicesPanel() {
                       {/* Auto-Fix All Button */}
                       {autoFixableVulns.length > 0 && (
                         <Button
-                          onClick={() => handleBatchFix(device.id, autoFixableVulns.map(v => v.id))}
-                          variant="success"
+                          onClick={() => handleBatchFix(device.id)}
+                          variant="default"
                           size="sm"
-                          className="font-code"
+                          className="bg-green-600 hover:bg-green-700"
                           disabled={fixingDevices.has(device.id)}
                         >
                           {fixingDevices.has(device.id) ? (
-                            <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                            <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                           ) : (
                             <ShieldCheck className="h-3 w-3 mr-1" />
                           )}
                           Fix All ({autoFixableVulns.length})
-                        </Button>
-                      )}
-                      
-                      {/* Legacy Auto-Fix Button */}
-                      {vulnerabilities.length > 0 && (
-                        <Button
-                          onClick={() => handleAutoFix(device.id)}
-                          variant="outline"
-                          size="sm"
-                          className="font-code"
-                          disabled={fixingDevices.has(device.id)}
-                        >
-                          {fixingDevices.has(device.id) ? (
-                            <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-                          ) : (
-                            <Shield className="h-3 w-3 mr-1" />
-                          )}
-                          Auto-Fix All
                         </Button>
                       )}
                       
@@ -3601,7 +3201,6 @@ export default function DevicesPanel() {
                         onClick={() => handleGetVulnerabilityReport(device.id)}
                         variant="outline"
                         size="sm"
-                        className="font-code"
                       >
                         <FileText className="h-3 w-3 mr-1" />
                         Report
@@ -3612,7 +3211,6 @@ export default function DevicesPanel() {
                         onClick={() => handleInfoDevice(device)}
                         variant="outline"
                         size="sm"
-                        className="font-code"
                       >
                         <Info className="h-3 w-3 mr-1" />
                         Info
@@ -3624,8 +3222,8 @@ export default function DevicesPanel() {
             })}
             
             {filteredDevices.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground font-code">
-                {devices.length === 0 ? 'No devices found. Click "Discover Devices" to start scanning.' : 'No devices match your filters.'}
+              <div className="text-center py-8 text-muted-foreground">
+                {devices.length === 0 ? 'No devices found. Click "Discover Devices" to start REAL network scanning.' : 'No devices match your filters.'}
               </div>
             )}
           </div>
@@ -3637,7 +3235,7 @@ export default function DevicesPanel() {
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-card text-foreground rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-6 border-b border-border">
-              <h2 className="text-xl font-orbitron font-bold">
+              <h2 className="text-xl font-bold">
                 Device Details: {selectedDevice.name} ({selectedDevice.ip})
               </h2>
               <button
@@ -3650,7 +3248,7 @@ export default function DevicesPanel() {
 
             <div className="flex-1 overflow-y-auto p-6">
               {/* Device Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-code text-sm mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm mb-6">
                 <div className="space-y-2">
                   <div><span className="font-semibold">IP Address:</span> {selectedDevice.ip}</div>
                   <div><span className="font-semibold">MAC Address:</span> {selectedDevice.mac}</div>
@@ -3659,23 +3257,23 @@ export default function DevicesPanel() {
                 <div className="space-y-2">
                   <div><span className="font-semibold">Type:</span> {classifyDeviceType(selectedDevice)}</div>
                   <div><span className="font-semibold">Status:</span> 
-                    <Badge variant={selectedDevice.status === 'online' ? 'success' : 'secondary'} className="ml-2 text-2xs">
+                    <Badge variant={selectedDevice.status === 'online' ? 'success' : 'secondary'} className="ml-2 text-xs">
                       {selectedDevice.status.toUpperCase()}
                     </Badge>
                   </div>
                   <div><span className="font-semibold">Risk Level:</span>
-                    <Badge variant={getRiskBadge(selectedDevice.riskLevel)} className="ml-2 text-2xs">
+                    <Badge variant={getRiskBadge(selectedDevice.riskLevel)} className="ml-2 text-xs">
                       {selectedDevice.riskLevel.toUpperCase()}
                     </Badge>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div><span className="font-semibold">Last Seen:</span> {selectedDevice.lastSeen}</div>
+                  <div><span className="font-semibold">Last Seen:</span> {new Date(selectedDevice.lastSeen).toLocaleString()}</div>
                   {selectedDevice.last_scanned && (
-                    <div><span className="font-semibold">Last Scanned:</span> {selectedDevice.last_scanned}</div>
+                    <div><span className="font-semibold">Last Scanned:</span> {new Date(selectedDevice.last_scanned).toLocaleString()}</div>
                   )}
-                  {selectedDevice.os && (
-                    <div><span className="font-semibold">Operating System:</span> {selectedDevice.os}</div>
+                  {selectedDevice.hostname && (
+                    <div><span className="font-semibold">Hostname:</span> {selectedDevice.hostname}</div>
                   )}
                 </div>
               </div>
@@ -3684,26 +3282,19 @@ export default function DevicesPanel() {
               {selectedDevice.comprehensive_vulnerabilities && selectedDevice.comprehensive_vulnerabilities.length > 0 ? (
                 <div className="mt-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-orbitron font-bold text-primary">
+                    <h3 className="text-lg font-bold text-primary">
                       Detected Vulnerabilities ({selectedDevice.comprehensive_vulnerabilities.length})
                     </h3>
                     <div className="flex gap-2">
                       <Button
-                        onClick={() => {
-                          const autoFixableVulns = selectedDevice.comprehensive_vulnerabilities?.filter(v => 
-                            v.category === 'auto-fixable' && v.status !== 'fixed'
-                          ) || [];
-                          if (autoFixableVulns.length > 0) {
-                            handleBatchFix(selectedDevice.id, autoFixableVulns.map(v => v.id));
-                          }
-                        }}
-                        variant="success"
+                        onClick={() => handleBatchFix(selectedDevice.id)}
+                        variant="default"
                         size="sm"
-                        className="font-code"
+                        className="bg-green-600 hover:bg-green-700"
                         disabled={fixingDevices.has(selectedDevice.id)}
                       >
                         {fixingDevices.has(selectedDevice.id) ? (
-                          <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                         ) : (
                           <ShieldCheck className="h-3 w-3 mr-1" />
                         )}
@@ -3715,7 +3306,7 @@ export default function DevicesPanel() {
                   <div className="space-y-3 max-h-96 overflow-y-auto">
                     {selectedDevice.comprehensive_vulnerabilities.map((vuln, index) => (
                       <div
-                        key={vuln.id || index}
+                        key={vuln.id || `modal-vuln-${index}`}
                         className="p-4 rounded border border-border bg-card/30 space-y-3"
                       >
                         <div className="flex items-start justify-between">
@@ -3723,24 +3314,19 @@ export default function DevicesPanel() {
                             {getStatusIcon(vuln.status || 'found')}
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-1">
-                                <span className="font-code font-semibold text-foreground">
+                                <span className="font-semibold text-foreground">
                                   {vuln.name || vuln.id}
                                 </span>
-                                <Badge variant={getRiskBadge(vuln.severity)} className="text-2xs">
+                                <Badge variant={getRiskBadge(vuln.severity)} className="text-xs">
                                   {vuln.severity?.toUpperCase()}
                                 </Badge>
                                 {vuln.category && (
-                                  <Badge variant={getVulnerabilityBadge(vuln.category)} className="text-2xs">
+                                  <Badge variant={getVulnerabilityBadge(vuln.category)} className="text-xs">
                                     {vuln.category}
                                   </Badge>
                                 )}
-                                {vuln.cve_id && (
-                                  <Badge variant="outline" className="text-2xs">
-                                    {vuln.cve_id}
-                                  </Badge>
-                                )}
                               </div>
-                              <div className="font-code text-sm text-muted-foreground mb-2">
+                              <div className="text-sm text-muted-foreground mb-2">
                                 {vuln.description}
                               </div>
                             </div>
@@ -3756,7 +3342,7 @@ export default function DevicesPanel() {
                               disabled={fixingVulnerabilities.has(vuln.id)}
                             >
                               {fixingVulnerabilities.has(vuln.id) ? (
-                                <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                               ) : (
                                 <Wrench className="h-3 w-3 mr-1" />
                               )}
@@ -3770,14 +3356,14 @@ export default function DevicesPanel() {
                                   const steps = Array.isArray(vuln.manual_steps) 
                                     ? vuln.manual_steps.join('\n\n• ')
                                     : vuln.manual_steps;
-                                  alert(`Manual Fix Required:\n\n• ${steps}`);
+                                  alert(`🔧 Manual Fix Required\n\n${vuln.fix_method || 'Follow these steps:'}\n\n• ${steps}`);
                                 }
                               }}
                               variant="outline"
                               size="sm"
                               className="ml-2 flex-shrink-0 bg-yellow-500/20 hover:bg-yellow-500/30"
                             >
-                              <Wrench className="h-3 w-3 mr-1" />
+                              <Settings className="h-3 w-3 mr-1" />
                               Manual Steps
                             </Button>
                           )}
@@ -3789,7 +3375,7 @@ export default function DevicesPanel() {
                         </div>
                         
                         {/* Vulnerability Details */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-code">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                           {vuln.fix_method && (
                             <div>
                               <span className="font-semibold">Fix Method:</span> {vuln.fix_method}
@@ -3798,11 +3384,6 @@ export default function DevicesPanel() {
                           {vuln.port && (
                             <div>
                               <span className="font-semibold">Affected Port:</span> {vuln.port}
-                            </div>
-                          )}
-                          {vuln.service && (
-                            <div>
-                              <span className="font-semibold">Service:</span> {vuln.service}
                             </div>
                           )}
                           {vuln.potential_harm && (
@@ -3818,7 +3399,7 @@ export default function DevicesPanel() {
                             <div className="font-semibold mb-1">Fix Commands:</div>
                             <div className="bg-muted p-2 rounded space-y-1">
                               {vuln.fix_commands.map((cmd, cmdIndex) => (
-                                <div key={cmdIndex} className="font-mono text-2xs">
+                                <div key={cmdIndex} className="font-mono text-xs">
                                   {cmd}
                                 </div>
                               ))}
@@ -3829,11 +3410,11 @@ export default function DevicesPanel() {
                         {/* Status and Timestamps */}
                         <div className="flex justify-between items-center text-xs text-muted-foreground">
                           <div>
-                            <span className="font-semibold">Detected:</span> {vuln.detected_at || 'Unknown'}
+                            <span className="font-semibold">Detected:</span> {vuln.detected_at ? new Date(vuln.detected_at).toLocaleString() : 'Unknown'}
                           </div>
                           {vuln.fixed_at && (
                             <div>
-                              <span className="font-semibold">Fixed:</span> {vuln.fixed_at}
+                              <span className="font-semibold">Fixed:</span> {new Date(vuln.fixed_at).toLocaleString()}
                             </div>
                           )}
                         </div>
@@ -3843,7 +3424,7 @@ export default function DevicesPanel() {
                 </div>
               ) : selectedDevice.vulnerabilities && selectedDevice.vulnerabilities.length > 0 ? (
                 <div className="mt-6">
-                  <h3 className="text-lg font-orbitron font-bold text-destructive mb-4">
+                  <h3 className="text-lg font-bold text-destructive mb-4">
                     Basic Vulnerabilities ({selectedDevice.vulnerabilities.length})
                   </h3>
                   <div className="space-y-2 max-h-60 overflow-y-auto">
@@ -3854,11 +3435,11 @@ export default function DevicesPanel() {
                       >
                         <div className="flex items-center space-x-2">
                           <AlertTriangle className="h-4 w-4 text-warning" />
-                          <span className="font-code text-sm text-warning">
+                          <span className="text-sm text-warning">
                             {vuln.id} – {vuln.severity.toUpperCase()}
                           </span>
                         </div>
-                        <div className="font-code text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-foreground">
                           {vuln.description}
                         </div>
                       </div>
@@ -3866,7 +3447,7 @@ export default function DevicesPanel() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-8 text-success font-code">
+                <div className="text-center py-8 text-success">
                   <CheckCircle className="h-12 w-12 mx-auto mb-2 text-green-500" />
                   <div>No vulnerabilities detected.</div>
                   <div className="text-muted-foreground text-sm mt-1">This device appears to be secure.</div>
@@ -3876,7 +3457,7 @@ export default function DevicesPanel() {
 
             {/* Modal Footer */}
             <div className="flex justify-between items-center p-6 border-t border-border bg-card/50">
-              <div className="text-xs font-code text-muted-foreground">
+              <div className="text-xs text-muted-foreground">
                 Device ID: {selectedDevice.id}
               </div>
               <div className="flex gap-2">
@@ -3884,40 +3465,13 @@ export default function DevicesPanel() {
                   onClick={() => handleGetVulnerabilityReport(selectedDevice.id)}
                   variant="outline"
                   size="sm"
-                  className="font-code"
                 >
                   <FileText className="h-4 w-4 mr-1" /> Detailed Report
-                </Button>
-                <Button
-                  onClick={async () => {
-                    toast.info('Exporting device security report...');
-                    try {
-                      const resp = await fetch(
-                        `http://localhost:5000/api/dp/devices/${selectedDevice.id}/export-pdf`
-                      );
-                      const blob = await resp.blob();
-                      const url = window.URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = `${selectedDevice.name}-security-report-${new Date().toISOString().split('T')[0]}.pdf`;
-                      a.click();
-                      window.URL.revokeObjectURL(url);
-                      toast.success('Security report downloaded');
-                    } catch {
-                      toast.error('Export failed');
-                    }
-                  }}
-                  variant="outline"
-                  size="sm"
-                  className="font-code"
-                >
-                  <Download className="h-4 w-4 mr-1" /> Export PDF
                 </Button>
                 <Button
                   onClick={() => setShowInfoModal(false)}
                   variant="destructive"
                   size="sm"
-                  className="font-code"
                 >
                   Close
                 </Button>
@@ -3929,5 +3483,3 @@ export default function DevicesPanel() {
     </div>
   );
 }
-
-
